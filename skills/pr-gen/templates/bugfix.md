@@ -82,8 +82,6 @@ Before filling this template in, verify the branch actually contains what each s
 - **Section 3** — is there a non-trivial code change in HEAD that implements the fix?
 - **Section 4** — is there at least one test in the diff that enforces each invariant from section 2, and is the test wired into the project's test harness?
 
-If any of these is missing, **do not generate the description**. Reply to the user listing exactly what's missing and ask them to either add it or reclassify the PR. Never invent an invariant you can't point to in the diff, and never list a test that doesn't exist in HEAD.
-
 ## Hard rules
 
 - Exactly four top-level sections. No more.
