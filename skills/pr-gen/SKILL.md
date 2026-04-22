@@ -34,6 +34,21 @@ generation.
    type demands (e.g. a bugfix without tests), stop and tell the user what's
    missing. Do **not** silently downgrade to a looser template.
 
+### Refusal rule
+
+Before generating **any** title or description:
+
+1. Read the chosen template's required sections and stated conditions.
+2. For each condition, check whether the branch diff (`git diff
+   "$base"...HEAD`) and `HEAD` actually satisfy it.
+3. If **any** condition is not met, **do not generate the description**.
+   Reply to the user listing the specific unmet conditions and what's
+   missing from the branch, and ask them to add the missing pieces or
+   pick a different template.
+
+Never invent content to fill a section, and never list a file, symbol, or
+test that does not exist in HEAD.
+
 ### 2. Locate the PR
 
 ```bash
