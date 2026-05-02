@@ -1,0 +1,10 @@
+{
+  "id": "feature-add-helper",
+  "prompt": "Generate the PR title and description for this branch. Do NOT run `gh pr edit` or `gh pr create` — print the proposed title and body in your final message instead. The base branch is `main`.",
+  "max_turns": 15,
+  "timeout_s": 600,
+  "must_contain": ["multiply", "## Summary"],
+  "must_not_contain": ["scratch", "WIP", "Co-Authored-By: Claude", "Generated with Claude Code"],
+  "max_lines": 50,
+  "judges": ["faithfulness", "template-fit"]
+}

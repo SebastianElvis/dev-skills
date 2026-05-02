@@ -1,6 +1,6 @@
 ---
 name: pr-gen
-description: Use when the user asks to generate, write, draft, refresh, retitle, or align a GitHub Pull Request title or description for the current branch — including phrasings like "write the PR description", "update the PR", "summarize this branch for review", "match our PR template", or "regenerate the body". Analyzes `git diff` against the base branch (final state, not commit history) so added-then-removed work is omitted and fabrication is avoided. Skip for changelogs, release notes, or open-ended code review.
+description: Use when the user asks to generate, write, draft, refresh, retitle, or align a GitHub Pull Request title or description for the current branch — including phrasings like "write the PR description", "update the PR", "summarize this branch for review", "match our PR template", or "regenerate the body". Analyzes `git diff` against the base branch (final state, not commit history) so added-then-removed work is omitted and fabrication is avoided. Skip for changelogs, release notes, issue comment summaries, or open-ended code review.
 compatibility: Requires git and the GitHub CLI (`gh`) authenticated to the repo.
 license: MIT
 ---

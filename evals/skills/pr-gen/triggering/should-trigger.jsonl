@@ -1,0 +1,10 @@
+{"id": "pos-direct", "prompt": "Generate a PR description for this branch."}
+{"id": "pos-write-pr", "prompt": "Write the PR description."}
+{"id": "pos-update-pr", "prompt": "Update the PR for this branch."}
+{"id": "pos-draft-pr", "prompt": "Can you draft a pull request for me?"}
+{"id": "pos-summarize-branch", "prompt": "Summarize this branch for review."}
+{"id": "pos-pr-from-diff", "prompt": "I just pushed some changes — write a PR title and body."}
+{"id": "pos-regenerate", "prompt": "Regenerate the PR body. The current one is stale."}
+{"id": "pos-template", "prompt": "Match our PR template and produce the description."}
+{"id": "pos-retitle", "prompt": "The PR title is wrong. Fix it based on the actual changes."}
+{"id": "pos-open-pr", "prompt": "Open a PR with a good description."}
