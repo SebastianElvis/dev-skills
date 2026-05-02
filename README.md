@@ -11,8 +11,12 @@ either the [Vercel Labs `skills` CLI](https://github.com/vercel-labs/skills) or
 ```bash
 # Add this repo as a plugin marketplace, then install
 /plugin marketplace add SebastianElvis/dev-skills
-/plugin install dev-skills
+/plugin install dev-skills@dev-skills
 ```
+
+After installing, run `/reload-plugins` to activate. Skills are namespaced
+under the plugin name, e.g. invoke `pr-gen` as `/dev-skills:pr-gen`. You can
+also browse and manage installed plugins via the `/plugin` interactive menu.
 
 ### Via the `skills` CLI (works with any agent)
 
@@ -39,9 +43,16 @@ Works with Claude Code, Codex, Cursor, OpenCode, and every other agent the
 ## Layout
 
 ```
-.claude-plugin/plugin.json   # Claude Code plugin manifest
-skills/<name>/SKILL.md       # Each skill (standard location for both ecosystems)
+.claude-plugin/marketplace.json   # Marketplace catalog (lists this plugin)
+.claude-plugin/plugin.json        # Claude Code plugin manifest
+skills/<name>/SKILL.md            # Each skill (standard location for both ecosystems)
 ```
+
+The repo doubles as both a **marketplace** (catalog at
+`.claude-plugin/marketplace.json`) and the **plugin** itself (manifest at
+`.claude-plugin/plugin.json`, source `"./"`), so a single
+`/plugin marketplace add` registers the catalog and `/plugin install` pulls
+the plugin from the same repo.
 
 ## Adding a new skill
 
