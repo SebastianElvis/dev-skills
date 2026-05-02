@@ -10,7 +10,7 @@ from the same source tree:
 - As a **Claude Code plugin** via `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` (`/plugin marketplace add SebastianElvis/dev-skills`).
 - As **plain skills** consumable by any agent supporting the [agentskills.io](https://agentskills.io) format via `npx skills add SebastianElvis/dev-skills`.
 
-Both ecosystems read from `skills/<name>/SKILL.md`. There is no build step, no tests, and no runtime — this repo ships Markdown.
+Both ecosystems read from `skills/<name>/SKILL.md`. There is no build step and no runtime — this repo ships Markdown. The `evals/` directory holds an optional skill-evaluation harness (see [Running the eval harness](#running-the-eval-harness)).
 
 ## Layout
 
@@ -115,6 +115,11 @@ Use `skills-ref validate ./skills/<name>` to lint frontmatter and naming. Run it
 
 ## Testing skills (three layers)
 
+The canonical reference for everything in this section is Anthropic's
+[Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents).
+Read it before designing or modifying skill evals — the load-bearing
+recommendations below all come from it.
+
 | Layer            | Goal                              | What to run |
 | ---------------- | --------------------------------- | ----------- |
 | Triggering       | Loads on the right prompts, skips the wrong ones. | 8–10 should-trigger + 8–10 near-miss should-not-trigger queries; run each 3–5×; pass threshold ≈ 0.5. |
@@ -122,6 +127,70 @@ Use `skills-ref validate ./skills/<name>` to lint frontmatter and naming. Run it
 | Performance      | Beats the no-skill baseline.      | Compare tool calls, retries, tokens, back-and-forth message count with vs. without the skill. |
 
 Split eval queries into ~60% train / ~40% validation to avoid overfitting the description to specific phrasings.
+
+### Eval design principles (from the article)
+
+When **adding cases or tuning rubrics**, prioritize these — they are what make
+evals trustworthy rather than vanity metrics:
+
+- **Always ship a reference solution per task.** "Two domain experts would
+  independently reach the same pass/fail verdict" is the quality bar. If a
+  task lacks a reference, the grader is guessing.
+- **Multiple trials per task.** Run each case 3–5× — model output varies. Score
+  both **pass^k** (all trials correct, for consistency-critical behavior) and
+  **pass@k** (≥1 correct, for capability checks). They diverge fast.
+- **Balance positive and negative cases.** A skill that only has should-trigger
+  prompts will be tuned into over-triggering. Always include should-NOT-trigger
+  near-misses, and report positive vs negative pass rates separately.
+- **Hybrid graders.** Prefer deterministic code checks where possible
+  (substring presence, length bounds, structural assertions). Fall back to
+  LLM-as-judge for anything fuzzy. Pure LLM judging is the last resort.
+- **One judge call per dimension.** Don't ask one judge to score multiple
+  dimensions at once — it conflates them. Faithfulness, structure, and
+  signal-to-noise each get their own `claude -p` invocation.
+- **Give every judge an "Unknown" escape hatch** — `{"score": 0|1, "unknown":
+  bool}`. Suppresses hallucinated verdicts on ambiguous cases.
+- **Read transcripts by hand for the first ~20 runs.** "You won't know if your
+  graders work unless you read transcripts." Trust the LLM judge only after
+  it agrees with you on a hand-graded sample (target ≥80% agreement).
+- **0% pass rate ≠ broken skill.** Identical failures across all trials of a
+  case usually mean the fixture or grader is broken. Inspect those before
+  changing the skill.
+- **Isolate environments per trial.** Shared state (leftover files, caches,
+  git state) inflates apparent performance via correlated failures. Each
+  trial gets its own tmpdir.
+- **Don't grade the path, grade the output.** Pinning to a specific tool-call
+  sequence penalizes valid alternative approaches. Grade the agent's final
+  output (the PR title/body, the generated file) — not which tools it called
+  to get there. (The exception: triggering-layer evals genuinely *do* care
+  whether the Skill tool got invoked, so for those, tool-call detection is
+  the correct signal.)
+
+### Running the eval harness
+
+### Running the eval harness
+
+The repo ships a working harness for the triggering and functional layers under
+`evals/`. Both the runner and the LLM judge shell out to `claude -p`, so no
+API key is required.
+
+```bash
+# Triggering: ~20 prompts × 2 trials, ~$3, ~3 min
+python3 evals/run.py triggering --skill pr-gen --trials 2 --parallel 6
+
+# Functional: real git fixtures, end-to-end, ~$0.30 / fixture
+python3 evals/run.py functional --skill pr-gen
+python3 evals/run.py functional --skill pr-gen --case feature-add-helper
+KEEP_FIXTURE=1 python3 evals/run.py functional --case bugfix-with-test  # debug a failure
+```
+
+Reports land in `evals/results/<layer>/<skill>/<timestamp>/report.json`
+(gitignored). Per-trial stream-json transcripts sit alongside.
+
+When adding a new skill, scaffold `evals/skills/<skill>/{triggering,functional,judges}/`
+following the `pr-gen` example. See [evals/README.md](evals/README.md) for
+hermeticity choices, judge isolation, and the anti-patterns the harness guards
+against (all from the [Anthropic evals article](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents)).
 
 ## Common failure modes (from the Anthropic guide)
 

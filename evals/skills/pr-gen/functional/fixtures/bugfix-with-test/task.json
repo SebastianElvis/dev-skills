@@ -1,0 +1,10 @@
+{
+  "id": "bugfix-with-test",
+  "prompt": "Write the PR title and description for this branch. Do NOT run `gh pr edit` or `gh pr create` — print the proposed title and body in your final message. Base branch is `main`.",
+  "max_turns": 15,
+  "timeout_s": 600,
+  "must_contain": ["last_n", "test"],
+  "must_not_contain": ["Co-Authored-By: Claude", "Generated with Claude Code"],
+  "max_lines": 50,
+  "judges": ["faithfulness", "template-fit"]
+}

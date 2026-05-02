@@ -62,6 +62,23 @@ cd skills && npx skills init <skill-name>
 
 Then edit `skills/<skill-name>/SKILL.md` and add it to the table above.
 
+## Evaluating skills
+
+The repo ships an eval harness under `evals/`, modeled on Anthropic's
+[Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents).
+Both the runner and the LLM judge shell out to `claude -p` (no API key required).
+
+```bash
+# Does the skill trigger on the right prompts and skip the wrong ones?
+python3 evals/run.py triggering --skill pr-gen --trials 2 --parallel 6
+
+# Given it triggered, is the output good? Runs against fresh tmp git repos.
+python3 evals/run.py functional --skill pr-gen
+```
+
+See [evals/README.md](evals/README.md) for layout, judge design, and how to
+add cases for a new skill.
+
 ## License
 
 MIT

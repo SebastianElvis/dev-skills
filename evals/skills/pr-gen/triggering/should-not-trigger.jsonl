@@ -1,0 +1,13 @@
+{"id": "neg-changelog", "prompt": "Write a changelog entry for the latest commits."}
+{"id": "neg-release-notes", "prompt": "Draft release notes for v1.2.0."}
+{"id": "neg-code-review", "prompt": "Review my code on this branch and tell me what to fix."}
+{"id": "neg-explain-diff", "prompt": "Explain what changed in the latest commit."}
+{"id": "neg-commit-msg", "prompt": "Write a commit message for these staged changes."}
+{"id": "neg-merge-conflict", "prompt": "Help me resolve the merge conflicts in this branch."}
+{"id": "neg-rebase", "prompt": "Rebase this branch onto main."}
+{"id": "neg-squash", "prompt": "Squash my last three commits into one."}
+{"id": "neg-issue", "prompt": "File a GitHub issue describing the bug I'm seeing."}
+{"id": "neg-readme", "prompt": "Update the README to document the new feature."}
+{"id": "neg-release-from-pr", "prompt": "Write release notes from this PR's diff."}
+{"id": "neg-issue-comment", "prompt": "Summarize this branch for an issue comment."}
+{"id": "neg-changelog-from-branch", "prompt": "Draft a changelog entry from this branch's PR."}
