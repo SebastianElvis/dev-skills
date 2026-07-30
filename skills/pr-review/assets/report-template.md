@@ -1,132 +1,91 @@
 # Report template
 
-This template defines the terminal output for a completed PR review. Delete an optional section
-that has no content. Do not add text to fill it.
+Use no more than 120 lines. Use about 60 report lines for a 200-line PR.
 
-## Format
+Use four lines for each finding: claim, location, evidence, and user-visible failure.
 
-Findings use [Conventional Comments](https://conventionalcomments.org/). Write
-`<label> [decoration]: <subject>`, then the evidence. Labels: `issue:` (a defect) · `suggestion:`
-(an improvement) · `question:` (you are unsure, and the answer is important) · `nitpick:` (trivial
-preference — always non-blocking) · `note:` (informational, always non-blocking) · `praise:`
-(genuine). Decorations: `(blocking)` · `(non-blocking)` · `(if-minor)`. Every `issue:` includes
-file:line, a one-sentence claim, a **user-visible** failure scenario, and a verdict of CONFIRMED or
-PLAUSIBLE.
-
----
+Delete an optional section when it has no content.
 
 ## Template
 
-    # Review: #<number> — <PR title>
-    <author> · <type> · <base>...<head> · <N> files, +<A>/−<D> (<S> significant; excludes <what>)
+```text
+# Review: #<number> — <title>
+<author> · <type> · <base>...<head> · <files and significant lines>
 
-    ## Recommendation
+## Recommendation
 
-    <Merge | Merge after the author corrects the blockers | Needs a design discussion
-     | Split before review | Problem not confirmed>
+<Merge | Merge after the author fixes the blocking findings | Needs design discussion |
+Split before review | Problem not confirmed>
 
-    <Write one or two sentences. Give the reason first. Do not restate the PR.>
+<Reason in one or two sentences.>
 
-    ## Problem and approach
+## Split plan
 
-    **Problem:** <the problem in your own words> (<provenance: #4402, X reported it, Y triaged
-    it — or: no statement of the problem exists outside this PR>)
+<Include only after a positive split test. Put this section before Problem and approach.>
+<Give the reason, named parts, approximate sizes, dependencies, and merge order.>
 
-    **Verdict:** <real as described | real, but with a different diagnosis | the code already
-    prevents it | not a problem> — <one sentence of evidence.>
+## Problem and approach
 
-    **Approach:** <the same approach that I would write | different but equally sound | open to
-    substantial improvement | it needs a split> — <If you can improve the approach, give the
-    alternative and the concrete cost of the difference. If the approach is equally sound, write
-    one line and propose no alternative.>
+**Problem:** <problem and source>
+**Verdict:** <result and evidence>
+**Approach:** <comparison with the reviewer's solution>
 
-    ## Split plan
-    <Include this section only when the split test is positive. Put this section first. Move it
-    above "Problem and approach".>
+## Architecture
 
-    **Why:** <the measurement that makes the split test positive — closes #401 and #417;
-    `git diff -w` drops 1,180 → 240 lines; refactor plus feature.>
+**Data model:** <change, compatibility, or evidence for no change>
+**State machine:** <changed transitions or evidence for no change>
+**Trust model:** <assumptions and authorization effect>
+**Boundaries:** <ownership and dependency effect>
+**Affected code:** <direct and indirect dependent code>
 
-    **Part 1 — <name>** (~<N> lines, <M> files). <What the part contains. Why the part is
-    correct by itself. Why you can review and merge the part alone.>
-    **Part 2 — <name>** …
+## Blocking
 
-    **Order:** <1 → 2 → 3>. **Land first:** <which part, and why — the smallest coherent stage
-    that delivers a result or removes a risk.>
+issue (blocking): <claim>
+`path/to/file.go:104` — <CONFIRMED | PLAUSIBLE>
+<evidence>
+**Failure:** <error, wrong output, security effect, or data loss>
 
-    ## Architecture
+## Non-blocking
 
-    **Data model:** <L1 delta — schema, serialized formats, rolling-deploy compatibility,
-    migration reversibility. Or: "unchanged — no migration or serialized format in the diff.">
-    **State machine:** <L2 delta — transitions gained or lost, terminal states. Or "unchanged.">
-    **Trust model:** <L3 — the standing assumptions this code relies on, and whether the PR
-    holds them. Always name the assumption you checked before you write "unchanged" here.>
-    **Boundaries:** <L4 — ownership, dependency direction, duplicate mechanisms. Or "unchanged.">
-    **Affected code:** <callers, plus implicit dependents — formats, caches, metrics, tests.>
+suggestion (non-blocking): <claim>
+`path/to/file.go:31`
+<evidence and proposed change>
+**Result:** <concrete maintenance or user result>
 
-    ## Blocking
+## Notes
 
-    issue (blocking): <one-sentence claim>
-    `path/to/file.go:104` — CONFIRMED
-    <Evidence: what the code does. Quote the relevant line.>
-    **Failure:** <user-visible consequence — an error, wrong output, data loss.>
+note: <accepted tradeoff or out-of-scope problem>
 
-    ## Non-blocking
+## Coverage
 
-    suggestion (non-blocking): <one-sentence claim>
-    `path/to/other.go:31`
-    <Evidence and the suggested direction.>
+Reviewed in depth: <areas>.
+Not reviewed in depth: <areas and reasons>.
 
-    ## Notes
+## Confirmed points
 
-    note: <out-of-scope finding, pre-existing finding, or accepted tradeoff>
-
-    ## Coverage
-
-    Reviewed in depth: <areas>.
-    Not reviewed in depth: <areas, and why — generated, low-risk, out of budget>.
-    <If you did not do a line-level review because of the size, write one sentence here.>
-
-    ## Premises
-
-    - P1 <problem statement> → <agreed | corrected to …> → <findings that depend on it>
-    - P2 <architecture claim> → <agreed | corrected to …> → <findings that depend on it>
-    - P3 <approach> → <agreed | rejected in favor of …> → <findings that depend on it>
-
----
+- P1 <problem> → <agreed or corrected> → <dependent findings>
+- P2 <architecture> → <agreed or corrected> → <dependent findings>
+- P3 <approach> → <agreed or corrected> → <dependent findings>
+```
 
 ## Section rules
 
-Required: Recommendation, Problem and approach, Architecture, Blocking, Coverage, Premises.
-Optional: Non-blocking and Notes — delete either section if it has no content. Include Split plan
-only when the split test is positive.
+Required sections are Recommendation, Problem and approach, Architecture, Blocking, Coverage, and
+Confirmed points.
 
-- **Recommendation.** `Split before review` also requires named split points. `Problem not
-  confirmed` is a complete review, not a failed review.
-- **Split plan.** A split recommendation without split points is a complaint about size, not a
-  review. Do not also file line-level findings against code that the author will reorganize.
-- **Problem and approach.** If you reject P1 or P3 at Checkpoint A, this section and Architecture
-  are the full report. Do not add nitpicks about code that the author will rewrite.
-- **Architecture.** Write this section even for a small PR. One paragraph is the minimum. Two
-  paragraphs are enough.
-- **Blocking.** Write `None.` if you have no blocking findings. A finding is blocking only if it
-  causes incorrect behavior, a security exposure, or an architectural commitment that is expensive
-  to reverse. A preference is never blocking.
-- **Notes.** Mark each pre-existing finding clearly, so the reader keeps it separate from a
-  regression.
-- **Premises.** This section records which findings depend on human-supplied intent instead of on
-  the code. A second reader can then disagree with the premise instead of the conclusion. The line
-  "P1 corrected: the race is at `pool.go:77`, not the mutex" is often the most useful line.
+Non-blocking, Notes, and Split plan are optional.
 
-## Rules
+- Put the most important finding first.
+- Write `None.` when no blocking finding exists.
+- Use `issue:`, `suggestion:`, `question:`, `nitpick:`, `note:`, or `praise:`.
+- Mark each comment as `(blocking)` or `(non-blocking)`.
+- Use `nitpick:` only for a non-blocking preference.
+- Use `question:` when project intent can change the result.
+- Mark each pre-existing problem as out of scope.
+- Include a `praise:` comment only for a specific good decision.
+- Do not repeat evidence in the summary.
+- Do not name steps, passes, or subagents.
+- Do not use numeric scores, grades, finding counts, or confidence percentages.
+- Do not add an agent credit or co-author footer.
 
-- Write the report in ASD-STE100 Simplified Technical English. Use active voice. Write one
-  instruction in each sentence, with a maximum of 20 words. Do not use idiom or metaphor.
-- Put the most severe finding first in each section.
-- Do not use severity scores, numeric confidence, or letter grades. The taxonomy has two values:
-  blocking and non-blocking.
-- Do not include a count of the findings. A count causes the writer to add unnecessary findings.
-- Include a `praise:` finding when the author did something genuinely well. Do not invent one. A
-  perfunctory compliment decreases the credibility of all the text below it.
-- Do not append "Generated with Claude" or `Co-Authored-By:` footers.
-- Never write "Approved" or "LGTM". The recommendation is advice. The human does the merge.
+Describe the code. Do not describe the author. Follow the output rules in `SKILL.md`.
