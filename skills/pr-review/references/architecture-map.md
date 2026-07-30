@@ -1,8 +1,13 @@
 # Architecture summary
 
+Use this file to describe the design that the PR changes. Review the protocol first when the PR
+changes one. `protocol-spec.md` holds that method.
+
 Read the code around the diff. State the current design, the PR change, and each conflict.
 
 Use one line for an unchanged layer. Give the evidence for that conclusion.
+
+Name the code that enforces each confirmed protocol invariant.
 
 ## Useful commands
 
@@ -98,6 +103,7 @@ Also search for code that depends on changed data or behavior without a direct c
 ## Final check
 
 - [ ] Each layer has a statement and evidence.
+- [ ] The summary names the code that enforces each protocol invariant.
 - [ ] Data compatibility works in both directions.
 - [ ] The summary names each important assumption.
 - [ ] The summary includes direct and indirect dependent code.
