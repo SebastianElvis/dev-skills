@@ -1,11 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "dev-skills",
-  "description": "General software-development skills for Claude Code. Ships pr-gen for generating GitHub PR titles and descriptions from the final-state diff.",
-  "version": "0.1.0",
-  "author": { "name": "SebastianElvis" },
+  "description": "General software-development skills for Claude Code. Ships pr-gen for generating GitHub PR titles and descriptions from the final-state diff, and pr-review for architecture-first, human-in-the-loop review of someone else's pull request.",
+  "version": "0.3.0",
+  "author": {
+    "name": "SebastianElvis"
+  },
   "homepage": "https://github.com/SebastianElvis/dev-skills",
   "repository": "https://github.com/SebastianElvis/dev-skills",
   "license": "MIT",
-  "keywords": ["pr", "github", "git", "code-review"]
+  "keywords": [
+    "pr",
+    "github",
+    "git",
+    "code-review"
+  ]
 }
