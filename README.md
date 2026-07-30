@@ -39,6 +39,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, and every other agent the
 | Skill | What it does |
 | --- | --- |
 | [`pr-gen`](skills/pr-gen) | Generate or update a GitHub PR title and description from the actual code changes on the current branch. |
+| [`pr-review`](skills/pr-review) | Critically review another person's PR. Reads the linked issue first, maps four architecture layers, then stops for human agreement before the detailed review. |
 
 ## Layout
 
