@@ -30,6 +30,12 @@ Split before review | Problem not confirmed>
 **Verdict:** <result and evidence>
 **Approach:** <comparison with the reviewer's solution>
 
+## Protocol
+
+**Specification:** <source path or clause, `INFERRED` from the code, or `No protocol surface.`>
+**Classification:** <one of the four results, or omit with no protocol surface>
+<List only the broken and the new protocol invariants. Give one violation trace for each break.>
+
 ## Architecture
 
 **Data model:** <change, compatibility, or evidence for no change>
@@ -63,17 +69,29 @@ Not reviewed in depth: <areas and reasons>.
 
 ## Confirmed points
 
-- P1 <problem> → <agreed or corrected> → <dependent findings>
-- P2 <architecture> → <agreed or corrected> → <dependent findings>
-- P3 <approach> → <agreed or corrected> → <dependent findings>
+- A1 <specification> → <agreed or corrected> → <dependent findings>
+- A2 <classification> → <agreed or corrected> → <dependent findings>
+- A3 <compatibility with the rest of the protocol> → <agreed or corrected> → <dependent findings>
+- B1 <problem> → <agreed or corrected> → <dependent findings>
+- B2 <architecture> → <agreed or corrected> → <dependent findings>
+- B3 <approach> → <agreed or corrected> → <dependent findings>
 ```
 
 ## Section rules
 
-Required sections are Recommendation, Problem and approach, Architecture, Blocking, Coverage, and
-Confirmed points.
+Required sections are Recommendation, Problem and approach, Protocol, Architecture, Blocking,
+Coverage, and Confirmed points.
 
 Non-blocking, Notes, and Split plan are optional.
+
+Put the Protocol section before the Architecture section.
+
+Use one line for the Protocol section when the diff touches no protocol surface.
+
+Keep the full protocol invariant list in the checkpoint text. Do not put it in the report.
+
+Write `Checkpoint A: skipped, no protocol surface` in the Confirmed points section for a PR that
+changes no protocol.
 
 - Put the most important finding first.
 - Write `None.` when no blocking finding exists.
@@ -88,4 +106,8 @@ Non-blocking, Notes, and Split plan are optional.
 - Do not use numeric scores, grades, finding counts, or confidence percentages.
 - Do not add an agent credit or co-author footer.
 
-Describe the code. Do not describe the author. Follow the output rules in `SKILL.md`.
+Describe the code. Do not describe the author.
+
+Write the report in ASD-STE100 Simplified Technical English. Use the active voice. Keep a
+procedural sentence to 20 words or fewer. Use one term for one concept. Do not use an idiom or a
+metaphor.

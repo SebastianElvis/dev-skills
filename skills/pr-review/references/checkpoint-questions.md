@@ -1,10 +1,49 @@
-# Checkpoint A questions
+# Checkpoint questions
+
+Use this file at each human checkpoint. A checkpoint stops the review. The human confirms or
+corrects each point before the review continues.
+
+The review has two confirmation checkpoints:
+
+- Checkpoint A confirms the specification. It follows the protocol review.
+- Checkpoint B confirms the design. It follows the architecture summary and the reviewer's position.
 
 State your answer before you ask the human to confirm or correct it.
 
-## Required points
+## Checkpoint A points
 
-### P1: Problem
+Use Checkpoint A only when the PR changes a protocol. Record
+`Checkpoint A: skipped, no protocol surface` for a PR that changes no protocol.
+
+Keep this checkpoint short. Ask no additional question here.
+
+### A1: Specification
+
+Present the specification source and the protocol invariants that the diff affects. Mark each item
+that you read from the code, not from a document.
+
+Ask the human to correct a wrong protocol invariant. Ask for a missed protocol invariant.
+
+A wrong protocol invariant makes every later protocol finding wrong.
+
+### A2: Classification
+
+State the classification and the result for each protocol invariant.
+
+Give a violation trace for each break. Name the assumption that the trace uses.
+
+### A3: Compatibility with the rest of the protocol
+
+Ask this point only for a specification change.
+
+Name each part of the protocol that depends on the changed clause. Give the result for each part.
+
+Ask the human for a dependent part that you did not find. A specification often holds a relation
+that no single file states.
+
+## Checkpoint B points
+
+### B1: Problem
 
 State whether the problem is real and worth a solution now. Include the issue, reporter, and
 maintainer response.
@@ -17,19 +56,21 @@ Useful answer choices include:
 - Real but not worth a solution now.
 - Not a problem.
 
-### P2: Architecture
+### B2: Architecture
 
 Ask the human to confirm only the invariants and state transitions that affect the review.
 
 Do not ask the human to confirm the full summary without a specific claim.
 
-### P3: Approach
+### B3: Approach
 
 State the smallest solution that you would use. Compare it with the PR.
 
 When both solutions are correct, say so. Do not create a difference to appear thorough.
 
 ## Additional questions
+
+These questions belong at Checkpoint B.
 
 Ask no more than two. Each question must meet all three conditions:
 
@@ -54,7 +95,7 @@ The reviewer can answer each question above from the code or review procedure.
 
 ## Security-relevant changes
 
-At Checkpoint A, list only what the diff changes:
+At Checkpoint B, list only what the diff changes:
 
 - Trust boundaries.
 - Authorization decisions.

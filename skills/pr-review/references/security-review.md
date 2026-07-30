@@ -67,6 +67,9 @@ Do not report these categories:
 - Findings that require an already compromised host, administrator, or physical access.
 - Pre-existing defects that this PR does not touch.
 
+The exclusion for denial of service does not cover a liveness protocol invariant that a
+specification states. The protocol pass reports that break. Read `protocol-spec.md`.
+
 Report a framework template problem only when the diff disables automatic escaping.
 
 Put a relevant pre-existing defect in an out-of-scope note.
