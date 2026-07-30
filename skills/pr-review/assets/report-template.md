@@ -3,7 +3,12 @@
 This template defines the terminal output for a completed PR review. Delete an optional section
 that has no content. Do not add text to fill it.
 
-## Format
+## Length
+
+A human reads this report. **Give a 200-line PR about 60 lines of report. Never write more than 120
+lines.** Each finding gets four lines: the claim, the location, the evidence, and the failure. The
+Recommendation gets two sentences. Each architecture layer gets one line. A report that is longer
+than the diff is a failed report.
 
 Findings use [Conventional Comments](https://conventionalcomments.org/). Write
 `<label> [decoration]: <subject>`, then the evidence. Labels: `issue:` (a defect) · `suggestion:`
@@ -73,9 +78,14 @@ PLAUSIBLE.
 
     ## Non-blocking
 
-    suggestion (non-blocking): <one-sentence claim>
+    suggestion (non-blocking): `retryWithBackoff` repeats `internal/retry.Do`
     `path/to/other.go:31`
-    <Evidence and the suggested direction.>
+    `internal/retry/retry.go:18` gives the same backoff and the same jitter. Consider a call
+    to it here. That removes about 40 lines, and it keeps one retry mechanism in the tree.
+
+    question (non-blocking): does `EnableFastPath` need to be a config key?
+    `config/flags.go:77`
+    Only `server.go:210` reads it, and it is always `true`. Is a second value planned?
 
     ## Notes
 
@@ -122,6 +132,10 @@ only when the split test is positive.
 
 - Write the report in ASD-STE100 Simplified Technical English. Use active voice. Write one
   instruction in each sentence, with a maximum of 20 words. Do not use idiom or metaphor.
+- Follow the voice rules in SKILL.md. Describe the code, not the author. Propose a change; do not
+  command one. Ask a question when the author may know a reason that you cannot see.
+- Do not restate what the diff does. The author wrote it, and the reader can read it.
+- Do not narrate the process. Never name a review pass, a step, or a subagent in the report.
 - Put the most severe finding first in each section.
 - Do not use severity scores, numeric confidence, or letter grades. The taxonomy has two values:
   blocking and non-blocking.

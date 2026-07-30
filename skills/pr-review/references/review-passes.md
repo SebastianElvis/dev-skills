@@ -1,4 +1,4 @@
-# The six review passes
+# The seven review passes
 
 Use this file for the detailed defect hunt over a PR diff. Each section below is one subagent's
 brief. Give each subagent the map and the agreed premises. Do not give it your session history.
@@ -23,7 +23,78 @@ You have the map. Ask:
 **Evidence requirement:** name the conflicting artifact — the ADR, the existing implementation,
 the boundary. "This feels inconsistent" is not a finding.
 
-## Pass 2 — Fix depth / root cause
+## Pass 2 — Necessity and minimality
+
+The other passes ask whether the new code is correct. This pass asks whether the new code should
+exist at all. The cheapest code to maintain is the code that nobody writes.
+
+Take the inventory first. List every item that the diff adds: each file, type, function, method,
+config key, flag, environment variable, dependency, and table column. Then run the four tests below
+against each item.
+
+### 1. Must it exist?
+
+State what breaks if you delete the item. If nothing breaks today, the item is cost with no
+benefit. Two shapes are common:
+
+- **A caller of one.** A wrapper, an interface, a config option, or an abstraction with a single
+  use. Inline it, or ask what the second case is.
+- **A path that nothing reaches.** A branch, an error type, or an option that no caller sets.
+
+```bash
+git grep -n '<new symbol>' | wc -l      # one hit is the definition, so one caller or none
+git grep -n '<new config key>'          # who reads it?
+```
+
+### 2. Does it subsume existing code?
+
+New code often does the work of code that stays in place. Then the repository holds both. Ask
+whether the new code makes an existing function, branch, or special case unnecessary.
+
+**The finding is the deletion that the PR did not make.** A PR that adds a general mechanism and
+keeps the special case is incomplete. Name the file and the lines that the PR can now remove.
+
+```bash
+git grep -n 'func <similarName>\|def <similarName>\|class <similarName>'
+git grep -ln '<the concept: retry, backoff, cache, parse>' | head -20
+```
+
+A new `formatDuration` beside an existing `humanizeDuration` is a real finding. You find it outside
+the diff, so you must search for it.
+
+### 3. Can it be smaller?
+
+Propose the concrete reduction. State the lines that go away.
+
+- A parameter that every caller sets to the same value.
+- A layer of indirection with one caller on each side.
+- A struct field that the code writes but never reads.
+- A new type where an existing type plus one field works.
+- A new test helper that duplicates the fixture in the same package.
+
+### 4. Does it contradict the existing infrastructure?
+
+The repository already has a way to retry, to load config, to log, to build a test fixture, and to
+run a migration. New code that does one of these again is a contradiction, not only a duplication.
+It makes a second way to do one thing, and the next author must choose between them.
+
+Find the existing mechanism, then ask why the author did not use it. **When the PR gives no answer,
+that absence is the finding.** Write it as a `question:` first. The existing mechanism may lack a
+capability that the author needs. Then the correct change is an extension of the existing
+mechanism, not a second one.
+
+### Calibration and evidence
+
+- **Name the alternative.** Give the `path:line` of the existing code, or the exact lines that the
+  reduction removes. "This could be simpler" is not a finding. It is a complaint.
+- **Ask, do not assert, when necessity depends on a plan.** The author may know of a second caller
+  that lands next week. Use `question:`.
+- **Judge the addition, not the taste.** This pass never asks for a rewrite of code that works and
+  that nobody duplicates.
+- **Weigh a deletion as a benefit.** A PR that removes more than it adds passes this pass. Say so
+  with `praise:`.
+
+## Pass 3 — Fix depth / root cause
 
 The canonical formulation: *a special case on top of shared infrastructure shows that the fix is
 not deep enough. Prefer to make the underlying mechanism more general.*
@@ -50,7 +121,7 @@ prevent it?* Name the path concretely if the same root cause can appear again.
 fix". It is "this is a symptomatic fix **and nobody labeled it as one**." If the PR says "stopgap,
 root cause tracked in #4412," that is good practice. Check for that label before you report.
 
-## Pass 3 — Correctness
+## Pass 4 — Correctness
 
 **The removed-behavior audit — do this first.** For every line the diff **deletes or replaces**:
 
@@ -70,11 +141,11 @@ retry storms; resource lifetime (leaks, use-after-close, double-free); error pat
 never exercise; type coercion; loop-variable capture; mutable default arguments; regexes that lost
 an anchor.
 
-## Pass 4 — Security
+## Pass 5 — Security
 
 Load `security-review.md`. Do not improvise this one.
 
-## Pass 5 — Verifiability and cost
+## Pass 6 — Verifiability and cost
 
 **Write every finding as a falsifiable claim about the code. Never write a claim about who or what
 wrote it.** Not "this looks AI-written," but "`parseConfig` is called on line 88 but does not exist
@@ -105,20 +176,8 @@ Three outcomes worth reporting:
 - **Exists but in an unrelated module** — probably a wrong import. Check it.
 
 Do the same for dependencies. A new entry in `package.json` / `go.mod` / `Cargo.toml` /
-`requirements.txt` must be (a) real, (b) imported by this diff, and (c) necessary, because no
-existing dependency already satisfies it. A dependency that the code never uses, or that duplicates
-one the repository already has, is a finding.
-
-### Reuse
-
-Does the PR add a helper that the repository already has? Search before you accept a new utility:
-
-```bash
-git grep -n 'func <similarName>\|def <similarName>\|const <similarName>'
-```
-
-A new `formatDuration` next to an existing `humanizeDuration` is a real finding. You find it only
-outside the diff.
+`requirements.txt` must be (a) real and (b) imported by this diff. Pass 2 tests whether the
+dependency is necessary, so report the existence problem here and leave the necessity to that pass.
 
 ### Tests
 
@@ -142,12 +201,10 @@ outside the diff.
 - **Unrelated churn**: reformatting, import reordering, or renames inside a functional PR. Report a
   `suggestion (non-blocking)` to split the PR. If the repository has an autoformatter that explains
   the churn, do not report it.
-- **Speculative generality**: an interface with one implementation, a config flag with one value,
-  an abstraction layer with one caller. Ask what the second case is. No second case, no benefit.
 - **Comment rot**: comments that restate the code, or that describe behavior the diff changed. A
   comment that contradicts the code below it is a finding.
 
-## Pass 6 — Conventions
+## Pass 7 — Conventions
 
 **Quote the exact rule and the exact line that violates it. If you cannot do both, drop the
 finding.** No style preferences, no inferences about the "spirit" of a document.

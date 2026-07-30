@@ -1,10 +1,8 @@
 ---
 name: pr-review
-description: Use when the user asks for a critical, systematic review of another person's GitHub Pull Request. Triggers include "review PR 123", "is this PR safe to merge", "review my teammate's PR", "does this change conflict with our architecture", "is this PR solving the right problem", and "this PR looks AI-generated, check it". Reads the linked issue and judges whether the problem is real. Classifies the change, maps the data model, the state machine and the trust model, and forms an independent view of the correct solution. Then audits root cause, size and security. Requires human agreement on the problem, the architecture and the approach before detailed review. Do NOT use for your own uncommitted diff (use /code-review). Do NOT use to write a PR description (use pr-gen). Do NOT use for a quick lint-level pass.
+description: Use when the user asks for a critical, systematic review of another person's GitHub Pull Request. Triggers include "review PR 123", "is this PR safe to merge", "review my teammate's PR", "does this change conflict with our architecture", "is this PR solving the right problem", and "this PR looks AI-generated, check it". Reads the linked issue and judges whether the problem is real. Classifies the change, maps the data model, the state machine and the trust model, and forms an independent view of the correct solution. Then audits root cause, size, security, and whether the new code is necessary, minimal, and consistent with the existing infrastructure. Requires human agreement on the problem, the architecture and the approach before detailed review. Writes a short, suggestive review that a human can read. Do NOT use for your own uncommitted diff (use /code-review). Do NOT use to write a PR description (use pr-gen). Do NOT use for a quick lint-level pass.
 compatibility: Requires git and the GitHub CLI (`gh`) with authentication to the repository. Requires an interactive session, because the human checkpoint cannot run without a human.
 license: MIT
-metadata:
-  version: 3.0.0
 ---
 
 # pr-review
@@ -48,12 +46,44 @@ when you can name two things: the principle that your version serves, and the co
 author's version pays. "I would write it differently" is not a review comment. If you cannot name
 the cost, the author's approach is correct by default. The author has context that you do not have.
 
-## Output language
+## Output language and voice
 
 **Write every review comment, every checkpoint question, and the report in ASD-STE100 Simplified
 Technical English.** There is no exception. Use the active voice. Write one instruction per
 sentence. Keep each sentence to 20 words or fewer. Do not use an idiom or a metaphor. Use one name
 for one concept.
+
+Simplified Technical English controls the grammar. It does not make the review read like a machine.
+A senior engineer writes this review. Hold to these rules as well.
+
+- **Describe the code. Do not describe the author.** Write "this returns `nil` when the cache
+  misses". Do not write "the author forgot the nil case". Never judge the person, or the tool that
+  wrote the code.
+- **Propose. Do not command.** The reviewer advises. The author decides, and the author owns the
+  code. Write "consider one call to `retry.Do` here". Keep the imperative for a blocking finding.
+- **Ask when the code may have a reason that you cannot see.** A `question:` costs the author one
+  sentence. A wrong `issue:` costs the author an argument, and it lowers the trust in your other
+  findings.
+- **Give the evidence first, then the request.** One sentence of evidence is worth three of
+  assertion.
+- **Say each thing one time.** Do not repeat the evidence in the summary. Do not report one finding
+  in two sections. Do not restate what the diff does, because the author wrote it.
+- **Delete what you cannot make short.** A finding is a claim, a location, the evidence, and the
+  failure. That is four lines. A finding that needs a paragraph is unclear, not deep.
+- **Keep the report proportional to the PR.** A human reads this report, so respect that person's
+  time. Give a 200-line PR about 60 lines of report. Never write more than 120 lines. A long
+  report makes the blocking findings hard to find.
+
+Do not do these five things. Each one makes the review read like a tool. Each one lowers the trust
+in the text beside it.
+
+1. Do not narrate the process. The author does not need the pass name, the step number, or the
+   count of the agents that you ran.
+2. Do not inflate the language. Keep "critical", "severe", and "dangerous" for a finding that earns
+   them.
+3. Do not pad the report with a generic section that holds no specific claim. Delete the section.
+4. Do not report a preference as a defect. A preference is a `nitpick:`, and it is non-blocking.
+5. Do not give a numeric score, a confidence percentage, a letter grade, or a count of the findings.
 
 ## Workflow
 
@@ -124,10 +154,10 @@ passes carry the most weight. Load `references/change-types.md` for the protocol
 | --- | --- | --- |
 | **Bugfix** | Is the diagnosis correct? Is the fix at the cause? | Fix depth, Correctness |
 | **Security fix** | Does it close the whole class, or only this instance? | Security, Correctness |
-| **Feature** | Must this exist? Does it fit the model? | Architecture, Fix depth |
-| **Refactor** | Does the behavior stay the same? | Correctness, Architecture |
+| **Feature** | Must this exist? Does it fit the model? | Necessity, Architecture |
+| **Refactor** | Does the behavior stay the same? | Correctness, Necessity |
 | **Performance** | Is there a measurement? Is this the bottleneck? | Verifiability, Correctness |
-| **Infra, dependencies, config** | What code does it affect? What is the rollback path? | Security, Architecture |
+| **Infra, dependencies, config** | What code does it affect? What is the rollback path? | Necessity, Security |
 | **Docs** | Does it match the code? | Verifiability |
 
 #### CRITICAL — the split test
@@ -290,7 +320,7 @@ question, so that the human confirms with one click. Never ask the human to do y
 
 This order is deliberate. The expensive pass runs only on a PR that passes the design checkpoint.
 
-### Step 6 — Review through six passes
+### Step 6 — Review through seven passes
 
 Treat the agreed propositions as ground truth. Weight the passes by the type table in Step 2. Load
 `references/review-passes.md` for the prompts. Run one subagent per pass when subagents are available.
@@ -301,15 +331,18 @@ different ways.
 
 1. **Architecture conflict** — Does the change contradict the map, an ADR, or an existing state
    machine? Is there now a second way to do something that the codebase does one way?
-2. **Fix depth** — Is this a fix or a symptomatic fix? Ask what the next instance of this bug
+2. **Necessity and minimality** — Ask four questions about the code that the PR adds. Must it
+   exist? Does it subsume code that the PR then leaves in place? Can it be smaller? Does it repeat
+   something that the existing infrastructure already does?
+3. **Fix depth** — Is this a fix or a symptomatic fix? Ask what the next instance of this bug
    looks like, then ask whether this change prevents it.
-3. **Correctness** — **For every line that the diff deletes or replaces, name the invariant that
+4. **Correctness** — **For every line that the diff deletes or replaces, name the invariant that
    the line enforced. Then find where the new code re-establishes it.** A bug in an unchanged line
    of a changed function is in scope.
-4. **Security** — Load `references/security-review.md`. Every finding needs an exploit scenario.
-5. **Verifiability and cost** — Does every symbol, path, API, config key, and dependency exist?
-   Are there duplicated helpers? Do the tests assert mocks? Does the code discard errors?
-6. **Conventions** — **Quote the exact rule and the exact line that breaks it, or drop the
+5. **Security** — Load `references/security-review.md`. Every finding needs an exploit scenario.
+6. **Verifiability and cost** — Does every symbol, path, API, config key, and dependency exist?
+   Do the tests assert mocks? Does the code discard errors?
+7. **Conventions** — **Quote the exact rule and the exact line that breaks it, or drop the
    finding.**
 
 **Do not filter here.** Pass through every candidate for which you can name a failure scenario.
@@ -369,6 +402,9 @@ Give four things for each finding: the file and the line, a one-sentence claim, 
 user can see, and a verdict. A failure that a user can see is an error, a wrong output, or lost
 data. "The value becomes stale" is not one.
 
+**Keep the report short enough to read.** Four lines for each finding, and 120 lines for the whole
+report. Cut a finding before you exceed the budget. Cut the weakest one first.
+
 Recommend one of these: `Merge`, `Merge after the author fixes the blocking findings`,
 `Needs design discussion`, `Split before review`, or `Problem not confirmed`.
 
@@ -400,9 +436,12 @@ worth more than five real findings and twenty trivial ones.
 - [ ] You applied the split test and acted on the result.
 - [ ] You formed an independent position before the review passes. You applied the bias check.
 - [ ] A human answered P1, P2, and P3. You ran the detailed review only after they passed.
+- [ ] You tested each addition for necessity, for a subsumed piece of code, and for a smaller form.
 - [ ] This PR introduced every finding. Each has a failure that a user can see.
 - [ ] Each cross-file claim names the caller. Each convention finding quotes the rule and the line.
 - [ ] Each security finding has an exploit scenario and passes the exclusion list.
 - [ ] You stated the coverage gaps and the agreed propositions.
 - [ ] You gave a recommendation. You did not approve.
 - [ ] You wrote the whole report in ASD-STE100 Simplified Technical English.
+- [ ] The report is 120 lines or fewer. Each finding is four lines or fewer.
+- [ ] Each non-blocking finding proposes or asks. It does not command.

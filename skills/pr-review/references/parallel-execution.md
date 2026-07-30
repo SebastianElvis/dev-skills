@@ -132,6 +132,6 @@ each other:
 
 ## Cost note
 
-Roughly 6 scouts + 6 review-pass agents + one verifier per candidate. For a mid-sized PR that is
+Roughly 6 scouts + 7 review-pass agents + one verifier per candidate. For a mid-sized PR that is
 15–25 agents. If the budget is small, cut Stage 2 to the weighted review passes for the change
 type. **Never cut Stage 3.**
