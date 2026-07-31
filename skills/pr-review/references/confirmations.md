@@ -1,23 +1,30 @@
-# Checkpoint questions
+# Confirmations
 
-Use this file at each human checkpoint. A checkpoint stops the review. The human confirms or
+Use this file at step 5 and at step 8. The review stops at each step. The human confirms or
 corrects each point before the review continues.
 
-The review has two confirmation checkpoints:
-
-- Checkpoint A confirms the specification. It follows the protocol review.
-- Checkpoint B confirms the design. It follows the architecture summary and the reviewer's position.
+- Step 5 asks about the specification. It follows the protocol review.
+- Step 8 asks about the design. It follows the architecture summary and the reviewer's position.
 
 State your answer before you ask the human to confirm or correct it.
 
-## Checkpoint A points
+## Length
 
-Use Checkpoint A only when the PR changes a protocol. Record
-`Checkpoint A: skipped, no protocol surface` for a PR that changes no protocol.
+Use 25 lines or fewer at step 5. Use 35 lines or fewer at step 8.
 
-Keep this checkpoint short. Ask no additional question here.
+Give one line for each point. Add a second line only for a violation trace or a code link.
 
-### A1: Specification
+Ask a direct question. Write no preamble. `output.md` holds the language, the tone, and the code
+links.
+
+## Step 5: the specification
+
+Use this step only when the PR changes a protocol. Record `No protocol surface` for a PR that
+changes no protocol.
+
+Ask no additional question here.
+
+### Specification
 
 Present the specification source and the protocol invariants that the diff affects. Mark each item
 that you read from the code, not from a document.
@@ -26,13 +33,13 @@ Ask the human to correct a wrong protocol invariant. Ask for a missed protocol i
 
 A wrong protocol invariant makes every later protocol finding wrong.
 
-### A2: Classification
+### Classification
 
 State the classification and the result for each protocol invariant.
 
 Give a violation trace for each break. Name the assumption that the trace uses.
 
-### A3: Compatibility with the rest of the protocol
+### Compatibility with the rest of the protocol
 
 Ask this point only for a specification change.
 
@@ -41,9 +48,9 @@ Name each part of the protocol that depends on the changed clause. Give the resu
 Ask the human for a dependent part that you did not find. A specification often holds a relation
 that no single file states.
 
-## Checkpoint B points
+## Step 8: the design
 
-### B1: Problem
+### Problem
 
 State whether the problem is real and worth a solution now. Include the issue, reporter, and
 maintainer response.
@@ -56,13 +63,13 @@ Useful answer choices include:
 - Real but not worth a solution now.
 - Not a problem.
 
-### B2: Architecture
+### Architecture
 
 Ask the human to confirm only the invariants and state transitions that affect the review.
 
 Do not ask the human to confirm the full summary without a specific claim.
 
-### B3: Approach
+### Approach
 
 State the smallest solution that you would use. Compare it with the PR.
 
@@ -70,7 +77,7 @@ When both solutions are correct, say so. Do not create a difference to appear th
 
 ## Additional questions
 
-These questions belong at Checkpoint B.
+These questions belong at step 8.
 
 Ask no more than two. Each question must meet all three conditions:
 
@@ -95,7 +102,7 @@ The reviewer can answer each question above from the code or review procedure.
 
 ## Security-relevant changes
 
-At Checkpoint B, list only what the diff changes:
+At step 8, list only what the diff changes:
 
 - Trust boundaries.
 - Authorization decisions.
