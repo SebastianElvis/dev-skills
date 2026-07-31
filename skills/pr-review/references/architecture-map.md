@@ -5,7 +5,8 @@ changes one. `protocol-spec.md` holds that method.
 
 Read the code around the diff. State the current design, the PR change, and each conflict.
 
-Use one line for an unchanged layer. Give the evidence for that conclusion.
+Use one line for an unchanged layer in the summary. Give the evidence for that conclusion. The
+report groups the unchanged layers on one line.
 
 Name the code that enforces each confirmed protocol invariant.
 
