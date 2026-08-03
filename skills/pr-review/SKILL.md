@@ -10,10 +10,20 @@ license: MIT
 Review the problem before the diff. Review the protocol before the architecture. Review the design
 before implementation details.
 
+Use these review stages when the PR changes a protocol:
+
+1. Protocol review.
+2. Architecture review.
+3. Detailed review.
+
+Omit the protocol stage when the PR changes no protocol. Use two stages in that case.
+
 ## Critical requirements
 
 - Ask the human to confirm the specification before the architecture summary.
-- Ask the human to confirm the problem and the approach before the detailed review.
+- Ask the human to confirm the problem and the architecture modifications before the detailed review.
+- Include an accurate `Stage X of N` counter in each human review title.
+- Name the applicable description or modification in each confirmation question.
 - Form an independent solution before you search for findings.
 - Describe the code, not the author or the tool that wrote it.
 - Do not run the PR code, tests, build, or dependency installation.
@@ -27,8 +37,8 @@ Stop with an incomplete status if the session cannot ask the human a question.
 Keep your own solution, each question to the human, and the final report in the main agent. Read
 `## Subagents` when subagents are available.
 
-The review stops three times to ask the human. Step 5 asks about the specification. Step 8 asks
-about the design. Step 11 asks about an unclear intent.
+The review stops after each confirmation stage. Step 5 asks about the problem, solution, and
+specification. Step 8 asks about the design. Step 11 asks about an unclear intent when necessary.
 
 ### 1. Identify the problem
 
@@ -131,7 +141,7 @@ Each broken protocol invariant needs a concrete violation trace.
 
 State the specification source. Mark the specification `INFERRED` when only the code defines it.
 
-### 5. Ask the human to confirm the specification
+### 5. Ask the human to confirm the protocol review
 
 Use this step only when the protocol gate finds a protocol surface. Go to step 6 when the gate
 finds none.
@@ -140,20 +150,21 @@ Read `references/output.md` and `references/confirmations.md` before you write t
 
 Present these items:
 
-1. The protocol surface and its evidence.
-2. The specification source, and its `INFERRED` mark when the code is the only source.
-3. The protocol invariants that the diff can affect.
-4. The classification of the change.
-5. The result for each protocol invariant, with a violation trace for each break.
-6. The other parts of the protocol that depend on the change, and the result for each part.
+1. The problem and its source.
+2. The solution that the PR proposes.
+3. The protocol description, source, affected invariants, and change classification.
+4. The result for each protocol invariant, with a violation trace for each break.
+5. The other parts of the protocol that depend on the change, and the result for each part.
 
-Ask the human to confirm these three points:
+Ask the human to confirm these five points:
 
-- The specification and its protocol invariants are correct.
-- The classification of the change is correct.
-- The change agrees with the other parts of the protocol.
+- The above problem description is correct.
+- The problem needs a solution now.
+- The human agrees with the above proposed solution.
+- The above protocol description, invariants, and classification are correct.
+- The above protocol modifications agree with the other parts of the protocol.
 
-Ask the third point only for a specification change. Name each dependent part that you checked.
+Ask the fifth point only for a specification change. Name each dependent part that you checked.
 
 Present the protocol invariants as a numbered list. Use 25 lines or fewer.
 
@@ -204,7 +215,7 @@ and concrete cost.
 
 Drop differences that are equally correct. State when the PR solution is better.
 
-### 8. Ask the human to confirm the design
+### 8. Ask the human to confirm the architecture review
 
 Read `references/output.md` and `references/confirmations.md` before you write to the human.
 
@@ -218,11 +229,12 @@ Present these items:
 
 Give one line for the confirmed protocol result. Do not repeat the protocol invariant list.
 
-Ask the human to confirm these three points:
+Ask the human to confirm these four points:
 
-- The problem is real and worth a solution now.
-- The architecture summary is correct.
-- The proposed approach is correct.
+- The above problem description is correct.
+- The problem needs a solution now.
+- The above architecture description is correct.
+- The human agrees with the above architecture modifications.
 
 Ask up to two additional questions. `references/confirmations.md` holds the conditions.
 
@@ -231,7 +243,7 @@ Stop here. Continue only after the human responds.
 - Stop when the human rejects the problem.
 - Stop with `Split before review` when the human accepts the split plan.
 - Review only the largest coherent part when the human rejects the split.
-- Stop with `Needs design discussion` when the human rejects the approach.
+- Stop with `Needs design discussion` when the human rejects the architecture modifications.
 - Correct the architecture summary when the human rejects it.
 
 ### 9. Run the review passes
@@ -410,7 +422,9 @@ fails.
 - [ ] The architecture summary covers all four layers.
 - [ ] The split test has a result.
 - [ ] The independent solution exists before the review passes.
-- [ ] The human confirms the problem, the architecture summary, and the approach.
+- [ ] The human confirms the problem, the architecture summary, and its modifications.
+- [ ] Each human review title includes an accurate `Stage X of N` counter.
+- [ ] Each confirmation question names the applicable description or modification.
 - [ ] The PR introduces each finding.
 - [ ] Each finding is reachable, verified, and useful.
 - [ ] Each security finding includes an exploit scenario.

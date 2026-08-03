@@ -22,7 +22,8 @@ Write to a colleague. The author and you decide together.
 - Ask a question when project intent can change the verdict.
 - Give a command only for a blocking finding.
 - Say when the PR solution is better than your solution.
-- Do not write "you", "just", "simply", "obviously", "clearly", or "of course".
+- Use "you" only in the required problem question from `confirmations.md`.
+- Do not write "just", "simply", "obviously", "clearly", or "of course".
 
 ## Length
 
@@ -65,7 +66,7 @@ Use three lines for a finding: the claim, the link with the verdict, and the fai
 evidence line when the linked code does not show the cause.
 
 ```text
-# Review: #<number> — <title>
+# Detailed review — Stage <X> of <N>: #<number> — <title>
 <author> · <type> · <files> files · <significant> significant lines
 
 ## Recommendation
@@ -155,6 +156,8 @@ The second version starts with a hedge. It gives no link. It speaks to the autho
 
 Required sections are Recommendation, Problem and approach, Protocol, Architecture, Blocking,
 Coverage, and Confirmed points.
+
+Use `Stage 3 of 3` in the title when the PR changes a protocol. Use `Stage 2 of 2` otherwise.
 
 Non-blocking, Notes, and Split plan are optional.
 
