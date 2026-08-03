@@ -19,6 +19,8 @@ Write in ASD-STE100 Simplified Technical English.
 Write to a colleague. The author and you decide together.
 
 - Give the evidence first. Then make one request.
+- Write each comment as direct prose. Do not add a category, severity, or verdict marker.
+- Use the report section to show whether a finding blocks the merge.
 - Ask a question when project intent can change the verdict.
 - Give a command only for a blocking finding.
 - Say when the PR solution is better than your solution.
@@ -62,8 +64,8 @@ Use a GitHub suggestion block for a change that fits in the lines that the findi
 
 Keep the report to 80 lines or fewer. Use about 40 lines for a 200-line PR.
 
-Use three lines for a finding: the claim, the link with the verdict, and the failure. Add one
-evidence line when the linked code does not show the cause.
+Start each finding with the claim. Then give the effect and the requested action. Put the code link
+after the prose. Add one evidence sentence when the linked code does not show the cause.
 
 ```text
 # Detailed review — Stage <X> of <N>: #<number> — <title>
@@ -101,19 +103,20 @@ Split before review | Problem not confirmed>
 
 ## Blocking
 
-issue (blocking): <claim in one sentence>
-[`path/file.go:104`](https://github.com/<repo>/blob/<sha>/path/file.go#L104) — <CONFIRMED | PLAUSIBLE>
-**Failure:** <error, wrong output, security effect, or data loss>
+<Claim in one sentence.>
+<Error, wrong output, security effect, or data loss.>
+<Required action in one sentence.>
+[`path/file.go:104`](https://github.com/<repo>/blob/<sha>/path/file.go#L104)
 
 ## Non-blocking
 
-suggestion (non-blocking): <claim in one sentence>
+<Claim in one sentence.>
+<Recommendation and its concrete maintenance or user result.>
 [`path/file.go:31`](https://github.com/<repo>/blob/<sha>/path/file.go#L31-L34)
-**Result:** <concrete maintenance or user result>
 
 ## Notes
 
-note: <accepted tradeoff or out-of-scope problem>
+<Accepted tradeoff or out-of-scope problem.>
 
 ## Coverage
 
@@ -129,9 +132,10 @@ Not reviewed in depth: <areas and reasons>.
 
 Write this:
 
-    issue (blocking): `parseHeader` accepts a zero-length payload and returns a nil body.
-    [`internal/wire/header.go:104`](https://github.com/o/r/blob/abc1234/internal/wire/header.go#L104) — CONFIRMED
-    **Failure:** The relay panics at `body.Len()` on the next message from an untrusted peer.
+    `parseHeader` accepts a zero-length payload and returns a nil body.
+    The relay then panics at `body.Len()` on the next message from an untrusted peer.
+    Please reject a zero-length payload before the function returns.
+    [`internal/wire/header.go:104`](https://github.com/o/r/blob/abc1234/internal/wire/header.go#L104)
 
 Do not write this:
 
@@ -140,13 +144,13 @@ Do not write this:
     check, because otherwise this could conceivably cause problems downstream. See
     internal/wire/header.go around line 104. This is a fairly common mistake and it's easy to miss!
 
-The second version starts with a hedge. It gives no link. It speaks to the author.
+The second version starts with a hedge. It gives no link. It does not state the required action.
 
 ## Worked suggestion
 
-    suggestion (non-blocking): The retry limit differs from `DefaultMaxRetries` in the same package.
+    The retry limit differs from `DefaultMaxRetries` in the same package.
+    I recommend `DefaultMaxRetries` here. One constant then controls the retry limit for both send paths.
     [`internal/relay/send.go:57`](https://github.com/o/r/blob/abc1234/internal/relay/send.go#L57)
-    **Result:** One constant controls the retry limit for both send paths.
 
     ```suggestion
     maxRetries := DefaultMaxRetries
@@ -173,12 +177,11 @@ that changes no protocol.
 
 - Put the most important finding first.
 - Write `None.` when no blocking finding exists.
-- Use `issue:`, `suggestion:`, `question:`, `nitpick:`, `note:`, or `praise:`.
-- Mark each comment as `(blocking)` or `(non-blocking)`.
-- Use `nitpick:` only for a non-blocking preference.
-- Use `question:` when project intent can change the result.
+- Do not add a type, severity, verdict, score, or confidence marker to a comment.
+- Put each finding in the Blocking or Non-blocking section to show its severity.
+- Ask a direct question when project intent can change the result.
 - Mark each pre-existing problem as out of scope.
-- Include a `praise:` comment only for a specific good decision.
+- Include praise only for a specific good decision.
 - Do not name steps, passes, or subagents.
 - Do not use numeric scores, grades, finding counts, or confidence percentages.
 - Do not add an agent credit or co-author footer.
