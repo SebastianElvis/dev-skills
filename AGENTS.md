@@ -210,7 +210,7 @@ Use `skills-ref validate ./skills/<name>` to lint frontmatter and naming. Run it
 1. **Pick a use case before writing.** Anthropic's guide recommends defining 2–3 concrete use cases with explicit triggers and steps before drafting any Markdown. Skills fall into three categories: document/asset creation, workflow automation, MCP enhancement.
 2. **Iterate on a single hard task first.** Solve one challenging instance in a regular Claude conversation, capture corrections and the winning sequence, *then* extract it into a skill. Leverages in-context learning; gives faster signal than testing across many cases up front.
 3. **Use `skill-creator`** in Claude Code or Claude.ai to generate the first draft and frontmatter, then revise.
-4. **Do not put a `version` field in a skill's `metadata`.** One version covers the whole plugin. Update `version` in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` when you ship a behavioral change. A per-skill version drifts from the plugin version, and no tool reads it.
+4. **Do not put a `version` field in a skill's `metadata`.** One version covers the whole plugin. Change `version` in `.claude-plugin/plugin.json` and `.claude-plugin/marketplace.json` only for a tagged release. A per-skill version drifts from the plugin version, and no tool reads it.
 
 ## Testing skills (three layers)
 
