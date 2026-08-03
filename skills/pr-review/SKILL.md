@@ -302,7 +302,8 @@ Read `references/output.md` before you write to the human.
 Read `references/output.md`. It holds the wording rules, the report template, and the section
 rules.
 
-Use Conventional Comments labels. Recommend one result:
+Write each finding as direct prose for a colleague. Do not add a category, severity, or verdict
+marker. Recommend one result:
 
 - `Merge`
 - `Merge after the author fixes the blocking findings`
@@ -431,5 +432,6 @@ fails.
 - [ ] The report states coverage and the confirmed points.
 - [ ] Each code reference is a link that uses the head commit hash.
 - [ ] Each scoped fix has a suggestion block of 10 lines or fewer.
+- [ ] Each finding uses direct, professional prose without a label or a severity marker.
 - [ ] Each claim is one sentence of 25 words or fewer, and it uses no banned word.
 - [ ] The report follows Simplified Technical English and its length limit.
