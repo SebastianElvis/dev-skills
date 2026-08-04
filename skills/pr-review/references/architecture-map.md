@@ -28,11 +28,14 @@ Examine these items:
 - Schema types, nullability, defaults, indexes, and constraints.
 - Serialized data, wire formats, messages, cache keys, and file formats.
 - Storage invariants and code-only invariants.
-- Migration reversibility and backfill requirements.
+- Migration transactions, version stamps, recovery states, backfills, and source or destination constraints.
 - Changes to the meaning or unit of an existing field.
 
 For a partial deployment, old and new code can run against the same data. Check both read and write
 directions.
+
+One version can contain many statements. Select version boundaries from atomicity and recovery, not
+the number of concerns.
 
 Use expand, backfill, migrate, and contract for an incompatible schema change. Each stage must work
 with the previous stage.
@@ -84,6 +87,8 @@ Ask:
 - Does it skip an established layer?
 - Does it add a second mechanism for an existing operation?
 - Does a file gain a second responsibility?
+- Does one type, module, or service own the subsystem state, lifecycle, policy, and effects?
+- Does an abstraction improve ownership, invariant enforcement, reuse, or change scope beyond test access?
 
 ## Affected code
 
@@ -107,4 +112,4 @@ Also search for code that depends on changed data or behavior without a direct c
 - [ ] The summary names the code that enforces each protocol invariant.
 - [ ] Data compatibility works in both directions.
 - [ ] The summary names each important assumption.
-- [ ] The summary includes direct and indirect dependent code.
+- [ ] The summary includes dependent code and names the owner of each new subsystem.

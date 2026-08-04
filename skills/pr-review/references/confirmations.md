@@ -171,5 +171,8 @@ These are not findings before the security pass. Use one line when no item appli
 
 ## Record the answers
 
+Treat a question or objection as unconfirmed. Answer from repository evidence. Keep the detailed
+review stopped. After the discussion ends, present one corrected stage. Ask once.
+
 Put the confirmed or corrected points in the report. Link each human-supplied point to the findings
 that depend on it.
