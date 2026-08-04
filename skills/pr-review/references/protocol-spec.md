@@ -10,13 +10,19 @@ classification, and the effect on the rest of the protocol.
 
 ## The protocol gate
 
-A protocol is a behavior contract between parties that cannot change at the same time.
+A protocol is a behavior contract between parties that cannot change at the same time. Name at least
+two such parties.
 
 These are protocol surfaces:
 
 - A wire format, a message format, or a remote procedure call (RPC) interface.
 - A consensus rule, an on-chain script, or a multi-party cryptographic protocol.
 - A signed message, a versioned public API, or a file that another release reads.
+
+An internal queue, store API, process rule, or design record is architecture unless another party
+consumes it independently. An RFC or contract filename alone does not create a protocol.
+
+If you cannot name two parties, record `No protocol surface`.
 
 Write one line plus its evidence when the diff touches no protocol surface. Then stop this file.
 

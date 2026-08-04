@@ -1,6 +1,10 @@
 # Change types
 
-Pick one primary type. A PR with two independent types is a split candidate.
+Classify the final behavior, not the PR title or label. Pick one primary type. A PR with two
+independent types is a split candidate.
+
+Count production code, tests, documentation, generated files, and removed behavior separately. Name
+the largest net-new behavior.
 
 ## Bugfix
 
@@ -30,16 +34,18 @@ remaining instance.
 - Find the smallest interface, state, and dependency changes.
 - Check whether the existing model already supports the use case.
 - Reject speculative options or extension points with no current use.
+- Treat a new public API, persistent state, operator control, or runtime obligation as new behavior.
 
 Give most attention to necessity and architecture.
 
 ## Refactor
 
+- Require the PR to preserve observable behavior.
 - Require a specific reason for the refactor.
 - Check every deleted or replaced behavior.
 - Examine every test change for a behavior change.
 - Separate mechanical changes from semantic changes.
-- Treat an intentional behavior change as a feature or bugfix.
+- Treat new observable behavior as a feature or bugfix, even when it replaces old code.
 
 Give most attention to correctness and necessity.
 

@@ -35,8 +35,11 @@ git diff "origin/$base...$head" --stat
 git diff "origin/$base...$head" -w --stat
 ```
 
-For schema work, expand the schema before code depends on it. Remove old schema only after all
-dependent code changes.
+For schema work, inspect transaction and version-stamp boundaries. Expand the schema before code
+depends on it. Remove old schema only after all dependent code changes.
+
+Do not split one atomic migration across PRs. Combined test results do not prove that each proposed
+part is safe.
 
 ## Cases that can require one PR
 

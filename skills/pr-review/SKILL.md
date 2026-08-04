@@ -94,7 +94,8 @@ code supports it.
 
 ### 3. Classify and size the change
 
-Pick one primary type. Read `references/change-types.md` for the requirements of that type.
+Classify the final behavior, not the PR title. Pick one primary type. Read
+`references/change-types.md` for its requirements.
 
 Apply the split test. The PR is a split candidate when one sentence cannot describe it without
 "and".
@@ -180,6 +181,8 @@ A wrong specification makes every later protocol finding wrong. Correct it befor
 ### 6. Write an architecture summary
 
 Read beyond the diff. Use `references/architecture-map.md` for the detailed questions.
+
+Cover migration recovery, test levels, and subsystem ownership when they apply.
 
 For each layer, state the current design, the PR change, and any conflict:
 
@@ -420,7 +423,7 @@ fails.
 - [ ] Each broken protocol invariant has a concrete violation trace.
 - [ ] Each dependent part of the protocol has a result.
 - [ ] The human confirms the specification and the classification for a protocol change.
-- [ ] The architecture summary covers all four layers.
+- [ ] The architecture summary covers all layers, migration recovery, test levels, and subsystem ownership when applicable.
 - [ ] The split test has a result.
 - [ ] The independent solution exists before the review passes.
 - [ ] The human confirms the problem, the architecture summary, and its modifications.

@@ -33,6 +33,7 @@ Check these conditions:
 - The change makes an invalid state representable.
 - A file gains a second clear responsibility.
 - The architecture does not enforce a protocol invariant from the protocol pass.
+- A new subsystem has no clear owner for its state, lifecycle, policy, and effects.
 
 Name the conflicting rule, implementation, or boundary. Drop a claim that has no exact conflict.
 
@@ -57,7 +58,7 @@ rg -n 'func <similarName>|def <similarName>|class <similarName>'
 
 Common unnecessary additions include these:
 
-- A wrapper or interface with one caller.
+- A wrapper with one caller and no owned state, invariant, or dependency boundary.
 - A branch or option that no caller can reach.
 - A parameter with one value across all callers.
 - A field that code writes but never reads.
@@ -131,10 +132,13 @@ need for it.
 
 Check the tests:
 
-- Do they assert behavior instead of mock calls?
-- Does each claimed invariant have a test?
-- Does the diff weaken an assertion?
-- Would the test fail without the fix?
+- Does pure policy use a unit or property test?
+- Does database behavior use a database integration test?
+- Does each end-to-end test require a process or service boundary?
+- Does each property name its input domain and oracle?
+- Does a stateful wrapper expose a transition model or injected effects?
+- Does each deleted test invariant have a replacement?
+- Would the test fail without the change?
 
 Check error handling:
 
