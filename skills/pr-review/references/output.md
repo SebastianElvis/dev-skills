@@ -51,21 +51,24 @@ after the next push.
 
 ## Suggested changes
 
-Use a GitHub suggestion block for a change that fits in the lines that the finding cites.
+Give each finding a GitHub suggestion block. Omit the block only for an architecture-level finding.
 
 - Put the block last in the finding. GitHub applies it when the comment sits on those lines.
 - Put the complete replacement text in the block. Do not add a `+` or `-` prefix.
 - Keep the block to 10 lines or fewer, in one file.
-- Use a block for a wrong condition, a missed error check, a wrong constant, or a name.
-- Do not use a block for a design change, a change across files, or a change that needs a new test.
+- Split a finding that needs two files into one finding for each file.
+- Omit the block for a design change or a change that needs a new test. State the change in prose.
 - Do not repeat the content of the block in prose.
 
-## Template
+## Report template
+
+The report goes to the human in the session. The PR comments are a separate text with its own
+template. Write both.
 
 Keep the report to 80 lines or fewer. Use about 40 lines for a 200-line PR.
 
-Start each finding with the claim. Then give the effect and the requested action. Put the code link
-after the prose. Add one evidence sentence when the linked code does not show the cause.
+Write each finding in the report as one bullet. State the problem and its effect, then the
+suggested fix. Put the code link on the next line.
 
 ```text
 # Detailed review — Stage <X> of <N>: #<number> — <title>
@@ -103,16 +106,15 @@ Split before review | Problem not confirmed>
 
 ## Blocking
 
-<Claim in one sentence.>
-<Error, wrong output, security effect, or data loss.>
-<Required action in one sentence.>
-[`path/file.go:104`](https://github.com/<repo>/blob/<sha>/path/file.go#L104)
+- <Problem in one sentence. Name the error, the wrong output, the security effect, or the data loss.>
+  <Suggested fix in one sentence.>
+  [`path/file.go:104`](https://github.com/<repo>/blob/<sha>/path/file.go#L104)
 
 ## Non-blocking
 
-<Claim in one sentence.>
-<Recommendation and its concrete maintenance or user result.>
-[`path/file.go:31`](https://github.com/<repo>/blob/<sha>/path/file.go#L31-L34)
+- <Problem in one sentence. Name its maintenance or user result.>
+  <Suggested fix in one sentence.>
+  [`path/file.go:31`](https://github.com/<repo>/blob/<sha>/path/file.go#L31-L34)
 
 ## Notes
 
@@ -128,14 +130,46 @@ Not reviewed in depth: <areas and reasons>.
 <One line. Name each point that the human corrected, and the findings that it changes.>
 ```
 
+## PR comment template
+
+The human posts these comments. They carry no title, no stage counter, and no report section.
+
+The top comment summarizes the review, not the PR. Keep it to six lines or fewer:
+
+```text
+<Recommendation. Use one of the five results.>
+
+<Two or three sentences. Give the reason for the recommendation. Name your main disagreement.
+Do not describe what the PR does. The author already knows.>
+
+Reviewed in depth: <areas>. Not reviewed in depth: <areas and reasons>.
+```
+
+Each finding becomes one comment on the lines that it cites:
+
+```text
+<Claim in one sentence.>
+<Effect, then the required action in one sentence.>
+<Suggestion block. Omit it only for an architecture-level finding.>
+```
+
+Keep the problem description, the protocol invariant list, the architecture summary, the split plan,
+and the confirmed points out of the PR. The human reads those in the report.
+
 ## Worked finding
 
-Write this:
+Write a PR comment like this:
 
     `parseHeader` accepts a zero-length payload and returns a nil body.
     The relay then panics at `body.Len()` on the next message from an untrusted peer.
     Please reject a zero-length payload before the function returns.
     [`internal/wire/header.go:104`](https://github.com/o/r/blob/abc1234/internal/wire/header.go#L104)
+
+    ```suggestion
+    if len(payload) == 0 {
+        return nil, ErrEmptyPayload
+    }
+    ```
 
 Do not write this:
 
@@ -144,22 +178,12 @@ Do not write this:
     check, because otherwise this could conceivably cause problems downstream. See
     internal/wire/header.go around line 104. This is a fairly common mistake and it's easy to miss!
 
-The second version starts with a hedge. It gives no link. It does not state the required action.
-
-## Worked suggestion
-
-    The retry limit differs from `DefaultMaxRetries` in the same package.
-    I recommend `DefaultMaxRetries` here. One constant then controls the retry limit for both send paths.
-    [`internal/relay/send.go:57`](https://github.com/o/r/blob/abc1234/internal/relay/send.go#L57)
-
-    ```suggestion
-    maxRetries := DefaultMaxRetries
-    ```
+The second version starts with a hedge. It gives no link and no suggestion block.
 
 ## Section rules
 
-Required sections are Recommendation, Problem and approach, Protocol, Architecture, Blocking,
-Coverage, and Confirmed points.
+These rules apply to the report. Required sections are Recommendation, Problem and approach,
+Protocol, Architecture, Blocking, Coverage, and Confirmed points.
 
 Use `Stage 3 of 3` in the title when the PR changes a protocol. Use `Stage 2 of 2` otherwise.
 

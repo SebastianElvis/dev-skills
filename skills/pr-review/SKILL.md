@@ -300,10 +300,10 @@ the result of each answer.
 
 Read `references/output.md` before you write to the human.
 
-### 12. Write the report
+### 12. Write the report and the PR comments
 
-Read `references/output.md`. It holds the wording rules, the report template, and the section
-rules.
+Read `references/output.md`. It holds the wording rules, the report template, the PR comment
+template, and the section rules. Write both texts.
 
 Write each finding as direct prose for a colleague. Do not add a category, severity, or verdict
 marker. Recommend one result:
@@ -434,7 +434,9 @@ fails.
 - [ ] Each security finding includes an exploit scenario.
 - [ ] The report states coverage and the confirmed points.
 - [ ] Each code reference is a link that uses the head commit hash.
-- [ ] Each scoped fix has a suggestion block of 10 lines or fewer.
+- [ ] Each finding has a suggestion block of 10 lines or fewer, or it is architecture-level.
+- [ ] The top PR comment uses the PR comment template and gives no summary of the PR.
+- [ ] Each report finding is one bullet that states the problem and the suggested fix.
 - [ ] Each finding uses direct, professional prose without a label or a severity marker.
 - [ ] Each claim is one sentence of 25 words or fewer, and it uses no banned word.
 - [ ] The report follows Simplified Technical English and its length limit.
