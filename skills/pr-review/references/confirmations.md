@@ -4,9 +4,11 @@ Use this file at step 5 and at step 8. The review stops at each step. The human 
 corrects each point before the review continues.
 
 - Step 5 asks about the problem, solution, and specification. It follows the protocol review.
-- Step 8 asks about the design. It follows the architecture summary and the reviewer's position.
+- Step 8 asks about the design. It follows the architecture summary and the reviewer's own solution.
 
-State your answer before you ask the human to confirm or correct it.
+Answer every question yourself. Write `My answer:` under the question. An answer is `yes`, `yes with
+a condition`, or `no`. Add the reason in one sentence. Add the condition or the alternative when the
+answer is not `yes`. Never send a question that you leave open.
 
 Include `Stage X of N` in each title.
 
@@ -17,9 +19,10 @@ correct.
 
 ## Length
 
-Use 25 lines or fewer at step 5. Use 35 lines or fewer at step 8.
+Use 35 lines or fewer at step 5. Use 40 lines or fewer at step 8.
 
-Give one line for each point. Add a second line only for a violation trace or a code link.
+Give one line for each point and one line for each answer. Add a third line only for a violation
+trace or a code link.
 
 Ask a direct question. Write no preamble. `output.md` holds the language, the tone, and the code
 links.
@@ -51,13 +54,24 @@ Use this structure:
 ## Questions
 
 Is the above problem description correct?
+My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+
 Do you think the above problem needs a solution now?
+My answer: <yes | yes with a condition | no>. <The reason in one sentence.>
+
 Do you agree with the above proposed solution?
+My answer: <yes | yes with a condition | no>. <The solution that you would use instead.>
+
 Is the above protocol description correct?
+My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+
 Do you agree with the above protocol modifications?
+My answer: <yes | yes with a condition | no>. <The specification change that you would write
+instead, or the condition that the PR must meet.>
 ```
 
-Omit the last section and question when the PR does not change the specification.
+Omit the `Protocol modifications` section and its question when the PR does not change the
+specification.
 
 ### Problem and solution
 
@@ -85,6 +99,15 @@ Name each part of the protocol that depends on the changed clause. Give the resu
 Ask the human for a dependent part that you did not find. A specification often holds a relation
 that no single file states.
 
+### My answers
+
+Section 7 of `protocol-spec.md` holds the questions that produce your answers.
+
+Do not repeat the description in an answer. Give the judgment that the description does not hold.
+
+Say directly when you would write the same specification change. Do not create a difference to
+appear thorough.
+
 ## Step 8: the architecture review
 
 Use this structure for a protocol change:
@@ -96,14 +119,22 @@ Use this structure for a protocol change:
 <The problem, its source, and whether it needs a solution now.>
 
 ## Architecture description
-<The affected architecture, its modifications, the smallest solution, security changes, and coverage.>
+<The affected architecture, its modifications, security changes, and coverage.>
 
 ## Questions
 
 Is the above problem description correct?
+My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+
 Do you think the above problem needs a solution now?
+My answer: <yes | yes with a condition | no>. <The reason in one sentence.>
+
 Is the above architecture description correct?
+My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+
 Do you agree with the above architecture modifications?
+My answer: <yes | yes with a condition | no>. <Your smallest solution or split plan, and its
+difference from the PR.>
 ```
 
 Use `# Architecture review — Stage 1 of 2` when the PR changes no protocol.
@@ -127,9 +158,11 @@ Ask the human to confirm only the invariants and state transitions that affect t
 
 Do not ask the human to confirm the full summary without a specific claim.
 
-State the smallest solution that you would use. Compare it with the PR.
+### My answers
 
-When both solutions are correct, say so. Do not create a difference to appear thorough.
+`architecture-map.md` holds the questions that produce your answers.
+
+State the smallest solution that you would use. Compare it with the PR. Use two or three lines.
 
 ## Additional questions
 
@@ -141,7 +174,7 @@ Ask no more than two. Each question must meet all three conditions:
 2. The answer changes a verdict or blocking status.
 3. The question asks about intent or preference, not a code fact.
 
-State where you searched. State your tentative answer.
+State where you searched. State your own answer.
 
 Do not ask these questions:
 
@@ -173,6 +206,9 @@ These are not findings before the security pass. Use one line when no item appli
 
 Treat a question or objection as unconfirmed. Answer from repository evidence. Keep the detailed
 review stopped. After the discussion ends, present one corrected stage. Ask once.
+
+Change your answer when the human gives new evidence. Keep your answer when the human gives none.
+Record the disagreement in the report.
 
 Put the confirmed or corrected points in the report. Link each human-supplied point to the findings
 that depend on it.

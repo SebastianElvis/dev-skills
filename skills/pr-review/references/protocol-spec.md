@@ -138,6 +138,26 @@ Ask:
 
 Most protocol breaks appear here.
 
+## 7. Judge the specification change
+
+Steps 1 to 6 describe the change. This step judges it. Do both.
+
+Answer these questions:
+
+- Does the protocol need a change, or can a change inside one party solve the problem?
+- Is this the smallest specification change that solves the problem?
+- Which specification change would you write instead?
+- Which risk does the change add: compatibility, security, or complexity?
+
+Your judgment becomes your own answer to the last question of step 5. An answer is `yes`, `yes with
+a condition`, or `no`.
+
+A `Specification violation` or a broken protocol invariant gives `no`. A change that needs an
+activation height or a version field gives `yes with a condition`.
+
+Judge from your own reconstruction. Mark the answer provisional when the specification is
+`INFERRED`. Do not wait for the human.
+
 ## Liveness findings
 
 A break of a liveness protocol invariant is a protocol finding. Report it in the protocol pass.
@@ -153,3 +173,4 @@ apply to a liveness protocol invariant that the specification states.
 - [ ] Each broken protocol invariant has a concrete violation trace.
 - [ ] Each dependent part of the protocol has a result.
 - [ ] The mixed-version check covers both directions.
+- [ ] The specification change has your own answer, its reason, and an alternative or a condition.

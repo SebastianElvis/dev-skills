@@ -22,6 +22,7 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 
 - Ask the human to confirm the specification before the architecture summary.
 - Ask the human to confirm the problem and the architecture modifications before the detailed review.
+- Answer every confirmation question yourself before the human answers it.
 - Include an accurate `Stage X of N` counter in each human review title.
 - Name the applicable description or modification in each confirmation question.
 - Form an independent solution before you search for findings.
@@ -31,6 +32,17 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 - Report only findings that this PR introduces and that you verify.
 
 Stop with an incomplete status if the session cannot ask the human a question.
+
+## Answer your own questions
+
+Each confirmation stage asks the human a set of questions. Answer every question yourself first.
+Write your answer under the question that it answers.
+
+An answer is `yes`, `yes with a condition`, or `no`. Add the reason in one sentence. Add the
+condition or the alternative when the answer is not `yes`.
+
+Answer before the human confirms anything. Never leave a question open. Mark an answer provisional
+when you mark the specification `INFERRED`.
 
 ## Procedure
 
@@ -142,12 +154,16 @@ Each broken protocol invariant needs a concrete violation trace.
 
 State the specification source. Mark the specification `INFERRED` when only the code defines it.
 
+Then judge the specification change. Section 7 of `references/protocol-spec.md` holds the questions.
+Your judgment becomes your answer to each question of step 5.
+
 ### 5. Ask the human to confirm the protocol review
 
 Use this step only when the protocol gate finds a protocol surface. Go to step 6 when the gate
 finds none.
 
-Read `references/output.md` and `references/confirmations.md` before you write to the human.
+Read `references/output.md` and `references/confirmations.md` before you write to the human. The
+step 5 template holds every section and every question.
 
 Present these items:
 
@@ -156,24 +172,16 @@ Present these items:
 3. The protocol description, source, affected invariants, and change classification.
 4. The result for each protocol invariant, with a violation trace for each break.
 5. The other parts of the protocol that depend on the change, and the result for each part.
+6. Your own answer under each question, with its reason.
 
-Ask the human to confirm these five points:
-
-- The above problem description is correct.
-- The problem needs a solution now.
-- The human agrees with the above proposed solution.
-- The above protocol description, invariants, and classification are correct.
-- The above protocol modifications agree with the other parts of the protocol.
-
-Ask the fifth point only for a specification change. Name each dependent part that you checked.
-
-Present the protocol invariants as a numbered list. Use 25 lines or fewer.
+Present item 5 only for a specification change. Name each dependent part that you checked.
 
 Stop here. Continue only after the human responds.
 
 - Correct the specification and repeat the protocol invariant results when the human rejects it.
 - Correct the classification when the human rejects it.
 - Report a break in a dependent part as a blocking finding.
+- Report a `no` answer that the human accepts as a blocking finding.
 - Stop with `Needs design discussion` when the human wants a decision on the specification first.
 
 A wrong specification makes every later protocol finding wrong. Correct it before step 6.
@@ -197,7 +205,7 @@ protocol invariant.
 List callers and other affected code. Other affected code can include stored data, messages, caches,
 metrics, and tests.
 
-### 7. Form your position
+### 7. Form your solution and judge the design
 
 Answer these questions before you search for defects:
 
@@ -218,9 +226,13 @@ and concrete cost.
 
 Drop differences that are equally correct. State when the PR solution is better.
 
+Then judge the architecture modifications. `references/architecture-map.md` holds the questions. Your
+judgment becomes your answer to each question of step 8.
+
 ### 8. Ask the human to confirm the architecture review
 
-Read `references/output.md` and `references/confirmations.md` before you write to the human.
+Read `references/output.md` and `references/confirmations.md` before you write to the human. The
+step 8 template holds every section and every question.
 
 Present these items:
 
@@ -228,16 +240,9 @@ Present these items:
 2. The change type, significant size, and planned coverage.
 3. The architecture summary.
 4. The security-relevant changes.
-5. Your position and proposed solution or split plan.
+5. Your own answer under each question, with its reason and your solution or split plan.
 
 Give one line for the confirmed protocol result. Do not repeat the protocol invariant list.
-
-Ask the human to confirm these four points:
-
-- The above problem description is correct.
-- The problem needs a solution now.
-- The above architecture description is correct.
-- The human agrees with the above architecture modifications.
 
 Ask up to two additional questions. `references/confirmations.md` holds the conditions.
 
@@ -248,6 +253,7 @@ Stop here. Continue only after the human responds.
 - Review only the largest coherent part when the human rejects the split.
 - Stop with `Needs design discussion` when the human rejects the architecture modifications.
 - Correct the architecture summary when the human rejects it.
+- Report a `no` answer that the human accepts as a blocking finding.
 
 ### 9. Run the review passes
 
@@ -329,7 +335,7 @@ to replace the main review decision.
 
 Keep these tasks in the main agent:
 
-- Form the independent solution.
+- Form the independent solution and answer each question.
 - Write the protocol invariant list and the classification of the change.
 - Write the architecture summary.
 - Ask the human each question.
@@ -422,6 +428,7 @@ fails.
 - [ ] The protocol review comes before the architecture summary.
 - [ ] Each broken protocol invariant has a concrete violation trace.
 - [ ] Each dependent part of the protocol has a result.
+- [ ] Each confirmation question carries your own answer and its reason.
 - [ ] The human confirms the specification and the classification for a protocol change.
 - [ ] The architecture summary covers all layers, migration recovery, test levels, and subsystem ownership when applicable.
 - [ ] The split test has a result.
