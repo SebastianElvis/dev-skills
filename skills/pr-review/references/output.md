@@ -96,6 +96,7 @@ Split before review | Problem not confirmed>
 
 **Specification:** <path or clause, `INFERRED` from the code, or `No protocol surface.`>
 **Classification:** <one of the four results, or delete this line with no protocol surface>
+**Specification change:** <your answer and reason, or delete this line with no protocol surface>
 <One line for each broken or new protocol invariant, with its violation trace.>
 
 ## Architecture

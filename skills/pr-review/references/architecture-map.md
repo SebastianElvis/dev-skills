@@ -106,8 +106,29 @@ Also search for code that depends on changed data or behavior without a direct c
 - Metrics, logs, dashboards, and alerts.
 - Tests that define the old behavior.
 
+## Judge the modifications
+
+The sections above describe the change. This section judges it. Do both.
+
+Answer these questions:
+
+- Does the design need a change, or does the current design already hold the fix?
+- Is this the smallest architecture modification that solves the problem?
+- Which architecture modification would you write instead?
+- Which cost does the change add: a new mechanism, a wider boundary, or a new owner?
+
+Your judgment becomes your own answer to the last question of step 8. An answer is `yes`, `yes with
+a condition`, or `no`.
+
+A broken layer, a fix below the root cause, or a positive split test gives `no`. A design that works
+only with an added test, an added migration step, or an owner decision gives `yes with a condition`.
+
+Give `yes` when you would write the same modification. Say so directly. Do not create a difference
+to appear thorough.
+
 ## Final check
 
+- [ ] The architecture modifications have your own answer, its reason, and an alternative.
 - [ ] Each layer has a statement and evidence.
 - [ ] The summary names the code that enforces each protocol invariant.
 - [ ] Data compatibility works in both directions.
