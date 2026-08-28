@@ -1,0 +1,29 @@
+{
+  "id": "create-service-diagram",
+  "prompt": "Create an evidence-based system architecture diagram for this repository. Use LaTeX TikZ. Write docs/assets/parcel-desk-architecture.tex and generate its SVG and PDF files. Add a Makefile beside them. Show actors, owned components, the external system, and the main ordered flows. Do not commit.",
+  "max_turns": 24,
+  "timeout_s": 900,
+  "allow_writes": true,
+  "must_contain": ["parcel-desk-architecture.tex", "SVG", "PDF"],
+  "max_lines": 30,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/parcel-desk-architecture.tex",
+      "format": "tex",
+      "must_contain": ["Operator", "Viewer", "Command-line interface", "Dashboard", "API service", "SQLite", "Worker", "Scheduler", "Carrier API"]
+    },
+    {
+      "path": "docs/assets/parcel-desk-architecture.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/parcel-desk-architecture.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile",
+      "must_contain": ["latexmk", "pdftocairo"]
+    }
+  ],
+  "judges": ["handoff"]
+}

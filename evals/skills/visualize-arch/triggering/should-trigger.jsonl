@@ -1,0 +1,10 @@
+{"id": "pos-create", "prompt": "Create a system architecture diagram for this repository."}
+{"id": "pos-tikz", "prompt": "Use LaTeX TikZ to depict our actors, components, and system flows. Generate SVG and PDF files too."}
+{"id": "pos-update", "prompt": "Update docs/assets/system-architecture.tex for the new queue worker."}
+{"id": "pos-user-stories", "prompt": "Map our main user stories through the system components in an architecture diagram."}
+{"id": "pos-external", "prompt": "Show how our services, database, and external systems connect."}
+{"id": "pos-refresh", "prompt": "This branch changes the system architecture. Refresh the architecture diagram from the code."}
+{"id": "pos-data-flow", "prompt": "Visualize the end-to-end data and control flows in this codebase."}
+{"id": "pos-actors", "prompt": "Depict each actor and the component that the actor actually uses."}
+{"id": "pos-fix-layout", "prompt": "The architecture diagram has crossed arrows and unclear flows. Fix the diagram."}
+{"id": "pos-audit-first", "prompt": "Inspect the repository, verify the architecture, and draw an editable system diagram."}

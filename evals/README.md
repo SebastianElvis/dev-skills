@@ -93,6 +93,12 @@ A case passes only if: `triggered ∧ all-code-checks ∧ all-judges == 1`.
 3. `evals/skills/<skill>/judges/<dim>.md` per judge dimension named in `task.json`.
 4. Run, read the first few transcripts, tune.
 
+A file creation task sets `allow_writes` to `true`. Its setup script must create
+a direct temporary directory with the `<skill>-eval-` prefix.
+
+Use `required_artifacts` for deterministic file checks. Each item specifies a
+relative `path`, an optional `format`, and optional text requirements.
+
 ## Calibration cadence
 
 Hand-grade a sample (~20 cases) every quarter or after touching a rubric;
