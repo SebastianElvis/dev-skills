@@ -25,6 +25,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import xml.etree.ElementTree as ET
 from collections import Counter
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
@@ -373,72 +374,77 @@ def run_functional_case(
     case_id = task["id"]
     prompt = task["prompt"]
 
-    # setup.sh builds a fresh fixture (typically a tmp git repo) and prints its path.
-    fixture = subprocess.run(
+    fixture_output = subprocess.run(
         ["bash", str(case_dir / "setup.sh")],
         capture_output=True, text=True, check=True,
-    ).stdout.strip()
-    fixture_path = Path(fixture).resolve()
-    # Defensive: only ever clean up paths that look like a per-trial mktemp dir.
-    # Stops a buggy setup.sh that prints "" or "/" from nuking $HOME.
-    safe_to_clean = (
-        fixture_path != fixture_path.parent
-        and fixture_path.is_dir()
-        and "pr-gen-eval-" in fixture_path.name
-        and str(fixture_path).startswith(tempfile.gettempdir())
-    )
+    ).stdout.strip().splitlines()
+    if len(fixture_output) != 1:
+        raise ValueError("The setup script must print one fixture path.")
+    fixture_path = validated_fixture_path(fixture_output[0], skill)
 
     cli_error = None
     try:
+        allowed_tools = ["Skill", "Read", "Grep", "Glob", "Bash", "BashOutput"]
+        if task.get("allow_writes"):
+            allowed_tools.extend(["Write", "Edit"])
         events, rc = claude_cli(
             prompt,
             cwd=fixture_path,
             plugin_dir=REPO,
             add_dirs=[fixture_path],
-            # pr-gen needs git via Bash; permit Bash but block Edit/Write to keep
-            # the agent from rewriting the fixture.
-            tools=["Skill", "Read", "Grep", "Glob", "Bash", "BashOutput"],
+            tools=allowed_tools,
             max_turns=task.get("max_turns", 12),
             timeout=task.get("timeout_s", 600),
         )
-        # rc != 0 covers normal terminations like max_turns; only flag a
-        # genuinely empty event stream as a harness error.
         if not events:
             cli_error = f"no events (rc={rc})"
+        transcript_path = run_dir / f"{case_id}-t{trial}.jsonl"
+        transcript_path.write_text("\n".join(json.dumps(e) for e in events))
+
+        output = final_text(events)
+        triggered = skill_was_invoked(events, skill)
+
+        code_results = code_check_output(output, task)
+        code_results.update(code_check_artifacts(fixture_path, task))
+        judge_results = {}
+        if task.get("judges"):
+            ref = (case_dir / "reference.md").read_text() if (case_dir / "reference.md").exists() else ""
+            for dim in task["judges"]:
+                judge_results[dim] = llm_judge(skill, dim, prompt, output, ref)
+
+        code_pass = all(v for v in code_results.values() if isinstance(v, bool))
+        judge_pass = all(j.get("score") == 1 for j in judge_results.values()) if judge_results else True
+        overall = triggered and code_pass and judge_pass
+
+        return {
+            "case_id": case_id, "trial": trial,
+            "pass": overall and not cli_error,
+            "triggered": triggered, "code": code_results, "judge": judge_results,
+            "usage": usage_summary(events), "output": output,
+            "transcript_path": str(transcript_path.relative_to(EVALS)),
+            "error": cli_error or "",
+        }
     finally:
-        # Caller may set KEEP_FIXTURE=1 for debugging.
-        if not os.environ.get("KEEP_FIXTURE") and safe_to_clean:
-            shutil.rmtree(fixture_path, ignore_errors=True)
-
-    transcript_path = run_dir / f"{case_id}-t{trial}.jsonl"
-    transcript_path.write_text("\n".join(json.dumps(e) for e in events))
-
-    output = final_text(events)
-    triggered = skill_was_invoked(events, skill)
-
-    code_results = code_check_pr(output, task)
-    judge_results = {}
-    if task.get("judges"):
-        ref = (case_dir / "reference.md").read_text() if (case_dir / "reference.md").exists() else ""
-        for dim in task["judges"]:
-            judge_results[dim] = llm_judge(skill, dim, prompt, output, ref)
-
-    code_pass = all(v for v in code_results.values() if isinstance(v, bool))
-    judge_pass = all(j.get("score") == 1 for j in judge_results.values()) if judge_results else True
-    overall = triggered and code_pass and judge_pass
-
-    return {
-        "case_id": case_id, "trial": trial,
-        "pass": overall and not cli_error,
-        "triggered": triggered, "code": code_results, "judge": judge_results,
-        "usage": usage_summary(events), "output": output,
-        "transcript_path": str(transcript_path.relative_to(EVALS)),
-        "error": cli_error or "",
-    }
+        if not os.environ.get("KEEP_FIXTURE"):
+            shutil.rmtree(fixture_path)
 
 
-def code_check_pr(output: str, task: dict) -> dict:
-    """Deterministic checks on a pr-gen output. Cheap fabrication catch.
+def validated_fixture_path(raw_path: str, skill: str) -> Path:
+    """Accept one direct temporary directory with the skill prefix."""
+    candidate = Path(raw_path)
+    temp_root = Path(tempfile.gettempdir()).resolve()
+    if not candidate.is_absolute() or candidate.is_symlink():
+        raise ValueError("The fixture path must be an absolute, direct directory.")
+    fixture = candidate.resolve()
+    if fixture.parent != temp_root or not fixture.is_dir():
+        raise ValueError("The fixture must be a direct temporary directory.")
+    if not fixture.name.startswith(f"{skill}-eval-"):
+        raise ValueError(f"The fixture name must start with {skill}-eval-.")
+    return fixture
+
+
+def code_check_output(output: str, task: dict) -> dict:
+    """Run deterministic checks on the final output.
 
     `must_contain` / `must_not_contain` use word-boundary regex so e.g.
     `"test"` does not accidentally match `"latest"` or `"contest"`.
@@ -469,6 +475,50 @@ def code_check_pr(output: str, task: dict) -> dict:
     checks["no_claude_footer"] = not re.search(
         r"Co-Authored-By:\s*Claude|Generated with .*Claude Code", text, re.I,
     )
+    return checks
+
+
+def code_check_artifacts(root: Path, task: dict) -> dict:
+    """Check required files without access outside the fixture."""
+    checks: dict[str, bool] = {}
+    for spec in task.get("required_artifacts", []):
+        relative = Path(spec["path"])
+        artifact = (root / relative).resolve()
+        safe = not relative.is_absolute() and artifact.is_relative_to(root)
+        safe = safe and not (root / relative).is_symlink()
+        key = f"artifact:{relative}"
+        checks[f"{key}:safe"] = safe
+        if not safe:
+            continue
+
+        present = artifact.is_file() and artifact.stat().st_size > 0
+        checks[f"{key}:present"] = present
+        if not present:
+            continue
+
+        data = artifact.read_bytes()
+        text = data.decode("utf-8", errors="replace")
+        format_name = spec.get("format")
+        if format_name == "tex":
+            checks[f"{key}:format"] = all(
+                token in text
+                for token in ("\\documentclass", "\\begin{document}", "\\end{document}")
+            )
+        elif format_name == "svg":
+            try:
+                root_tag = ET.parse(artifact).getroot().tag.rsplit("}", 1)[-1]
+                checks[f"{key}:format"] = root_tag == "svg"
+            except ET.ParseError:
+                checks[f"{key}:format"] = False
+        elif format_name == "pdf":
+            checks[f"{key}:format"] = (
+                data.startswith(b"%PDF-") and data.rstrip().endswith(b"%%EOF")
+            )
+
+        for token in spec.get("must_contain", []):
+            checks[f"{key}:contains:{token}"] = token in text
+        for token in spec.get("must_not_contain", []):
+            checks[f"{key}:absent:{token}"] = token not in text
     return checks
 
 

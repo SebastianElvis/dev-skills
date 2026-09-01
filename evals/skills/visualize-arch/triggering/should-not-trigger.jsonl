@@ -1,0 +1,10 @@
+{"id": "neg-chart", "prompt": "Plot request latency for the last seven days."}
+{"id": "neg-dashboard", "prompt": "Design a dashboard mockup for our operators."}
+{"id": "neg-class", "prompt": "Create a UML class diagram for these TypeScript classes."}
+{"id": "neg-sequence", "prompt": "Draw a sequence diagram for one login API call."}
+{"id": "neg-schema", "prompt": "Generate an entity relationship diagram from this SQL schema."}
+{"id": "neg-flowchart", "prompt": "Make a flowchart for this quicksort algorithm."}
+{"id": "neg-illustration", "prompt": "Create a decorative cloud illustration for the README."}
+{"id": "neg-review", "prompt": "Review this PR and report architecture problems."}
+{"id": "neg-explain", "prompt": "Explain the current architecture in prose. Do not create a diagram."}
+{"id": "neg-readme", "prompt": "Update the README installation steps."}

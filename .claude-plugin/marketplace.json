@@ -9,7 +9,7 @@
     {
       "name": "dev-skills",
       "source": "./",
-      "description": "General software-development skills for Claude Code. Ships pr-gen for generating GitHub PR titles and descriptions from the final-state diff, and pr-review for architecture-first, human-in-the-loop review of someone else's pull request.",
+      "description": "General skills for PR generation, architecture-first PR review, and evidence-based architecture diagrams.",
       "version": "0.3.0",
       "author": {
         "name": "SebastianElvis"
@@ -21,14 +21,18 @@
         "pr",
         "github",
         "git",
-        "code-review"
+        "code-review",
+        "architecture",
+        "diagram"
       ],
       "category": "development-workflows",
       "tags": [
         "pr",
         "github",
         "git",
-        "skills"
+        "skills",
+        "architecture",
+        "diagram"
       ]
     }
   ]
