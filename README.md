@@ -40,7 +40,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, and every other agent the
 | --- | --- |
 | [`pr-gen`](skills/pr-gen) | Generate or update a GitHub PR title and description from the actual code changes on the current branch. |
 | [`pr-review`](skills/pr-review) | Critically review another person's PR. Reads the linked issue first, maps four architecture layers, then stops for human agreement before the detailed review. |
-| [`visualize-arch`](skills/visualize-arch) | Create an evidence-based system architecture diagram with verified actors, components, and flows. |
+| [`visualize-arch`](skills/visualize-arch) | Plan and create evidence-based system diagrams with verified structure and flows. |
 
 ## Layout
 

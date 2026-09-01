@@ -1,15 +1,17 @@
 ---
 name: visualize-arch
 description: >-
-  Create or update an evidence-based system architecture diagram from a software repository.
-  Use this skill for requests to visualize architecture, components, actors, user stories, data flows, or control flows.
-  Use it to refresh a diagram after code changes or generate editable TikZ with Scalable Vector Graphics and Portable Document Format outputs.
-  Do NOT use it for charts, dashboards, interface mockups, class diagrams, database schema diagrams, one-call sequence diagrams, or decorative illustrations.
+  Create or update an evidence-based set of system diagrams from a software repository.
+  Use this skill for requests to visualize architecture, components, actors, data models, or database schemas.
+  Use it for user stories, data flows, control flows, or subsystem workflows.
+  Use it to plan the necessary figures or refresh diagrams after code changes.
+  Use it to generate editable TikZ and standard image outputs.
+  Do NOT use it for charts, dashboards, interface mockups, class diagrams, one-call sequence diagrams, or decorative illustrations.
 ---
 
 # Visualize architecture
 
-Create an architecture diagram that explains verified system behavior. Keep the diagram source editable and deterministic.
+Create a concise set of diagrams that explains verified system structure and behavior. Keep each diagram source editable and deterministic.
 
 Generate Scalable Vector Graphics (SVG) and Portable Document Format (PDF) files when the toolchain supports them.
 
@@ -25,17 +27,42 @@ Generate Scalable Vector Graphics (SVG) and Portable Document Format (PDF) files
 
 ## Workflow
 
-### 1. Set the scope
+### 1. Review the system
 
-Identify whether the user wants a new diagram or an update. Identify the audience and the system boundary.
+Read the repository instructions and architecture documents. Examine the full system before you select a visualization scope.
+
+Identify the major actors, components, data stores, external systems, workflows, and subsystem boundaries. Find current diagrams and their build process.
+
+Use this review to identify the system views that need separate figures. Do not start detailed evidence collection or edit a diagram.
+
+### 2. Propose the visualization scope
+
+Identify whether the user wants new figures or updates. Identify the audience and the system boundary.
 
 Use the requested output format. For a current diagram, keep its format. For a new diagram, use TikZ by default.
 
-Show the current architecture unless the user requests a target architecture.
+Show the current system unless the user requests a target system.
 
-For a new TikZ diagram, read [references/tikz.md](references/tikz.md). Use the bundled template as a structural start.
+Give the user one concise, numbered proposal. State the total figure count. For each figure, state:
 
-### 2. Collect evidence
+- The title and diagram type.
+- The question that the figure answers.
+- The system area and key elements that the figure includes.
+- The reason that this figure must be separate.
+
+Use separate figures when one figure cannot show the information clearly. A system can need a database schema figure and one or more workflow figures.
+
+Use separate workflow figures for subsystems with different actors, boundaries, or outcomes. Do not force all workflows into one architecture figure.
+
+Ask the user to approve the proposal or request changes. Stop after the proposal.
+
+If the user requests changes, revise the proposal. Ask for approval again.
+
+Continue only after the user explicitly approves the proposal.
+
+Use the approved proposal as the scope for all later steps.
+
+### 3. Collect evidence
 
 Inspect these sources when they exist:
 
@@ -59,7 +86,7 @@ Require each subagent to return claims, file paths, source symbols, confidence, 
 
 Resolve conflicts between claims before you define the architecture model.
 
-### 3. Define the architecture model
+### 4. Define the architecture model
 
 Make a temporary model before you edit the diagram. Do not commit the model unless the user asks.
 
@@ -84,7 +111,7 @@ Record each ordered step with these fields:
 
 Record configuration and other static relationships separately. Do not give a step number to a static relationship.
 
-### 4. Check the model
+### 5. Check the model
 
 Read [references/design-principles.md](references/design-principles.md). Apply its content, flow, layout, and language rules.
 
@@ -100,7 +127,9 @@ Check these questions:
 
 Resolve a system defect separately from a diagram defect. Tell the user when verified code behavior appears incorrect.
 
-### 5. Create or update the diagram
+### 6. Create or update the diagram
+
+For a new TikZ diagram, read [references/tikz.md](references/tikz.md). Use the bundled template as a structural start.
 
 Use nouns for actor and component labels. Use short verb phrases for arrow labels.
 
@@ -118,7 +147,7 @@ Do not let two different actions share one line segment. Merge a segment only wh
 
 Split the view when a clear route is not possible after one layout change.
 
-### 6. Render and inspect
+### 7. Render and inspect
 
 Run the current diagram build command. For a new TikZ diagram, use the bundled renderer:
 
@@ -143,7 +172,7 @@ Check for these defects:
 
 Compilation does not prove visual quality. Repeat the edit, build, and visual check until the diagram is clear.
 
-### 7. Add repository support
+### 8. Add repository support
 
 For a new diagram, add one documented build command. Keep the source and all generated files together.
 
@@ -151,7 +180,7 @@ Ignore temporary renderer files. Do not ignore the requested SVG or PDF files.
 
 Update repository instructions, contribution rules, or the PR template only when the user requests this support.
 
-### 8. Report the result
+### 9. Report the result
 
 List the editable source and each generated output. State the build command and the checks that you ran.
 
@@ -159,6 +188,7 @@ Report each unresolved assumption. Use Simplified Technical English in the diagr
 
 ## Final checklist
 
+- [ ] The user approved the figure count and purpose of each figure.
 - [ ] Repository evidence supports every actor, component, boundary, and flow.
 - [ ] Each actor connects to the correct component.
 - [ ] Each box contains a name, not behavior.

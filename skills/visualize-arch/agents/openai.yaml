@@ -1,4 +1,4 @@
 interface:
   display_name: "Visualize Architecture"
-  short_description: "Create verified system architecture diagrams"
-  default_prompt: "Use $visualize-arch to create a verified system architecture diagram for this repository."
+  short_description: "Plan and create verified system diagrams"
+  default_prompt: "Use $visualize-arch to propose and create the necessary system diagrams for this repository."
