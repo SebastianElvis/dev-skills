@@ -2,7 +2,7 @@
 
 Use this file for every text that a human reads: each question, each comment, and the report.
 
-The report uses bullets. PR comments use separate prose with links and applicable suggestion blocks.
+The report uses bullets. PR comments use GitHub Markdown with links and applicable `suggestion` blocks.
 
 ## Language
 
@@ -18,10 +18,9 @@ Write in Simplified Technical English (ASD-STE100).
 
 ## Tone
 
-Write to a colleague. The author and you decide together.
-
-- Give the evidence first. Then make one request.
-- Write each finding comment as direct prose. Do not add a category, severity, or verdict marker.
+- You must start each finding comment with a bold claim. You must separate evidence and the fix with blank lines.
+- You must use bullets for multiple evidence points or required edits. You must use backticks for identifiers and code fragments.
+- You must use blockquotes for exact source quotations. You must omit category, severity, and verdict markers.
 - Use the report section to show whether a finding blocks the merge.
 - Ask a question when project intent can change the verdict.
 - Give a command only for a blocking finding.
@@ -29,8 +28,6 @@ Write to a colleague. The author and you decide together.
 - Do not write "just", "simply", "obviously", "clearly", or "of course".
 
 ## Length
-
-Put the claim in the first line of each finding.
 
 - Write no preamble and no summary of the PR.
 - Write one claim in one sentence of 25 words or fewer.
@@ -53,17 +50,17 @@ Use the PR head repository for fork code. Use the base revision for deleted code
 
 ## Suggested changes
 
-Use a `suggestion` fence in each inline comment when one replacement range can fix the finding.
-Keep the replacement to 10 lines or fewer. This limit is a skill rule, not a GitHub limit.
+You must use a `suggestion` fence when a concrete fix fits one selectable range in the PR diff.
+You must keep the replacement to 10 lines or fewer. This limit is a skill rule, not a GitHub limit.
 
 - Put the block last. Link the exact head-side range that the human must select in the PR diff.
 - Include the complete replacement text. Preserve unchanged lines within the selected range.
-- Use a `suggestion` fence, not a language fence or a diff. Omit diff prefixes and placeholder code.
-- Omit the block for fixes across multiple ranges or files. Omit blocks above 10 lines or dependent on an unresolved design decision.
-- Omit the block when the PR diff has no valid replacement range. State the reason and fix in prose.
-- Keep one finding per root cause. Do not split a finding to satisfy the suggestion limit.
-- Include an applicable code suggestion even when the fix also needs a new test. Describe the test separately.
-- State the reason for every omitted block. Do not repeat the replacement code in prose.
+- You must omit diff prefixes and placeholders. You must use an empty `suggestion` block for a deletion.
+- You must include a safe local suggestion even when the fix needs other edits. You must describe those edits separately.
+- You must omit suggestions that require coordinated edits to remain valid. You must omit replacements above 10 lines.
+- You must omit suggestions with unresolved design decisions or no selectable range. You must describe the proposed fix instead.
+- You must keep one finding per root cause. You must describe required tests separately from the suggestion.
+- You must keep omission reasons in the session report. PR comments must describe required changes without format commentary.
 
 ## Report template
 
@@ -139,12 +136,12 @@ The security review checks <requirements and enforcement paths>. The unresolved 
 
 ## PR comment template
 
-The human posts these comments. Comment bodies carry no title, stage counter, report section, or severity marker.
+The human posts these comments. Comment bodies use Markdown without draft labels, stage counters, report sections, or severity markers.
 
 The top comment gives the recommendation and its reason. Keep it to six lines or fewer:
 
-```text
-<Recommendation. Use one of the five results.>
+```markdown
+**<Recommendation. Use one of the five results.>**
 
 <Give the reason for the recommendation. Name any unresolved disagreement. Do not summarize the PR.>
 
@@ -154,8 +151,10 @@ The review covers <areas>. The review excludes <areas and reasons>.
 Each finding becomes one comment. Use this structure when a suggestion applies:
 
 ````markdown
-<Claim in one sentence.>
-<Effect in one sentence, unless the claim states it.>
+**<Claim in one sentence.>**
+
+<Effect in one sentence, unless the claim states it. Use bullets for multiple evidence points.>
+
 [`path/file.go:104-106`](https://github.com/<repo>/blob/<sha>/path/file.go#L104-L106)
 
 ```suggestion
@@ -163,7 +162,7 @@ Each finding becomes one comment. Use this structure when a suggestion applies:
 ```
 ````
 
-When no suggestion applies, replace the fence with the proposed fix and the reason for omission.
+You must replace the fence with the proposed fix when no suggestion applies.
 
 Keep the problem description, the protocol invariant list, the architecture summary, the split plan,
 and the confirmed points out of the PR. The human reads those in the report.
@@ -173,7 +172,8 @@ and the confirmed points out of the PR. The human reads those in the report.
 Assume the selected line contains `return limit < max`. The requirement permits requests at the limit.
 The example uses a placeholder repository and commit. Actual output must use verified values.
 
-    The comparison rejects requests at the permitted limit.
+    **The comparison rejects requests at the permitted limit.**
+
     [`internal/limits/check.go:104`](https://github.com/<repo>/blob/<sha>/internal/limits/check.go#L104)
 
     ```suggestion
@@ -218,7 +218,7 @@ that changes no protocol.
 - [ ] The top PR comment gives no summary of the PR.
 - [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
 - [ ] Each suggestion replaces exactly its linked range without removal of required context.
-- [ ] Each omitted suggestion has a reason and a proposed fix.
-- [ ] Each comment body has no draft label, stage counter, or severity marker.
+- [ ] Each omitted suggestion has a reason in the report and a proposed fix in the PR comment.
+- [ ] Each comment uses GitHub Markdown, blank lines, and applicable bullets, backticks, or blockquotes without draft labels or severity markers.
 - [ ] Each text follows Simplified Technical English and its length limit.
 - [ ] The report includes security coverage, unresolved requirements, and verified regressions from all review stages.

@@ -21,8 +21,8 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 ## Critical requirements
 
 - Read `references/output.md` before each confirmation or final output. Check the actual output against its templates before delivery.
-- Use commit permalinks for code references. Use `suggestion` fences for applicable inline fixes.
-- Keep report bullets separate from PR comments. Apply the suggestion rules to PR comments, not report bullets.
+- You must use GitHub Markdown in PR comments, including `suggestion` fences for applicable inline fixes.
+- You must keep report bullets separate from PR comments. You must use commit permalinks for code references.
 - Ask the human to confirm the specification before the architecture summary.
 - Ask the human to confirm the problem and the architecture modifications before the detailed review.
 - Answer every confirmation question yourself before the human answers it.
@@ -324,8 +324,7 @@ Read `references/output.md` before you write to the human.
 Read `references/output.md` again. Write the session report, the top PR comment, and one inline comment per finding.
 Check each link and suggestion against the reviewed revision. Apply the output checklist before delivery.
 
-Write each finding as direct prose for a colleague. Do not add a category, severity, or verdict
-marker. Recommend one result:
+You must write each finding with the Markdown structure in `references/output.md`. You must recommend one result:
 
 - `Merge`
 - `Merge after the author fixes the blocking findings`
@@ -453,4 +452,4 @@ fails.
 - [ ] The review traces affected security requirements through the specification, architecture, and implementation.
 - [ ] The recommendation blocks verified security regressions and identifies unresolved security requirements.
 - [ ] The report states coverage and the confirmed points.
-- [ ] Each output passes the checklist in `references/output.md`, including Simplified Technical English and length limits.
+- [ ] Each output passes the checklist in `references/output.md`, including GitHub Markdown, Simplified Technical English, and length limits.
