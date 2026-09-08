@@ -130,6 +130,7 @@ Split before review | Problem not confirmed>
 
 The review covers <areas>.
 The review excludes <areas and reasons>.
+The security review checks <requirements and enforcement paths>. The unresolved security questions are <evidence gaps, or `none`>.
 
 ## Confirmed points
 
@@ -202,6 +203,9 @@ that changes no protocol.
 - Write `None.` when no blocking finding exists.
 - Put each finding in the Blocking or Non-blocking section to show its severity.
 - Mark each pre-existing problem as out of scope.
+- You must include verified security regressions in Blocking, including specification and design findings.
+- You must include the attacker, controlled input, attack path, and effect in each security finding.
+- You must retain unresolved security requirements in Coverage and the recommendation when they prevent a supported merge decision.
 - Do not name steps, passes, or subagents.
 - Do not use numeric scores, grades, finding counts, or confidence percentages.
 - Do not add an agent credit or co-author footer.
@@ -217,3 +221,4 @@ that changes no protocol.
 - [ ] Each omitted suggestion has a reason and a proposed fix.
 - [ ] Each comment body has no draft label, stage counter, or severity marker.
 - [ ] Each text follows Simplified Technical English and its length limit.
+- [ ] The report includes security coverage, unresolved requirements, and verified regressions from all review stages.

@@ -56,6 +56,9 @@ write the protocol invariants from the code.
 
 ## 2. Enumerate the protocol invariants
 
+You must apply the specification checks in `security-review.md` before you judge protocol conformance.
+You must test the security of the changed specification itself, even when the code follows every clause.
+
 Write each protocol invariant as one numbered sentence. Give its source path, clause, or line.
 
 Use these categories:
@@ -100,8 +103,8 @@ Give each enumerated protocol invariant one result:
 A violation trace names the parties, the message sequence, the start state, and the result. This
 requirement matches the exploit requirement in `security-review.md`.
 
-Drop a break that needs a stronger adversary than the specification permits. An example is a break
-that needs a dishonest majority under an honest-majority assumption.
+You must check whether the PR weakens the security model before you reject an attack outside its assumptions.
+You must reject an attack that requires a stronger adversary than the applicable model permits.
 
 ## 5. Check the rest of the protocol
 
@@ -148,12 +151,13 @@ Answer these questions:
 - Is this the smallest specification change that solves the problem?
 - Which specification change would you write instead?
 - Which risk does the change add: compatibility, security, or complexity?
+- Does the change preserve the security model and its required properties?
 
 Your judgment becomes your own answer to the last question of step 5. An answer is `yes`, `yes with
 a condition`, or `no`.
 
-A `Specification violation` or a broken protocol invariant gives `no`. A change that needs an
-activation height or a version field gives `yes with a condition`.
+A `Specification violation`, a broken protocol invariant, or a verified security regression gives `no`.
+A change that needs an activation height or a version field gives `yes with a condition`.
 
 Judge from your own reconstruction. Mark the answer provisional when the specification is
 `INFERRED`. Do not wait for the human.
@@ -162,12 +166,13 @@ Judge from your own reconstruction. Mark the answer provisional when the specifi
 
 A break of a liveness protocol invariant is a protocol finding. Report it in the protocol pass.
 
-The exclusion for denial of service in `security-review.md` applies to the security pass. It does not
-apply to a liveness protocol invariant that the specification states.
+You must use the availability evidence requirements in `security-review.md` for attacks outside a stated liveness protocol invariant.
+You must report the same attack only once when both reviews identify it.
 
 ## Final check
 
 - [ ] The specification has a named source, or the reviewer marks it `INFERRED`.
+- [ ] The review checks the security model, changed assumptions, and attacks that obey the changed specification.
 - [ ] Each protocol invariant is a numbered sentence with a source.
 - [ ] The change has one classification and its required action.
 - [ ] Each broken protocol invariant has a concrete violation trace.

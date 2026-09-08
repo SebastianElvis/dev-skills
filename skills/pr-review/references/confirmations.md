@@ -46,7 +46,8 @@ Use this structure:
 <The solution that the PR proposes.>
 
 ## Protocol description
-<The protocol surface, source, affected invariants, classification, and result for each invariant.>
+<The protocol surface, source, security model, affected invariants, classification, and results.>
+<The security requirement results, attack paths, and evidence gaps.>
 
 ## Protocol modifications
 <The dependent protocol parts and their results. Include this section for a specification change.>
@@ -90,6 +91,8 @@ State the classification and the result for each protocol invariant.
 
 Give a violation trace for each break. Name the assumption that the trace uses.
 
+You must include attacks that the changed specification permits, even when the implementation follows it.
+
 ### Compatibility with the rest of the protocol
 
 Ask this point only for a specification change.
@@ -119,7 +122,8 @@ Use this structure for a protocol change:
 <The problem, its source, and whether it needs a solution now.>
 
 ## Architecture description
-<The affected architecture, its modifications, security changes, and coverage.>
+<The affected architecture, its modifications, security requirement results, and coverage.>
+<The enforcement points, verified design findings, attack paths, and evidence gaps.>
 
 ## Questions
 
@@ -189,18 +193,14 @@ Do not ask these questions:
 
 The reviewer can answer each question above from the code or review procedure.
 
-## Security-relevant changes
+## Security results
 
-At step 8, list only what the diff changes:
-
-- Trust boundaries.
-- Authorization decisions.
-- External inputs and their parsers.
-- Dependencies and their uses.
-- Credentials, tokens, and secrets.
-- Deserialization of untrusted data.
-
-These are not findings before the security pass. Use one line when no item applies.
+You must include security results in the existing description at both confirmation stages.
+You must use the stage results from `security-review.md`.
+You must present verified specification and design findings before the detailed review.
+You must distinguish those findings from unresolved assumptions and evidence gaps.
+You must identify security regressions in your answer about the proposed modifications.
+You must give one evidence sentence when the change affects no security requirement or control.
 
 ## Record the answers
 

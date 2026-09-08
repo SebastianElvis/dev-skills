@@ -19,8 +19,8 @@ Check these conditions:
 - The change breaks a part of the protocol that the diff does not touch.
 - An old party and a new party cannot interoperate during a deployment.
 
-Each break needs a concrete violation trace. Drop a break that needs a stronger adversary than the
-specification permits.
+Each break needs a concrete violation trace.
+You must check changed security assumptions before you reject an attack outside the specification model.
 
 ## 2. Architecture conflicts
 
@@ -113,7 +113,11 @@ A defect in an unchanged line is in scope when the PR changes its function.
 
 ## 6. Security
 
-Read `security-review.md`. Each finding needs a concrete exploit scenario.
+You must run this pass for every change type.
+You must read `security-review.md` and apply its detailed checks.
+You must verify earlier security findings against the implementation and dependent code.
+You must trace mismatches between the specification, architecture, and implementation to concrete attack paths.
+You must keep unresolved assumptions visible in the final coverage statement.
 
 ## 7. Verifiability and cost
 

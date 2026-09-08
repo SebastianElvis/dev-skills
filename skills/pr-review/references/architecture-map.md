@@ -57,6 +57,9 @@ Ask:
 
 ## Trust model
 
+You must apply the architecture checks in `security-review.md`.
+You must apply its specification checks here when the PR changes no protocol.
+
 List these items:
 
 - Principals that can reach the code.
@@ -71,6 +74,8 @@ Ask:
 - Can a cache, helper, or early return skip a check?
 - Does it trust a new input or service?
 - Does it break an assumption in other code?
+- Does each affected security requirement have an owner and an enforcement point on every reachable path?
+- Can the design violate a security requirement even when the implementation follows the design?
 
 Write each important assumption as a sentence. An invalid assumption can identify a security
 finding.
@@ -120,8 +125,8 @@ Answer these questions:
 Your judgment becomes your own answer to the last question of step 8. An answer is `yes`, `yes with
 a condition`, or `no`.
 
-A broken layer, a fix below the root cause, or a positive split test gives `no`. A design that works
-only with an added test, an added migration step, or an owner decision gives `yes with a condition`.
+A broken layer, a verified security regression, a fix below the root cause, or a positive split test gives `no`.
+A design gives `yes with a condition` when it requires an added test, migration step, or owner decision.
 
 Give `yes` when you would write the same modification. Say so directly. Do not create a difference
 to appear thorough.
@@ -133,4 +138,5 @@ to appear thorough.
 - [ ] The summary names the code that enforces each protocol invariant.
 - [ ] Data compatibility works in both directions.
 - [ ] The summary names each important assumption.
+- [ ] The summary traces affected security requirements to enforcement points, attack paths, and evidence gaps.
 - [ ] The summary includes dependent code and names the owner of each new subsystem.
