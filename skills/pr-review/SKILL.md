@@ -20,6 +20,9 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 
 ## Critical requirements
 
+- Read `references/output.md` before each confirmation or final output. Check the actual output against its templates before delivery.
+- Use commit permalinks for code references. Use `suggestion` fences for applicable inline fixes.
+- Keep report bullets separate from PR comments. Apply the suggestion rules to PR comments, not report bullets.
 - Ask the human to confirm the specification before the architecture summary.
 - Ask the human to confirm the problem and the architecture modifications before the detailed review.
 - Answer every confirmation question yourself before the human answers it.
@@ -61,9 +64,8 @@ pr="${1:?PR number or URL required}"
 gh pr view "$pr" --json number,title,body,author,baseRefName,headRefName,state,isDraft,additions,deletions,changedFiles,labels,closingIssuesReferences
 gh pr view "$pr" --comments
 
-# Permalink base. `references/output.md` uses it for every code reference.
-repo=$(gh repo view --json nameWithOwner -q .nameWithOwner)
-sha=$(gh pr view "$pr" --json headRefOid -q .headRefOid)
+# The output uses the target PR metadata for code permalinks.
+gh pr view "$pr" --json url,headRefOid,baseRefOid,headRepository,headRepositoryOwner
 ```
 
 Search the PR body and commits for issue links that `closingIssuesReferences` misses.
@@ -308,8 +310,8 @@ Read `references/output.md` before you write to the human.
 
 ### 12. Write the report and the PR comments
 
-Read `references/output.md`. It holds the wording rules, the report template, the PR comment
-template, and the section rules. Write both texts.
+Read `references/output.md` again. Write the session report, the top PR comment, and one inline comment per finding.
+Check each link and suggestion against the reviewed revision. Apply the output checklist before delivery.
 
 Write each finding as direct prose for a colleague. Do not add a category, severity, or verdict
 marker. Recommend one result:
@@ -321,8 +323,6 @@ marker. Recommend one result:
 - `Problem not confirmed`
 
 Never write `Approved` or `LGTM`. The human makes the merge decision.
-
-Read the report one time before you give it to the human. Delete each sentence that adds no fact.
 
 The human posts the review. Do not post a comment without a direct request.
 
@@ -417,9 +417,8 @@ fails.
 - Lockfiles can make the additions count misleading.
 - A comment or a docstring is not a specification. A test can hold a protocol invariant.
 - A constant such as a timeout or a confirmation depth can hold a protocol invariant.
-- A permalink that uses a branch name breaks after the next push. Use the head commit hash.
-- A line number from the base branch can point to the wrong line at `HEAD`.
-- GitHub applies a suggestion block only from a comment on the lines that the block replaces.
+- Local `HEAD` can differ from the PR head. Verify code references against the recorded PR commit.
+- A suggestion replaces the entire selected range. Preserve any unchanged lines within that range.
 
 ## Final check
 
@@ -440,10 +439,4 @@ fails.
 - [ ] Each finding is reachable, verified, and useful.
 - [ ] Each security finding includes an exploit scenario.
 - [ ] The report states coverage and the confirmed points.
-- [ ] Each code reference is a link that uses the head commit hash.
-- [ ] Each finding has a suggestion block of 10 lines or fewer, or it is architecture-level.
-- [ ] The top PR comment uses the PR comment template and gives no summary of the PR.
-- [ ] Each report finding is one bullet that states the problem and the suggested fix.
-- [ ] Each finding uses direct, professional prose without a label or a severity marker.
-- [ ] Each claim is one sentence of 25 words or fewer, and it uses no banned word.
-- [ ] The report follows Simplified Technical English and its length limit.
+- [ ] Each output passes the checklist in `references/output.md`, including Simplified Technical English and length limits.
