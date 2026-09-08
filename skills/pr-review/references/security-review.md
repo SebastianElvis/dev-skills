@@ -1,13 +1,55 @@
 # Security review
 
-Use this order for a diff-based security review:
+You must apply this file at every review stage, for every change type.
+You must compare the base revision with the PR revision to identify security regressions.
 
-1. Check changed or removed security controls.
-2. Identify new endpoints, parsers, inputs, outputs, and subprocesses.
-3. Check each changed trust boundary.
-4. Check new dependencies and external services.
-5. Check for a regression in an existing security requirement.
-6. Apply the relevant checks below.
+## Specification stage
+
+You must read the applicable security model, threat model, and security requirements in the repository, specification, and PR documentation.
+You must identify protected assets, principals, attacker capabilities, trust assumptions, and required security properties.
+You must distinguish documented requirements from assumptions that you infer from code.
+You must mark inferred assumptions `INFERRED`.
+You must record absent documentation as a coverage gap, not as proof of a vulnerability.
+
+You must check whether the changed rules permit an attack even when each implementation follows those rules.
+You must examine weaker authorization, data disclosure, replay, downgrade, and attacker control over availability where applicable.
+You must check whether the PR adds trust assumptions or invalidates a security argument in another clause.
+You must compare those assumptions with the base revision and the actual deployment model.
+You must keep unverified deployment assumptions explicit.
+
+You must include this result in the protocol review when that stage applies.
+You must include this result in the architecture review when the PR changes no protocol.
+
+## Architecture stage
+
+You must trace each affected security requirement through the components that enforce it.
+You must name the owner, trust boundary, enforcement point, and failure behavior.
+You must examine alternate entry points, background jobs, caches, and service calls for paths that bypass the control.
+You must check tenant isolation, privilege separation, secret access, and data flows across trust boundaries where applicable.
+You must check whether partial failure, rollback, or mixed versions remove a control or permit access after a failed check.
+You must report a design deficiency when an attack defeats a requirement, even if the implementation matches the design.
+You must present verified design findings at this stage.
+
+## Detailed stage
+
+You must trace each affected requirement from its specification through its architecture to its implementation.
+You must compare removed controls with their replacements and all callers that depend on them.
+You must examine malformed inputs, boundary values, replay, concurrent requests, stale authorization, partial failure, and retries where applicable.
+You must check parser differences and alternate representations that can bypass validation.
+You must identify mismatches between the specification, architecture, and implementation.
+You must inspect existing tests for attack cases and the expected rejection behavior.
+You must record missing test coverage without a vulnerability claim unless an attack path supports that claim.
+
+## Stage result
+
+You must record each affected requirement, its source, and its result in the existing stage summary.
+You must use `preserved`, `broken`, `new`, or `unknown` for each result.
+You must give evidence for `preserved` and an enforcement point for `new`.
+You must give an attack path for `broken` and an evidence gap for `unknown`.
+You must carry these results into the next stage and the final coverage statement.
+You must report a verified security regression as a blocking finding.
+You must use `Needs design discussion` when an unresolved security requirement prevents a supported merge recommendation.
+You must not treat human confirmation as proof that a security control works.
 
 ## Exploit requirement
 
@@ -15,10 +57,14 @@ Each finding must identify:
 
 - The attacker.
 - The input or state that the attacker controls.
-- The code path from that input to the effect.
+- The specification clause, component path, or code path from that input to the effect.
 - The effect.
+- The security requirement that the attack violates.
+- The PR change that enables the attack.
 
-Drop the finding when the code cannot support this sequence.
+You must drop the finding when the relevant source cannot support this sequence.
+You must verify specification findings against clauses and assumptions.
+You must verify implementation findings against a reachable code path.
 
 Report an uncertain severe effect only when the code shows a reachable path. State the uncertainty.
 
@@ -49,28 +95,15 @@ Check whether a cache, helper, or early return can skip an authorization decisio
 - Server-side request forgery (SSRF): check a new outbound request with an attacker-controlled host.
 - Prompt injection: check untrusted model input when model output can use a tool or cause an action.
 
-## Exclusions
+## Evidence limits
 
-Do not report these categories:
-
-- Denial of service, resource exhaustion, or missing rate limits.
-- Memory-safety problems in a memory-safe language.
-- Environment variables, command-line options, and build configuration.
-- Log spoofing or log injection.
-- Regular-expression denial of service without a simple catastrophic pattern and untrusted input.
-- Cross-site scripting in frameworks that escape templates by default.
-- A same-origin open redirect.
-- SSRF when the attacker controls only the URL path.
-- Model input with no tool access or privileged effect.
-- Missing security headers outside the code that sets them.
-- Problems in documentation, comments, tests, or fixtures that cannot run in production.
-- Findings that require an already compromised host, administrator, or physical access.
-- Pre-existing defects that this PR does not touch.
-
-The exclusion for denial of service does not cover a liveness protocol invariant that a
-specification states. The protocol pass reports that break. Read `protocol-spec.md`.
-
-Report a framework template problem only when the diff disables automatic escaping.
+You must apply the exploit requirement instead of excluding whole defect categories.
+You must examine configuration, dependencies, documentation, and tests when their changes weaken a security requirement or deployed control.
+You must report resource exhaustion only when attacker-controlled work defeats a concrete availability requirement or creates a demonstrated service failure.
+You must check actual framework protections and their bypass paths before you report injection or memory-safety defects.
+You must reject a finding that requires attacker capabilities outside the applicable security model.
+You must first check whether the PR introduces those capabilities or weakens that model.
+You must keep hypothetical hardening advice outside the findings.
 
 Put a relevant pre-existing defect in an out-of-scope note.
 
