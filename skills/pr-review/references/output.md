@@ -2,15 +2,17 @@
 
 Use this file for every text that a human reads: each question, each comment, and the report.
 
-The wording rules come first. The report format and its length limits come after them.
+The report uses bullets. PR comments use separate prose with links and applicable suggestion blocks.
 
 ## Language
 
-Write in ASD-STE100 Simplified Technical English.
+Write in Simplified Technical English (ASD-STE100).
 
 - Use the active voice. Name the actor.
 - Keep a procedural sentence to 20 words or fewer.
+- Keep a descriptive sentence to 25 words or fewer.
 - Put one instruction in each sentence.
+- Use simple tenses. Give each sentence an explicit subject.
 - Use one term for one concept.
 - Do not use an idiom or a metaphor.
 
@@ -19,12 +21,11 @@ Write in ASD-STE100 Simplified Technical English.
 Write to a colleague. The author and you decide together.
 
 - Give the evidence first. Then make one request.
-- Write each comment as direct prose. Do not add a category, severity, or verdict marker.
+- Write each finding comment as direct prose. Do not add a category, severity, or verdict marker.
 - Use the report section to show whether a finding blocks the merge.
 - Ask a question when project intent can change the verdict.
 - Give a command only for a blocking finding.
 - Say when the PR solution is better than your solution.
-- Use "you" only in the required problem question from `confirmations.md`.
 - Do not write "just", "simply", "obviously", "clearly", or "of course".
 
 ## Length
@@ -33,12 +34,12 @@ Put the claim in the first line of each finding.
 
 - Write no preamble and no summary of the PR.
 - Write one claim in one sentence of 25 words or fewer.
-- Delete a sentence that repeats the evidence, the link, or the claim.
 - Delete an optional section that has no content.
 
 ## Links
 
-Link every code reference. Step 1 of the procedure collects `repo` and `sha`.
+Link every code reference in confirmations, reports, and PR comments. Inline placement does not replace the link.
+Link symbol names when you use them as evidence. Code inside a suggestion block needs no links.
 
 Write each reference as a link with the path and line as the text:
 
@@ -46,29 +47,33 @@ Write each reference as a link with the path and line as the text:
 [`internal/relay/verify.go:104`](https://github.com/<repo>/blob/<sha>/internal/relay/verify.go#L104)
 ```
 
-Use `#L104-L110` for a range. Use the commit hash, not the branch name. A branch link breaks
-after the next push.
+Use `#L104-L110` for a range. Use the full reviewed commit hash, not a branch name or local `HEAD`.
+Verify the repository, path, revision, and lines against the source. Resolve the repository from the target PR, not the current directory.
+Use the PR head repository for fork code. Use the base revision for deleted code. Identify base references explicitly.
 
 ## Suggested changes
 
-Give each finding a GitHub suggestion block. Omit the block only for an architecture-level finding.
+Use a `suggestion` fence in each inline comment when one replacement range can fix the finding.
+Keep the replacement to 10 lines or fewer. This limit is a skill rule, not a GitHub limit.
 
-- Put the block last in the finding. GitHub applies it when the comment sits on those lines.
-- Put the complete replacement text in the block. Do not add a `+` or `-` prefix.
-- Keep the block to 10 lines or fewer, in one file.
-- Split a finding that needs two files into one finding for each file.
-- Omit the block for a design change or a change that needs a new test. State the change in prose.
-- Do not repeat the content of the block in prose.
+- Put the block last. Link the exact head-side range that the human must select in the PR diff.
+- Include the complete replacement text. Preserve unchanged lines within the selected range.
+- Use a `suggestion` fence, not a language fence or a diff. Omit diff prefixes and placeholder code.
+- Omit the block for fixes across multiple ranges or files. Omit blocks above 10 lines or dependent on an unresolved design decision.
+- Omit the block when the PR diff has no valid replacement range. State the reason and fix in prose.
+- Keep one finding per root cause. Do not split a finding to satisfy the suggestion limit.
+- Include an applicable code suggestion even when the fix also needs a new test. Describe the test separately.
+- State the reason for every omitted block. Do not repeat the replacement code in prose.
 
 ## Report template
 
-The report goes to the human in the session. The PR comments are a separate text with its own
-template. Write both.
+Write the report first. Then write the top PR comment and the inline comments as separate drafts.
+Keep draft labels outside the comment bodies. Do not wrap the output in an outer code fence.
 
 Keep the report to 80 lines or fewer. Use about 40 lines for a 200-line PR.
 
 Write each finding in the report as one bullet. State the problem and its effect, then the
-suggested fix. Put the code link on the next line.
+suggested fix. Put the code link on the next line. Keep suggestion blocks in the inline comments only.
 
 ```text
 # Detailed review — Stage <X> of <N>: #<number> — <title>
@@ -123,8 +128,8 @@ Split before review | Problem not confirmed>
 
 ## Coverage
 
-Reviewed in depth: <areas>.
-Not reviewed in depth: <areas and reasons>.
+The review covers <areas>.
+The review excludes <areas and reasons>.
 
 ## Confirmed points
 
@@ -133,53 +138,46 @@ Not reviewed in depth: <areas and reasons>.
 
 ## PR comment template
 
-The human posts these comments. They carry no title, no stage counter, and no report section.
+The human posts these comments. Comment bodies carry no title, stage counter, report section, or severity marker.
 
-The top comment summarizes the review, not the PR. Keep it to six lines or fewer:
+The top comment gives the recommendation and its reason. Keep it to six lines or fewer:
 
 ```text
 <Recommendation. Use one of the five results.>
 
-<Two or three sentences. Give the reason for the recommendation. Name your main disagreement.
-Do not describe what the PR does. The author already knows.>
+<Give the reason for the recommendation. Name any unresolved disagreement. Do not summarize the PR.>
 
-Reviewed in depth: <areas>. Not reviewed in depth: <areas and reasons>.
+The review covers <areas>. The review excludes <areas and reasons>.
 ```
 
-Each finding becomes one comment on the lines that it cites:
+Each finding becomes one comment. Use this structure when a suggestion applies:
 
-```text
+````markdown
 <Claim in one sentence.>
-<Effect, then the required action in one sentence.>
-<Suggestion block. Omit it only for an architecture-level finding.>
+<Effect in one sentence, unless the claim states it.>
+[`path/file.go:104-106`](https://github.com/<repo>/blob/<sha>/path/file.go#L104-L106)
+
+```suggestion
+<Complete replacement for the selected lines.>
 ```
+````
+
+When no suggestion applies, replace the fence with the proposed fix and the reason for omission.
 
 Keep the problem description, the protocol invariant list, the architecture summary, the split plan,
 and the confirmed points out of the PR. The human reads those in the report.
 
 ## Worked finding
 
-Write a PR comment like this:
+Assume the selected line contains `return limit < max`. The requirement permits requests at the limit.
+The example uses a placeholder repository and commit. Actual output must use verified values.
 
-    `parseHeader` accepts a zero-length payload and returns a nil body.
-    The relay then panics at `body.Len()` on the next message from an untrusted peer.
-    Please reject a zero-length payload before the function returns.
-    [`internal/wire/header.go:104`](https://github.com/o/r/blob/abc1234/internal/wire/header.go#L104)
+    The comparison rejects requests at the permitted limit.
+    [`internal/limits/check.go:104`](https://github.com/<repo>/blob/<sha>/internal/limits/check.go#L104)
 
     ```suggestion
-    if len(payload) == 0 {
-        return nil, ErrEmptyPayload
-    }
+    return limit <= max
     ```
-
-Do not write this:
-
-    It looks like there might potentially be an issue here with the way that the header parsing
-    logic handles the edge case of a zero-length payload — you should probably consider adding a
-    check, because otherwise this could conceivably cause problems downstream. See
-    internal/wire/header.go around line 104. This is a fairly common mistake and it's easy to miss!
-
-The second version starts with a hedge. It gives no link and no suggestion block.
 
 ## Section rules
 
@@ -202,11 +200,20 @@ that changes no protocol.
 
 - Put the most important finding first.
 - Write `None.` when no blocking finding exists.
-- Do not add a type, severity, verdict, score, or confidence marker to a comment.
 - Put each finding in the Blocking or Non-blocking section to show its severity.
-- Ask a direct question when project intent can change the result.
 - Mark each pre-existing problem as out of scope.
-- Include praise only for a specific good decision.
 - Do not name steps, passes, or subagents.
 - Do not use numeric scores, grades, finding counts, or confidence percentages.
 - Do not add an agent credit or co-author footer.
+
+## Output checklist
+
+- [ ] Each code reference links to verified source lines at the correct commit.
+- [ ] Each report finding uses one bullet with its problem, effect, and fix.
+- [ ] The report and PR comments use separate templates.
+- [ ] The top PR comment gives no summary of the PR.
+- [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
+- [ ] Each suggestion replaces exactly its linked range without removal of required context.
+- [ ] Each omitted suggestion has a reason and a proposed fix.
+- [ ] Each comment body has no draft label, stage counter, or severity marker.
+- [ ] Each text follows Simplified Technical English and its length limit.
