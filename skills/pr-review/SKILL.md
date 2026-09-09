@@ -20,7 +20,7 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 
 ## Critical requirements
 
-- Read `references/output.md` before each confirmation or final output. Check the actual output against its templates before delivery.
+- Read `references/output.md` before each confirmation or final output. Check each output against its template, including headings and section structure.
 - You must use GitHub Markdown in PR comments, including `suggestion` fences for applicable inline fixes.
 - You must keep report bullets separate from PR comments. You must link evidence text to the reviewed commit.
 - Ask the human to confirm the specification before the architecture summary.
@@ -444,6 +444,7 @@ fails.
 - [ ] The independent solution exists before the review passes.
 - [ ] The human confirms the problem, the architecture summary, and its modifications.
 - [ ] Each human review title includes an accurate `Stage X of N` counter.
+- [ ] Each confirmation and report uses section headings with short paragraphs or related bullets.
 - [ ] Each confirmation question names the applicable description or modification.
 - [ ] The PR introduces each finding.
 - [ ] Each finding is reachable, verified, and useful.

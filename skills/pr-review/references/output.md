@@ -2,7 +2,7 @@
 
 Use this file for every text that a human reads: each question, each comment, and the report.
 
-The report uses bullets. PR comments use GitHub Markdown with links and applicable `suggestion` blocks.
+Confirmations and reports use section headings with short bullets for related points. PR comments use GitHub Markdown with applicable `suggestion` blocks.
 
 ## Language
 
@@ -32,6 +32,8 @@ Write in Simplified Technical English (ASD-STE100).
 - Write no preamble and no summary of the PR.
 - Write one claim in one sentence of 25 words or fewer.
 - Delete an optional section that has no content.
+- You must retain the template headings. You must keep bullets within their sections.
+- You must use a short paragraph for a single point. You must use bullets for multiple related points.
 
 ## Links
 
@@ -215,6 +217,7 @@ that changes no protocol.
 - [ ] Each code reference links descriptive text within a sentence to verified lines at the correct commit.
 - [ ] Each report finding uses one bullet with its problem, effect, and fix.
 - [ ] The report and PR comments use separate templates.
+- [ ] Each confirmation and report retains its section headings. Each bullet belongs to a section.
 - [ ] The top PR comment gives no summary of the PR.
 - [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
 - [ ] Each suggestion replaces exactly its linked range without removal of required context.

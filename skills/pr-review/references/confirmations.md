@@ -19,10 +19,11 @@ correct.
 
 ## Length
 
-Use 35 lines or fewer at step 5. Use 40 lines or fewer at step 8.
+You must use 40 lines or fewer at each confirmation stage, including headings and blank lines.
 
-Give one line for each point and one line for each answer. Add a third line only for a violation
-trace or a code link.
+You must retain the section headings below. You must put a blank line after each heading.
+You must use short paragraphs for single points. You must group related bullets within each section.
+You must keep each question with its answer in the Questions section.
 
 Ask a direct question. Write no preamble. `output.md` holds the language, the tone, and the code
 links.
@@ -40,16 +41,22 @@ Use this structure:
 # Protocol review — Stage 1 of 3
 
 ## Problem description
+
 <The problem, its source, and whether it needs a solution now.>
 
 ## Proposed solution
+
 <The solution that the PR proposes.>
 
 ## Protocol description
-<The protocol surface, source, security model, affected invariants, classification, and results.>
-<The security requirement results, attack paths, and evidence gaps.>
+
+<The protocol surface, source, security model, and classification.>
+
+- **<Preserved | Not preserved | New>:** <The invariant or security control, its evidence, and any violation trace or attack path.>
+- **Evidence gaps:** <The unverified compatibility, recovery, or security assumptions.>
 
 ## Protocol modifications
+
 <The dependent protocol parts and their results. Include this section for a specification change.>
 
 ## Questions
@@ -73,6 +80,7 @@ instead, or the condition that the PR must meet.>
 
 Omit the `Protocol modifications` section and its question when the PR does not change the
 specification.
+You must omit result bullets that have no content. You must give each invariant its own result.
 
 ### Problem and solution
 
@@ -87,7 +95,7 @@ Ask the human to correct a wrong protocol invariant. Ask for a missed protocol i
 
 A wrong protocol invariant makes every later protocol finding wrong.
 
-State the classification and the result for each protocol invariant.
+State the classification and the result for each protocol invariant. You must display a `broken` result as `Not preserved`.
 
 Give a violation trace for each break. Name the assumption that the trace uses.
 
@@ -119,11 +127,16 @@ Use this structure for a protocol change:
 # Architecture review — Stage 2 of 3
 
 ## Problem description
+
 <The problem, its source, and whether it needs a solution now.>
 
 ## Architecture description
+
 <The affected architecture, its modifications, security requirement results, and coverage.>
-<The enforcement points, verified design findings, attack paths, and evidence gaps.>
+
+- **Enforcement:** <The components that enforce the affected security requirements.>
+- **Findings:** <The verified design findings and their attack paths, if any.>
+- **Evidence gaps:** <The unresolved assumptions, if any.>
 
 ## Questions
 
