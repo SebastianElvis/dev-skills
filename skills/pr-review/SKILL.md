@@ -22,7 +22,7 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 
 - Read `references/output.md` before each confirmation or final output. Check the actual output against its templates before delivery.
 - You must use GitHub Markdown in PR comments, including `suggestion` fences for applicable inline fixes.
-- You must keep report bullets separate from PR comments. You must use commit permalinks for code references.
+- You must keep report bullets separate from PR comments. You must link evidence text to the reviewed commit.
 - Ask the human to confirm the specification before the architecture summary.
 - Ask the human to confirm the problem and the architecture modifications before the detailed review.
 - Answer every confirmation question yourself before the human answers it.

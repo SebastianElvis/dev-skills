@@ -18,7 +18,7 @@ Write in Simplified Technical English (ASD-STE100).
 
 ## Tone
 
-- You must start each finding comment with a bold claim. You must separate evidence and the fix with blank lines.
+- You must start each finding comment with a bold claim. You must follow with the current implementation, problem, and proposal.
 - You must use bullets for multiple evidence points or required edits. You must use backticks for identifiers and code fragments.
 - You must use blockquotes for exact source quotations. You must omit category, severity, and verdict markers.
 - Use the report section to show whether a finding blocks the merge.
@@ -35,14 +35,11 @@ Write in Simplified Technical English (ASD-STE100).
 
 ## Links
 
-Link every code reference in confirmations, reports, and PR comments. Inline placement does not replace the link.
-Link symbol names when you use them as evidence. Code inside a suggestion block needs no links.
+You must link code references within the relevant sentence in confirmations, reports, and PR comments.
+You must use descriptive text or symbol names as link text, without separate link lines or bare URLs.
+Code inside a suggestion block needs no links. Inline placement does not replace the link.
 
-Write each reference as a link with the path and line as the text:
-
-```text
-[`internal/relay/verify.go:104`](https://github.com/<repo>/blob/<sha>/internal/relay/verify.go#L104)
-```
+The [signature check](https://github.com/<repo>/blob/<sha>/internal/relay/verify.go#L104) accepts an empty signature.
 
 Use `#L104-L110` for a range. Use the full reviewed commit hash, not a branch name or local `HEAD`.
 Verify the repository, path, revision, and lines against the source. Resolve the repository from the target PR, not the current directory.
@@ -69,8 +66,8 @@ Keep draft labels outside the comment bodies. Do not wrap the output in an outer
 
 Keep the report to 80 lines or fewer. Use about 40 lines for a 200-line PR.
 
-Write each finding in the report as one bullet. State the problem and its effect, then the
-suggested fix. Put the code link on the next line. Keep suggestion blocks in the inline comments only.
+You must write each report finding as one bullet with linked evidence, the problem, its effect, and the proposed fix.
+You must keep suggestion blocks in the inline comments only.
 
 ```text
 # Detailed review — Stage <X> of <N>: #<number> — <title>
@@ -109,15 +106,13 @@ Split before review | Problem not confirmed>
 
 ## Blocking
 
-- <Problem in one sentence. Name the error, the wrong output, the security effect, or the data loss.>
+- The [<affected operation>](https://github.com/<repo>/blob/<sha>/path/file.go#L104) <causes the problem and its effect>.
   <Suggested fix in one sentence.>
-  [`path/file.go:104`](https://github.com/<repo>/blob/<sha>/path/file.go#L104)
 
 ## Non-blocking
 
-- <Problem in one sentence. Name its maintenance or user result.>
+- The [<affected operation>](https://github.com/<repo>/blob/<sha>/path/file.go#L31-L34) <causes the maintenance or user effect>.
   <Suggested fix in one sentence.>
-  [`path/file.go:31`](https://github.com/<repo>/blob/<sha>/path/file.go#L31-L34)
 
 ## Notes
 
@@ -148,33 +143,38 @@ The top comment gives the recommendation and its reason. Keep it to six lines or
 The review covers <areas>. The review excludes <areas and reasons>.
 ```
 
-Each finding becomes one comment. Use this structure when a suggestion applies:
+Each finding comment uses this structure:
 
 ````markdown
 **<Claim in one sentence.>**
 
-<Effect in one sentence, unless the claim states it. Use bullets for multiple evidence points.>
+**Current implementation:** The [<operation>](https://github.com/<repo>/blob/<sha>/path/file.go#L104-L106) <does this>.
 
-[`path/file.go:104-106`](https://github.com/<repo>/blob/<sha>/path/file.go#L104-L106)
+**Problem:** <State the failure condition and its effect.>
+
+**Proposal:** <Describe the fix and any required tests.>
 
 ```suggestion
 <Complete replacement for the selected lines.>
 ```
 ````
 
-You must replace the fence with the proposed fix when no suggestion applies.
+You must omit the fence when no suggestion applies.
 
-Keep the problem description, the protocol invariant list, the architecture summary, the split plan,
-and the confirmed points out of the PR. The human reads those in the report.
+You must keep report sections out of PR comments.
 
 ## Worked finding
 
-Assume the selected line contains `return limit < max`. The requirement permits requests at the limit.
-The example uses a placeholder repository and commit. Actual output must use verified values.
+The selected line contains `return limit < max`. The requirement permits requests at the limit.
+The example uses placeholders. Actual output must use verified links.
 
     **The comparison rejects requests at the permitted limit.**
 
-    [`internal/limits/check.go:104`](https://github.com/<repo>/blob/<sha>/internal/limits/check.go#L104)
+    **Current implementation:** The [limit check](https://github.com/<repo>/blob/<sha>/internal/limits/check.go#L104) accepts only `limit < max`.
+
+    **Problem:** A request with `limit == max` fails, although the requirement permits it.
+
+    **Proposal:** You must accept equality. You must test values below, at, and above the limit.
 
     ```suggestion
     return limit <= max
@@ -212,13 +212,13 @@ that changes no protocol.
 
 ## Output checklist
 
-- [ ] Each code reference links to verified source lines at the correct commit.
+- [ ] Each code reference links descriptive text within a sentence to verified lines at the correct commit.
 - [ ] Each report finding uses one bullet with its problem, effect, and fix.
 - [ ] The report and PR comments use separate templates.
 - [ ] The top PR comment gives no summary of the PR.
 - [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
 - [ ] Each suggestion replaces exactly its linked range without removal of required context.
 - [ ] Each omitted suggestion has a reason in the report and a proposed fix in the PR comment.
-- [ ] Each comment uses GitHub Markdown, blank lines, and applicable bullets, backticks, or blockquotes without draft labels or severity markers.
+- [ ] Each finding comment uses a bold claim, then current implementation, problem, and proposal, with blank lines between parts.
 - [ ] Each text follows Simplified Technical English and its length limit.
 - [ ] The report includes security coverage, unresolved requirements, and verified regressions from all review stages.
