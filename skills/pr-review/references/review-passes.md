@@ -134,15 +134,19 @@ Report a reference that never existed, uses an old name, or comes from the wrong
 Check that each dependency is real and that this diff imports it. The necessity pass checks the
 need for it.
 
-Check the tests:
+### Test strategy
 
-- Does pure policy use a unit or property test?
-- Does database behavior use a database integration test?
-- Does each end-to-end test require a process or service boundary?
-- Does each property name its input domain and oracle?
-- Does a stateful wrapper expose a transition model or injected effects?
-- Does each deleted test invariant have a replacement?
-- Would the test fail without the change?
+You must recommend the smallest fast suite that covers the PR behavior and preserves distinct failure detection.
+
+- **Coverage:** You must map changed behaviors and affected invariants to assertions. You must identify uncovered boundaries, invalid inputs, failures, and state transitions. You must check that regression tests fail without the fix.
+- **Properties:** You must prefer fast property-based tests over repetitive examples. You must check input domains, generators, independent oracles, reproducible counterexamples, and runtime bounds. Random samples do not prove exhaustive coverage.
+- **Reuse:** You must consider extensions to existing properties before new tests. You must name redundant tests that broader properties can replace without loss of assertions or distinct regression inputs.
+- **Test levels:** You must prefer unit-level checks, including property-based tests. You must reduce integration and end-to-end tests when lower-level tests detect the same failures. You must retain tests for database semantics and real component interactions that require those boundaries.
+
+You must report coverage gaps and justified keep, extend, replace, or remove proposals in the Test strategy section.
+You must state evidence limits. You must keep proposals advisory unless evidence proves a PR regression, rule violation, or concrete cost.
+
+### Other checks
 
 Check error handling:
 

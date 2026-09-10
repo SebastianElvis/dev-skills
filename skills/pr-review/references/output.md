@@ -106,6 +106,12 @@ Split before review | Problem not confirmed>
 <Write one shared line for the layers that the PR does not change.>
 **Affected code:** <dependent code, or `None outside the diff.`>
 
+## Test strategy
+
+The tests cover <changed behaviors and affected invariants, with linked assertions and input domains>.
+The test gaps are <specific cases and effects, evidence limits, or `none identified`>.
+The suite needs <justified keep, extend, replace, or remove proposals with test names, or `no test change`>.
+
 ## Blocking
 
 - The [<affected operation>](https://github.com/<repo>/blob/<sha>/path/file.go#L104) <causes the problem and its effect>.
@@ -185,7 +191,7 @@ The example uses placeholders. Actual output must use verified links.
 ## Section rules
 
 These rules apply to the report. Required sections are Recommendation, Problem and approach,
-Protocol, Architecture, Blocking, Coverage, and Confirmed points.
+Protocol, Architecture, Test strategy, Blocking, Coverage, and Confirmed points.
 
 Use `Stage 3 of 3` in the title when the PR changes a protocol. Use `Stage 2 of 2` otherwise.
 
@@ -225,3 +231,4 @@ that changes no protocol.
 - [ ] Each finding comment uses a bold claim, then current implementation, problem, and proposal, with blank lines between parts.
 - [ ] Each text follows Simplified Technical English and its length limit.
 - [ ] The report includes security coverage, unresolved requirements, and verified regressions from all review stages.
+- [ ] The Test strategy section states coverage, evidence limits, and justified proposals for the smallest sufficient suite.
