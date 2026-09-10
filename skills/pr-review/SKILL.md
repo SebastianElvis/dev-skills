@@ -36,6 +36,7 @@ Omit the protocol stage when the PR changes no protocol. Use two stages in that 
 - You must check security at every review stage, for every change type.
 - You must read `references/security-review.md` before the first review stage.
 - You must report a verified security regression as a blocking finding.
+- You must review the test strategy for the full PR, including relevant existing tests outside the diff.
 
 Stop with an incomplete status if the session cannot ask the human a question.
 
@@ -272,7 +273,7 @@ Stop here. Continue only after the human responds.
 Use the confirmed points as the review basis. Read `references/review-passes.md`.
 You must correct a confirmed point when source evidence disproves it.
 
-Run the passes that the change type requires. You must always run the security pass.
+Run the passes that the change type requires. You must always run the security pass and the test strategy checks.
 
 1. Protocol conformance and protocol invariants.
 2. Architecture conflicts.
@@ -323,6 +324,7 @@ Read `references/output.md` before you write to the human.
 
 Read `references/output.md` again. Write the session report, the top PR comment, and one inline comment per finding.
 Check each link and suggestion against the reviewed revision. Apply the output checklist before delivery.
+You must write the output in Simplified Technical English.
 
 You must write each finding with the Markdown structure in `references/output.md`. You must recommend one result:
 
@@ -453,4 +455,5 @@ fails.
 - [ ] The review traces affected security requirements through the specification, architecture, and implementation.
 - [ ] The recommendation blocks verified security regressions and identifies unresolved security requirements.
 - [ ] The report states coverage and the confirmed points.
+- [ ] The test strategy checks coverage, properties, reuse, and test levels for the full PR.
 - [ ] Each output passes the checklist in `references/output.md`, including GitHub Markdown, Simplified Technical English, and length limits.
