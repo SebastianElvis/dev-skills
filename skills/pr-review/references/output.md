@@ -23,7 +23,7 @@ Write in Simplified Technical English (ASD-STE100).
 - You must use blockquotes for exact source quotations. You must omit category, severity, and verdict markers.
 - Use the report section to show whether a finding blocks the merge.
 - Ask a question when project intent can change the verdict.
-- Give a command only for a blocking finding.
+- You must state recommendations in the first person. Give a command only for a blocking finding.
 - Say when the PR solution is better than your solution.
 - Do not write "just", "simply", "obviously", "clearly", or "of course".
 
@@ -77,8 +77,7 @@ You must keep suggestion blocks in the inline comments only.
 
 ## Recommendation
 
-<Merge | Merge after the author fixes the blocking findings | Needs design discussion |
-Split before review | Problem not confirmed>
+<You must use one of the five first-person results from SKILL.md.>
 
 <One or two sentences. Give the reason. Do not summarize the PR.>
 
@@ -144,7 +143,7 @@ The human posts these comments. Comment bodies use Markdown without draft labels
 The top comment gives the recommendation and its reason. Keep it to six lines or fewer:
 
 ```markdown
-**<Recommendation. Use one of the five results.>**
+**<You must use one of the five first-person results from SKILL.md.>**
 
 <Give the reason for the recommendation. Name any unresolved disagreement. Do not summarize the PR.>
 
@@ -224,7 +223,7 @@ that changes no protocol.
 - [ ] Each report finding uses one bullet with its problem, effect, and fix.
 - [ ] The report and PR comments use separate templates.
 - [ ] Each confirmation and report retains its section headings. Each bullet belongs to a section.
-- [ ] The top PR comment gives no summary of the PR.
+- [ ] Each recommendation uses a full sentence in the first person. The top PR comment gives no summary of the PR.
 - [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
 - [ ] Each suggestion replaces exactly its linked range without removal of required context.
 - [ ] Each omitted suggestion has a reason in the report and a proposed fix in the PR comment.
