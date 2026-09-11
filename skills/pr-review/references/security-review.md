@@ -48,7 +48,7 @@ You must give evidence for `preserved` and an enforcement point for `new`.
 You must give an attack path for `broken` and an evidence gap for `unknown`.
 You must carry these results into the next stage and the final coverage statement.
 You must report a verified security regression as a blocking finding.
-You must use `Needs design discussion` when an unresolved security requirement prevents a supported merge recommendation.
+You must use `I recommend a design discussion.` when an unresolved security requirement prevents merge.
 You must not treat human confirmation as proof that a security control works.
 
 ## Exploit requirement

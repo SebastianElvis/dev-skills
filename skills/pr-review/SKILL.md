@@ -192,7 +192,7 @@ Stop here. Continue only after the human responds.
 - Correct the classification when the human rejects it.
 - Report a break in a dependent part as a blocking finding.
 - Report a `no` answer that the human accepts as a blocking finding.
-- Stop with `Needs design discussion` when the human wants a decision on the specification first.
+- Stop with `I recommend a design discussion.` when the human wants a decision on the specification first.
 
 A wrong specification makes every later protocol finding wrong. Correct it before step 6.
 
@@ -262,9 +262,9 @@ Ask up to two additional questions. `references/confirmations.md` holds the cond
 Stop here. Continue only after the human responds.
 
 - Stop when the human rejects the problem.
-- Stop with `Split before review` when the human accepts the split plan.
+- Stop with `I recommend a split before review.` when the human accepts the split plan.
 - Review only the largest coherent part when the human rejects the split.
-- Stop with `Needs design discussion` when the human rejects the architecture modifications.
+- Stop with `I recommend a design discussion.` when the human rejects the architecture modifications.
 - Correct the architecture summary when the human rejects it.
 - Report a `no` answer that the human accepts as a blocking finding.
 
@@ -326,13 +326,13 @@ Read `references/output.md` again. Write the session report, the top PR comment,
 Check each link and suggestion against the reviewed revision. Apply the output checklist before delivery.
 You must write the output in Simplified Technical English.
 
-You must write each finding with the Markdown structure in `references/output.md`. You must recommend one result:
+You must write each finding with the Markdown structure in `references/output.md`. You must state one result in the first person:
 
-- `Merge`
-- `Merge after the author fixes the blocking findings`
-- `Needs design discussion`
-- `Split before review`
-- `Problem not confirmed`
+- `I recommend merge.`
+- `I recommend merge after the author fixes the blocking findings.`
+- `I recommend a design discussion.`
+- `I recommend a split before review.`
+- `I cannot confirm the problem.`
 
 Never write `Approved` or `LGTM`. The human makes the merge decision.
 
