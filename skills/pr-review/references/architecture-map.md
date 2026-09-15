@@ -122,18 +122,17 @@ Answer these questions:
 - Which architecture modification would you write instead?
 - Which cost does the change add: a new mechanism, a wider boundary, or a new owner?
 
-Your judgment becomes your own answer to the last question of step 8. An answer is `yes`, `yes with
-a condition`, or `no`.
+Your judgment becomes your own answer to the last question of step 8. You must answer only `yes` or `no`.
 
 A broken layer, a verified security regression, a fix below the root cause, or a positive split test gives `no`.
-A design gives `yes with a condition` when it requires an added test, migration step, or owner decision.
+A design gives `no` when acceptance requires a missing test, migration step, or owner decision.
 
 Give `yes` when you would write the same modification. Say so directly. Do not create a difference
 to appear thorough.
 
 ## Final check
 
-- [ ] The architecture modifications have your own answer, its reason, and an alternative.
+- [ ] The architecture answer follows the binary answer format in `confirmations.md`, including the required rationale.
 - [ ] Each layer has a statement and evidence.
 - [ ] The summary names the code that enforces each protocol invariant.
 - [ ] Data compatibility works in both directions.

@@ -223,6 +223,7 @@ that changes no protocol.
 - [ ] Each report finding uses one bullet with its problem, effect, and fix.
 - [ ] The report and PR comments use separate templates.
 - [ ] Each confirmation and report retains its section headings. Each bullet belongs to a section.
+- [ ] Each confirmation answer follows the binary answer format in `confirmations.md`, including the required rationale.
 - [ ] Each recommendation uses a full sentence in the first person. The top PR comment gives no summary of the PR.
 - [ ] Each applicable inline fix uses a `suggestion` fence with at most 10 replacement lines.
 - [ ] Each suggestion replaces exactly its linked range without removal of required context.

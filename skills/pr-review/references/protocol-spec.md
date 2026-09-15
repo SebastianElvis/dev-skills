@@ -153,11 +153,10 @@ Answer these questions:
 - Which risk does the change add: compatibility, security, or complexity?
 - Does the change preserve the security model and its required properties?
 
-Your judgment becomes your own answer to the last question of step 5. An answer is `yes`, `yes with
-a condition`, or `no`.
+Your judgment becomes your own answer to the last question of step 5. You must answer only `yes` or `no`.
 
 A `Specification violation`, a broken protocol invariant, or a verified security regression gives `no`.
-A change that needs an activation height or a version field gives `yes with a condition`.
+A change gives `no` when acceptance requires a missing activation height or version field.
 
 Judge from your own reconstruction. Mark the answer provisional when the specification is
 `INFERRED`. Do not wait for the human.
@@ -178,4 +177,4 @@ You must report the same attack only once when both reviews identify it.
 - [ ] Each broken protocol invariant has a concrete violation trace.
 - [ ] Each dependent part of the protocol has a result.
 - [ ] The mixed-version check covers both directions.
-- [ ] The specification change has your own answer, its reason, and an alternative or a condition.
+- [ ] The specification answer follows the binary answer format in `confirmations.md`, including the required rationale.

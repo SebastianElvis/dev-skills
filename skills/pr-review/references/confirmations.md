@@ -6,9 +6,20 @@ corrects each point before the review continues.
 - Step 5 asks about the problem, solution, and specification. It follows the protocol review.
 - Step 8 asks about the design. It follows the architecture summary and the reviewer's own solution.
 
-Answer every question yourself. Write `My answer:` under the question. An answer is `yes`, `yes with
-a condition`, or `no`. Add the reason in one sentence. Add the condition or the alternative when the
-answer is not `yes`. Never send a question that you leave open.
+You must answer every question with `yes` or `no`. You must answer `no` if acceptance depends on an unmet condition.
+You must use the applicable answer format under each question:
+
+```text
+My answer: yes. <You must summarize the reason in one sentence.>
+```
+
+```text
+My answer: no.
+
+- **Current implementation:** <You must describe the relevant behavior or design with evidence.>
+- **Problem:** <You must explain the defect or unmet condition and its effect.>
+- **Proposal:** <You must describe the required change and how it resolves the problem.>
+```
 
 Include `Stage X of N` in each title.
 
@@ -20,6 +31,7 @@ correct.
 ## Length
 
 You must use 40 lines or fewer at each confirmation stage, including headings and blank lines.
+You may exceed this limit to include the required rationale for each `no` answer.
 
 You must retain the section headings below. You must put a blank line after each heading.
 You must use short paragraphs for single points. You must group related bullets within each section.
@@ -62,20 +74,19 @@ Use this structure:
 ## Questions
 
 Is the above problem description correct?
-My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+<You must insert the applicable answer format.>
 
 Do you think the above problem needs a solution now?
-My answer: <yes | yes with a condition | no>. <The reason in one sentence.>
+<You must insert the applicable answer format.>
 
 Do you agree with the above proposed solution?
-My answer: <yes | yes with a condition | no>. <The solution that you would use instead.>
+<You must insert the applicable answer format.>
 
 Is the above protocol description correct?
-My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+<You must insert the applicable answer format.>
 
 Do you agree with the above protocol modifications?
-My answer: <yes | yes with a condition | no>. <The specification change that you would write
-instead, or the condition that the PR must meet.>
+<You must insert the applicable answer format.>
 ```
 
 Omit the `Protocol modifications` section and its question when the PR does not change the
@@ -114,7 +125,7 @@ that no single file states.
 
 Section 7 of `protocol-spec.md` holds the questions that produce your answers.
 
-Do not repeat the description in an answer. Give the judgment that the description does not hold.
+You must include the relevant current implementation in each `no` rationale, even when an earlier section describes it.
 
 Say directly when you would write the same specification change. Do not create a difference to
 appear thorough.
@@ -141,17 +152,16 @@ Use this structure for a protocol change:
 ## Questions
 
 Is the above problem description correct?
-My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+<You must insert the applicable answer format.>
 
 Do you think the above problem needs a solution now?
-My answer: <yes | yes with a condition | no>. <The reason in one sentence.>
+<You must insert the applicable answer format.>
 
 Is the above architecture description correct?
-My answer: <yes | yes with a condition | no>. <The doubt that remains, or `no doubt`.>
+<You must insert the applicable answer format.>
 
 Do you agree with the above architecture modifications?
-My answer: <yes | yes with a condition | no>. <Your smallest solution or split plan, and its
-difference from the PR.>
+<You must insert the applicable answer format.>
 ```
 
 Use `# Architecture review — Stage 1 of 2` when the PR changes no protocol.
@@ -161,13 +171,7 @@ Use `# Architecture review — Stage 1 of 2` when the PR changes no protocol.
 State whether the problem is real and worth a solution now. Include the issue, reporter, and
 maintainer response.
 
-Useful answer choices include:
-
-- Real as described.
-- Real with another cause.
-- Existing code prevents it.
-- Real but not worth a solution now.
-- Not a problem.
+Your rationale must explain whether existing code prevents the problem or evidence supports a different cause.
 
 ### Architecture and modifications
 
@@ -179,7 +183,7 @@ Do not ask the human to confirm the full summary without a specific claim.
 
 `architecture-map.md` holds the questions that produce your answers.
 
-State the smallest solution that you would use. Compare it with the PR. Use two or three lines.
+For `no`, you must propose your smallest solution or split plan. You must explain its difference from the PR.
 
 ## Additional questions
 
