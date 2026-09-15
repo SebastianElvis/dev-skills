@@ -45,8 +45,8 @@ Stop with an incomplete status if the session cannot ask the human a question.
 Each confirmation stage asks the human a set of questions. Answer every question yourself first.
 Write your answer under the question that it answers.
 
-An answer is `yes`, `yes with a condition`, or `no`. Add the reason in one sentence. Add the
-condition or the alternative when the answer is not `yes`.
+You must answer only `yes` or `no`. You must answer `no` if acceptance depends on an unmet condition.
+For `yes`, you must give a short reason. For `no`, you must explain the current implementation, problem, and proposal.
 
 Answer before the human confirms anything. Never leave a question open. Mark an answer provisional
 when you mark the specification `INFERRED`.
@@ -439,7 +439,8 @@ fails.
 - [ ] The protocol review comes before the architecture summary.
 - [ ] Each broken protocol invariant has a concrete violation trace.
 - [ ] Each dependent part of the protocol has a result.
-- [ ] Each confirmation question carries your own answer and its reason.
+- [ ] Each confirmation answer uses only `yes` or `no`. Each unmet acceptance condition gives `no`.
+- [ ] Each `yes` has a short reason. Each `no` explains the current implementation, problem, and proposal.
 - [ ] The human confirms the specification and the classification for a protocol change.
 - [ ] The architecture summary covers all layers, migration recovery, test levels, and subsystem ownership when applicable.
 - [ ] The split test has a result.
