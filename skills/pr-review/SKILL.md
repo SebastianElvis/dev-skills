@@ -28,22 +28,16 @@ A PR without a protocol change uses two human review stages.
 
 The agent stops with an incomplete status if the session cannot request human confirmation.
 
+## Output
+
+You must write all output in Simplified Technical English (ASD-STE100).
+The shared rules define answer formats, security evidence, code links, and language requirements.
+The templates define output content and layout.
+
 ## 1. Specification review
 
-The agent establishes the problem and applicable protocol requirements before the architecture review.
-
-### References
-
 You must read [the specification procedure](references/specification.md) at the start of the review.
-The procedure covers problem sources, project rules, protocol applicability, invariants, and specification security.
-
-### Output
-
 You must read [the specification template](assets/specification-confirmation.md) before a protocol confirmation request.
-You must write the output in Simplified Technical English (ASD-STE100).
-The output states the problem, proposed solution, specification, classification, and results for affected protocol invariants.
-
-### Completion condition
 
 The human confirms the specification, classification, and effects on dependent protocol parts before the agent presents the architecture summary.
 The agent corrects rejected points before it continues.
@@ -53,49 +47,20 @@ The architecture stage retains the specification security checks in that case.
 
 ## 2. Architecture review
 
-The agent evaluates the design against the problem and applicable specification.
-
-### References
-
 You must read [the architecture procedure](references/architecture.md) after the specification stage completes.
-The procedure covers change types, architecture layers, security controls, split analysis, and the independent solution.
-The agent carries the change type and scope into the detailed review.
-
-### Output
-
 You must read [the architecture template](assets/architecture-confirmation.md) before the architecture confirmation request.
-You must write the output in Simplified Technical English.
-The output states the problem, architecture modifications, security results, and independent solution or split plan.
-The output includes one line for the confirmed protocol result when applicable.
-
-### Completion condition
 
 The human confirms the problem, architecture summary, and modifications before the detailed review.
+Earlier confirmations remain valid under the shared confirmation rules.
 The architecture procedure defines the response to a rejected problem, split plan, or design.
 
 ## 3. Detailed implementation review
 
-The agent checks implementation correctness and security against the confirmed points and source evidence.
-
-### References
-
 You must read [the implementation procedure](references/implementation.md) after architecture confirmation.
-The procedure covers security checks, other review passes, candidate verification, unclear intent, and final delivery.
-The agent corrects a confirmed point when source evidence disproves it.
-
-### Output
-
 You must read [the report template](assets/review-report.md) before the final report.
 You must read [the PR comment templates](assets/pr-comments.md) before the comment drafts.
-You must write the output in Simplified Technical English.
+
 The agent writes the session report, top PR comment, and one inline comment per finding as separate drafts.
-Each PR comment includes the attribution footnote from the comment templates, with the skill link and submitter's GitHub username.
-The report states security results, coverage, evidence gaps, the test strategy, and confirmed points.
-
-### Completion condition
-
-The agent verifies every finding, including security findings, against the reviewed revision.
-The agent checks each output against its template and the shared rules.
 The human makes the merge decision.
 The human posts the review unless the user directly requests comment publication.
 
@@ -113,14 +78,8 @@ The human posts the review unless the user directly requests comment publication
 
 ## Final check
 
-- [ ] The problem statement includes its source.
-- [ ] The protocol applicability check includes evidence and the required confirmation.
-- [ ] Each stage checks security and records evidence gaps.
-- [ ] The architecture review includes the independent solution or split plan.
+- [ ] Each stage passes its procedure checklist.
 - [ ] The human confirms the required points before each later stage.
-- [ ] The PR introduces each verified finding.
-- [ ] Each security finding includes an attack path.
 - [ ] The recommendation blocks verified security regressions.
-- [ ] The report states the test strategy, coverage, and confirmed points.
-- [ ] Each PR comment includes the skill link, submitter's GitHub username, and accurate discussion status in its footnote.
-- [ ] Each output follows its template, length limit, and Simplified Technical English rules.
+- [ ] Each output passes the shared output check, including Simplified Technical English.
+- [ ] Each PR comment passes the comment template checklist.

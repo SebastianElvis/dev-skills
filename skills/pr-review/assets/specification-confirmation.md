@@ -1,10 +1,9 @@
 # Specification confirmation template
 
 The agent uses this template only when the PR changes a protocol.
-The agent applies the shared answer format, length limit, code-link rules, and Simplified Technical English rules.
 The agent displays a `broken` protocol invariant as `Not preserved`.
 Each affected protocol invariant or security control receives its own result.
-The agent removes result bullets without content.
+The agent marks specification items from code as `INFERRED`.
 The agent includes Protocol modifications and its question only for a specification change.
 
 ```text
@@ -46,13 +45,3 @@ Is the above protocol description correct?
 Do you agree with the above protocol modifications?
 <The agent inserts its answer in the shared format.>
 ```
-
-## Template check
-
-- [ ] The description identifies inferred specification items.
-- [ ] The description states the classification and security model.
-- [ ] Each affected protocol invariant has a result and evidence.
-- [ ] Each break has a violation trace with its assumptions.
-- [ ] The specification change identifies dependent parts and their results.
-- [ ] Each question has the agent's answer before human confirmation.
-- [ ] The output follows the shared length limit and Simplified Technical English.
