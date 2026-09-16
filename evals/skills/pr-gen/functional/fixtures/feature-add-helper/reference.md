@@ -1,19 +1,26 @@
-# Reference (gold) PR description for `feat/add-multiply`
+# Reference for `feat/add-multiply`
+
+The branch adds `multiply` and its test to the shared math module.
+The following example assumes that the agent did not run the tests.
 
 Title: `feat(math): add multiply helper`
 
-Body:
-
-```
+```markdown
 ## Summary
-- Adds `multiply(a, b)` to [src/math.py](src/math.py).
-- Adds `test_multiply` covering integer multiplication in [tests/test_math.py](tests/test_math.py).
 
-## Test plan
-- `pytest tests/test_math.py`
+- Callers can now multiply values through the shared math module.
+
+## Changes
+
+- The [math module](src/math.py) adds `multiply(a, b)`.
+- `test_multiply` checks that `multiply(4, 5)` returns `20` ([tests](tests/test_math.py)).
+
+## Tests
+
+- The agent did not run the tests.
 ```
 
-Notes for graders:
-- The branch also contains an added-then-deleted `src/scratch.py`. That file is not in `HEAD`, so it must NOT be mentioned anywhere in the PR title or body.
-- The body should be short (under ~30 lines).
-- No `Co-Authored-By: Claude` or "Generated with Claude Code" footer.
+The body retains Summary and Changes and targets 15 lines.
+The agent can report actual execution results when its transcript provides evidence.
+The branch history adds and removes `src/scratch.py` without a final diff.
+The title and body must omit that file and its temporary change.

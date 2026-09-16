@@ -1,51 +1,32 @@
-# Title fallback patterns
+# Title patterns
 
-Load this file only when the repo has **no** established title convention
-(no consistent style in recent merged PRs, no `CONTRIBUTING.md` guidance, no
-PR template directive). Otherwise match the repo's existing style.
+You write the title in Simplified Technical English (ASD-STE100).
 
-## Default — Conventional Commits
+## Default pattern
 
-`<type>(<scope>): <imperative summary>`
+You use `<type>(<scope>): <imperative summary>`.
+You omit an uninformative scope.
 
-| Type       | Use for                                              |
-| ---------- | ---------------------------------------------------- |
-| `feat`     | New user-facing capability.                          |
-| `fix`      | Bug correction (correctness, safety, security).      |
-| `refactor` | Internal change with no external behavior change.    |
-| `perf`     | Optimization with a measurable benefit.              |
-| `docs`     | Documentation-only.                                  |
-| `chore`    | Build, deps, tooling, infra plumbing.                |
-| `test`     | Test-only change.                                    |
+| Type | Purpose |
+| --- | --- |
+| `feat` | The change adds a capability. |
+| `fix` | The change corrects a defect. |
+| `refactor` | The change preserves external behavior. |
+| `perf` | The change improves performance with evidence. |
+| `docs` | The change updates documentation. |
+| `chore` | The change updates build tools, dependencies, or infrastructure. |
+| `test` | The change updates tests. |
 
-Examples:
+## Examples
 
-- `fix(auth): reject expired refresh tokens before signature check`
-- `feat(api): add idempotent webhook delivery`
-- `refactor(db): replace ad-hoc connection pool with pgx pool`
-- `perf(render): defer hydration to cut TTI by 1.2s`
+- `fix(auth): reject expired refresh tokens`
+- `feat(payments): accept a request key for repeated requests`
+- `refactor(db): share the connection pool`
+- `docs: explain database recovery`
 
-## Non-conventional fallbacks
+## Final check
 
-If the repo uses plain prose, lead with an imperative verb:
-
-- `Restore retry-safe keypair generation in claimer pegin flow`
-- `Add Google and GitHub OAuth providers`
-- `Document the deployment runbook with rollback steps`
-
-## Constraints
-
-- ≤ 72 characters (GitHub UI truncates beyond that).
-- Imperative mood (`Add`, `Fix`, `Restore`) — not `Added` / `Adding`.
-- Describes the **outcome**, not the process.
-- Mentions the user-visible thing, not the implementation detail, unless the
-  implementation *is* the change (e.g. a refactor).
-
-## Anti-patterns
-
-Reject and rewrite if the user proposes any of these:
-
-- `Various fixes and improvements` — not specific.
-- `Update code` / `Misc changes` / `Small fixes` — meaningless.
-- `WIP` / `Work in progress` — should not ship.
-- `PR deployment` — not a change description.
+- [ ] The title names a concrete outcome from the final diff.
+- [ ] The title uses an imperative summary and at most 72 characters.
+- [ ] Any performance or security claim has evidence.
+- [ ] The title follows Simplified Technical English rules.
