@@ -7,9 +7,21 @@ Comment bodies use GitHub Markdown and the shared code-link and Simplified Techn
 Comment bodies omit draft labels, stage counters, report sections, category markers, severity markers, and verdict markers.
 The human posts the comments unless the user directly requests publication.
 
+## Attribution footnote
+
+The agent adds the footnote below to every PR comment, including replies.
+The footnote follows all comment content, including suggestion blocks.
+The agent replaces `@<submitter>` with the comment submitter's GitHub username.
+The agent uses the username that the human supplies, or `gh api user --jq .login` for the authenticated submitter.
+The agent asks for the username if the submitter's identity remains unclear.
+The agent states that discussion occurred only after the agent discusses that comment with the submitter.
+An earlier stage confirmation alone does not establish discussion of a later comment.
+Before that discussion, the draft footnote uses `The agent awaits discussion with @<submitter>.` as its second sentence.
+The agent completes that discussion before publication.
+
 ## Top comment
 
-The top comment states the recommendation and reason in at most six lines.
+The top comment states the recommendation and reason in at most six lines, excluding the footnote.
 The comment gives no PR summary.
 
 ```markdown
@@ -18,6 +30,8 @@ The comment gives no PR summary.
 <The agent gives the reason and any unresolved disagreement.>
 
 The review covers <areas>. The review excludes <areas and reasons>.
+
+*The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ```
 
 ## Inline finding
@@ -39,6 +53,8 @@ The agent keeps one finding per root cause.
 ```suggestion
 <The agent inserts the complete replacement for the selected lines.>
 ```
+
+*The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ````
 
 ## Suggestions
@@ -46,7 +62,8 @@ The agent keeps one finding per root cause.
 The agent includes a `suggestion` fence when a concrete fix fits one selectable range in the PR diff.
 The replacement uses at most 10 lines.
 This limit is a skill rule, not a GitHub limit.
-The agent puts the block last and links the exact head-side range that the human must select.
+The agent puts the block before the footnote.
+The agent links the exact head-side range that the human must select.
 The replacement includes unchanged lines within that range.
 The replacement omits diff prefixes and placeholders.
 An empty `suggestion` block represents a deletion.
@@ -77,13 +94,16 @@ The example uses placeholders; actual output uses verified links.
     return limit <= max
     ```
 
+    *The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
+
 ## Template check
 
-- [ ] The top comment uses an allowed recommendation and at most six lines.
+- [ ] The top comment uses an allowed recommendation and at most six lines, excluding the footnote.
 - [ ] Each finding has a bold claim, current implementation, problem, and proposal.
 - [ ] Each code link identifies verified lines at the reviewed revision.
 - [ ] Each applicable suggestion contains the complete replacement with at most 10 lines.
 - [ ] Each suggestion preserves required context within its selected range.
 - [ ] Each omitted suggestion has a report reason and a proposed fix in the comment.
 - [ ] Comment bodies omit report sections and format commentary.
+- [ ] Each footnote includes the skill link, submitter's GitHub username, and accurate discussion status.
 - [ ] Each comment follows Simplified Technical English.

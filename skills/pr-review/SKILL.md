@@ -89,6 +89,7 @@ You must read [the report template](assets/review-report.md) before the final re
 You must read [the PR comment templates](assets/pr-comments.md) before the comment drafts.
 You must write the output in Simplified Technical English.
 The agent writes the session report, top PR comment, and one inline comment per finding as separate drafts.
+Each PR comment includes the attribution footnote from the comment templates, with the skill link and submitter's GitHub username.
 The report states security results, coverage, evidence gaps, the test strategy, and confirmed points.
 
 ### Completion condition
@@ -121,4 +122,5 @@ The human posts the review unless the user directly requests comment publication
 - [ ] Each security finding includes an attack path.
 - [ ] The recommendation blocks verified security regressions.
 - [ ] The report states the test strategy, coverage, and confirmed points.
+- [ ] Each PR comment includes the skill link, submitter's GitHub username, and accurate discussion status in its footnote.
 - [ ] Each output follows its template, length limit, and Simplified Technical English rules.
