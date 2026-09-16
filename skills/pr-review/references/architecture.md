@@ -46,7 +46,6 @@ The agent orders review risk as follows:
 
 For each layer, the agent states the current design, PR modification, evidence, and conflicts.
 An unchanged layer receives one evidence sentence.
-The final report groups unchanged layers on one line.
 The agent names the code that enforces each confirmed protocol invariant.
 
 ```bash
@@ -149,7 +148,6 @@ The agent states why the change is atomic and the review depth for each area.
 The split plan names each part, files, behavior, approximate size, dependencies, and evidence for all four requirements.
 The plan gives the merge order, first part, and reason for that order.
 The agent prefers the smallest coherent part that provides a result or reduces risk.
-The agent places the plan before Problem and approach in the final report.
 The agent omits detailed findings for code that the author will reorganize.
 
 ## Form the independent solution
@@ -183,10 +181,6 @@ The agent answers `yes` when it would write the same modification.
 
 ## Request confirmation
 
-The agent uses the architecture confirmation template from `SKILL.md`.
-The summary includes change type, significant size, planned coverage, security results, and the independent solution or split plan.
-A protocol change receives one line for the confirmed result without the full protocol invariant list.
-
 The agent can ask at most two additional questions at this stage.
 Each question must meet all these conditions:
 
@@ -196,7 +190,6 @@ Each question must meet all these conditions:
 
 The agent states where it searched and gives its own answer.
 The agent does not ask the human to perform checks that the code or procedure can resolve.
-The questions name the architecture claims and affected invariants or transitions.
 
 The agent omits these questions:
 
@@ -233,4 +226,3 @@ Each task follows the shared fact rules.
 - [ ] Each affected security requirement has enforcement evidence, an attack path, or an evidence gap.
 - [ ] The split test has a result.
 - [ ] The independent solution or split plan precedes the detailed review.
-- [ ] The confirmation follows its template and Simplified Technical English.

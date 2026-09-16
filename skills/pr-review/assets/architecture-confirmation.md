@@ -1,10 +1,9 @@
 # Architecture confirmation template
 
-The agent applies the shared answer format, length limit, code-link rules, and Simplified Technical English rules.
-The title uses `Stage 2 of 3` for a protocol change or `Stage 1 of 2` otherwise.
 The agent includes one line for the confirmed protocol result when applicable.
+The agent includes the two problem questions only when the shared rules require confirmation.
+Otherwise, Problem description states the confirmed problem in one line.
 The architecture description includes change type, significant size, and planned coverage.
-The agent omits bullets without content.
 Each modification answer includes the independent solution or split plan where it supports the rationale.
 The agent includes the independent solution in the description if the answers do not otherwise state it.
 
@@ -42,12 +41,3 @@ The problem rationale states whether existing code prevents the problem or suppo
 Each architecture question refers to specific claims, affected invariants, or state transitions in the description.
 For `no`, the proposal states the smallest solution or split plan and its difference from the PR.
 Additional questions follow the conditions in the architecture procedure.
-
-## Template check
-
-- [ ] The title has the correct stage count.
-- [ ] The description states the change type, significant size, and coverage.
-- [ ] The description separates design findings from unresolved assumptions.
-- [ ] The output includes the independent solution or split plan.
-- [ ] Each question has the agent's answer before human confirmation.
-- [ ] The output follows the shared length limit and Simplified Technical English.

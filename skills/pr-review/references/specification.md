@@ -59,8 +59,6 @@ An internal queue, store API, process rule, or design record remains architectur
 A Request for Comments (RFC) or contract filename alone does not establish a protocol.
 
 If the agent cannot name two parties, it records `No protocol surface` with one evidence sentence.
-The agent then continues to architecture without a specification confirmation request.
-The architecture stage still checks the specification security requirements below.
 
 An invariant describes a property within one program.
 A protocol invariant describes a property of an exchange between parties that no single party can change alone.
@@ -171,11 +169,6 @@ The judgment determines the agent's answer about the proposed protocol modificat
 The agent states directly when it would write the same change.
 The agent omits differences that show only a preference.
 
-The agent uses the specification confirmation template from `SKILL.md`.
-The agent includes the problem, proposed solution, specification sources, security model, classification, and each protocol invariant result.
-The agent marks each item that it reconstructs from code instead of a document.
-The agent includes attacks that the changed specification permits, even when the implementation follows it.
-The agent includes dependent protocol parts only for a specification change.
 The agent asks no additional questions at this stage.
 The agent asks the human to correct wrong or missing protocol invariants and dependent parts through the applicable template questions.
 
@@ -199,4 +192,3 @@ The agent omits this task when the PR changes no protocol.
 - [ ] Each broken protocol invariant has a violation trace.
 - [ ] Each dependent protocol part has a result.
 - [ ] The compatibility check covers both directions.
-- [ ] The confirmation follows its template and Simplified Technical English.

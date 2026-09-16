@@ -42,6 +42,8 @@ You must put relevant pre-existing defects in an out-of-scope note.
 
 ## Human confirmation
 
+The agent reuses confirmed answers in later stages unless new evidence changes them.
+The agent requests confirmation only for unconfirmed points or answers that new evidence changes.
 The agent answers every question before the human answers it.
 Each answer uses `yes` or `no`.
 An unmet acceptance condition requires `no`.
@@ -132,7 +134,7 @@ You must omit preambles and PR summaries.
 
 The agent retains required template headings and a blank line after each heading.
 The agent uses short paragraphs for single points and bullets for related points.
-The agent removes optional sections without content.
+The agent removes optional sections and bullets without content.
 The agent uses backticks for identifiers and code fragments.
 The agent uses blockquotes for exact source quotations.
 The agent avoids "just", "simply", "obviously", "clearly", and "of course".
@@ -172,8 +174,10 @@ The agent never writes `Approved` or `LGTM`.
 ## Output check
 
 - [ ] Each confirmation follows the answer format and stage count.
-- [ ] Each output retains its required headings and length limit.
+- [ ] Each output follows its template, including required content, headings, and length limits.
 - [ ] Each code link identifies verified lines at the correct revision.
 - [ ] Each security result includes its evidence or evidence gap.
+- [ ] Each security finding meets the attack-path requirements.
+- [ ] The report retains unresolved assumptions and human confirmations, corrections, and disagreements.
 - [ ] Each recommendation uses an allowed first-person result.
 - [ ] Each output follows Simplified Technical English.

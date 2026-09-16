@@ -1,10 +1,7 @@
 # Review report template
 
-The agent writes the session report before the separate PR comment drafts.
-The agent applies the shared code-link rules and Simplified Technical English rules.
 The report uses at most 80 lines.
 A report for a 200-line PR should use about 40 lines.
-The title uses `Stage 3 of 3` for a protocol change or `Stage 2 of 2` otherwise.
 
 Each finding uses one bullet with linked evidence, the problem, its effect, and the proposed fix.
 Suggestion blocks belong only in inline comment drafts.
@@ -89,20 +86,9 @@ The full protocol invariant list belongs in specification confirmation, not the 
 Confirmed points includes the points that the human confirms or corrects and their effect on findings.
 
 Verified security regressions from all stages belong in Blocking.
-Each security finding states the attacker, controlled input, attack path, and effect.
 Coverage retains unresolved security requirements.
 The recommendation identifies unresolved requirements that prevent a supported merge decision.
 The Test strategy section states coverage, evidence limits, and proposals for the smallest sufficient suite.
-The report states any reason for an omitted inline suggestion.
 
 The report body omits procedure step names, review pass names, and subagent names.
 The report omits scores, grades, finding counts, confidence percentages, agent credits, and co-author footers.
-
-## Template check
-
-- [ ] The report retains each required section and the correct stage count.
-- [ ] Each finding uses one bullet with linked evidence, its effect, and a fix.
-- [ ] The report includes security results and evidence gaps from all stages.
-- [ ] The test strategy covers the full PR and relevant existing tests.
-- [ ] The report states coverage and confirmed points.
-- [ ] The report follows its length limit and Simplified Technical English.

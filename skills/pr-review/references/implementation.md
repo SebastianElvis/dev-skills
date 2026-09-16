@@ -18,7 +18,6 @@ The agent checks broken protocol invariants, new protocol invariants without enf
 Each break requires a concrete violation trace.
 A broken liveness protocol invariant belongs in this pass.
 An availability attack outside a stated liveness protocol invariant follows the shared security evidence rules.
-The agent reports the same attack only once across passes.
 
 ### Architecture conflicts
 
@@ -110,8 +109,6 @@ The agent checks caches, helpers, and early returns that can bypass authorizatio
 | Prompt injection | The agent checks untrusted model input when model output can use a tool or cause an action. |
 
 You must apply the shared security evidence rules to each candidate.
-You must record each affected requirement and its result under the shared stage-result rules.
-You must retain unresolved assumptions in final coverage.
 
 ### Verifiability and cost
 
@@ -135,14 +132,12 @@ The agent reports comments only when they contradict the code or describe old be
 
 The agent recommends the smallest fast suite that covers PR behavior and preserves distinct failure detection.
 The agent examines relevant existing tests outside the diff.
-The agent does not execute the tests.
 
 - **Coverage:** The agent maps changed behaviors and affected invariants to assertions. The agent identifies uncovered boundaries, invalid inputs, failures, and state transitions. The agent checks from code whether regression tests fail without the fix.
 - **Properties:** The agent prefers fast property-based tests over repetitive examples. The agent checks input domains, generators, independent oracles, reproducible counterexamples, and runtime bounds. Random samples do not prove exhaustive coverage.
 - **Reuse:** The agent considers extensions to existing properties before new tests. The agent identifies redundant tests that broader properties can replace without lost assertions or distinct regression inputs.
 - **Test levels:** The agent prefers unit tests, including property-based tests. The agent reduces integration and end-to-end tests when lower-level tests detect the same failures. The agent retains tests for database semantics and real component interactions that require those boundaries.
 
-The Test strategy section states gaps, evidence limits, and justified keep, extend, replace, or remove proposals.
 Proposals remain advisory unless evidence proves a PR regression, rule violation, or concrete cost.
 
 ### Project rules
@@ -182,20 +177,11 @@ The agent checks whether the PR changes assumptions that previously prevented th
 
 A blocking candidate needs separate checks of the failure path, facts at the reviewed head revision, and PR scope.
 The agent drops refuted or unverified candidates.
-The report puts pre-existing problems in an out-of-scope note.
 
 ## Resolve unclear intent
 
 The agent asks another question only when a blocking finding depends on unresolved intent.
 The question states the choice and the result of each answer.
-The agent rereads the shared output and confirmation rules before it asks the human.
-
-## Deliver the review
-
-The agent uses the report and PR comment templates from `SKILL.md`.
-The agent writes the session report first, then the top comment and inline comments as separate drafts.
-The agent checks each link and suggestion against the reviewed revision.
-The agent applies the shared output check and each template checklist before delivery.
 
 ## Subagent tasks
 
@@ -210,15 +196,11 @@ Each candidate includes a file, line, claim, and concrete failure.
 
 The agent uses separate context for verification when possible.
 The verifier receives the claim and code without the original reasoning.
-For blocking candidates, distinct checks cover the failure path, facts at the reviewed revision, and PR scope.
 Failed tasks follow the shared retry and coverage rules.
 
 ## Final check
 
 - [ ] The passes follow the confirmed points, change type, and scope.
 - [ ] Security and the test strategy cover the full PR.
-- [ ] Each security requirement has a result with evidence, an attack path, or an evidence gap.
 - [ ] Each finding has source evidence and a PR-introduced failure.
 - [ ] Each blocking finding passes multiple checks.
-- [ ] Each unresolved assumption remains visible in coverage.
-- [ ] The report and comments follow their templates and Simplified Technical English.

@@ -1,11 +1,9 @@
 # PR comment templates
 
-The agent writes the top comment and inline comments as separate drafts after the session report.
 Draft labels remain outside comment bodies.
 The agent does not wrap drafts in an outer code fence.
-Comment bodies use GitHub Markdown and the shared code-link and Simplified Technical English rules.
+Comment bodies use GitHub Markdown.
 Comment bodies omit draft labels, stage counters, report sections, category markers, severity markers, and verdict markers.
-The human posts the comments unless the user directly requests publication.
 
 ## Attribution footnote
 
@@ -22,7 +20,6 @@ The agent completes that discussion before publication.
 ## Top comment
 
 The top comment states the recommendation and reason in at most six lines, excluding the footnote.
-The comment gives no PR summary.
 
 ```markdown
 **<The agent inserts one allowed first-person result from the shared rules.>**
@@ -39,7 +36,6 @@ The review covers <areas>. The review excludes <areas and reasons>.
 Each finding starts with one bold claim of at most 25 words.
 The comment then states the current implementation, problem, and proposal.
 The agent uses bullets for multiple evidence points or required edits.
-The agent keeps one finding per root cause.
 
 ````markdown
 **<The agent states the claim in one sentence.>**
@@ -62,8 +58,8 @@ The agent keeps one finding per root cause.
 The agent includes a `suggestion` fence when a concrete fix fits one selectable range in the PR diff.
 The replacement uses at most 10 lines.
 This limit is a skill rule, not a GitHub limit.
-The agent puts the block before the footnote.
 The agent links the exact head-side range that the human must select.
+The agent verifies each suggestion against the reviewed revision.
 The replacement includes unchanged lines within that range.
 The replacement omits diff prefixes and placeholders.
 An empty `suggestion` block represents a deletion.
@@ -98,12 +94,9 @@ The example uses placeholders; actual output uses verified links.
 
 ## Template check
 
-- [ ] The top comment uses an allowed recommendation and at most six lines, excluding the footnote.
 - [ ] Each finding has a bold claim, current implementation, problem, and proposal.
-- [ ] Each code link identifies verified lines at the reviewed revision.
 - [ ] Each applicable suggestion contains the complete replacement with at most 10 lines.
 - [ ] Each suggestion preserves required context within its selected range.
 - [ ] Each omitted suggestion has a report reason and a proposed fix in the comment.
 - [ ] Comment bodies omit report sections and format commentary.
 - [ ] Each footnote includes the skill link, submitter's GitHub username, and accurate discussion status.
-- [ ] Each comment follows Simplified Technical English.
