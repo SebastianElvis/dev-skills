@@ -1,58 +1,48 @@
-# Feature / refactor / docs template
+# Feature, refactor, and documentation template
 
-Use for any non-bugfix, non-large-infra PR. The body is a **default** — drop
-sections that don't apply rather than padding them. Target 15–30 lines.
+You use this default for features, refactors, documentation, tests, and small infrastructure changes without a required repository template.
+You write all output in Simplified Technical English (ASD-STE100).
 
-## Required sections
+## Required structure
 
-1. `## Summary` — 1–2 sentences. What ships and (if not obvious) why.
-2. `## Changes` — bulleted list, one idea per bullet, each with a repo-relative
-   file link to the most representative file. Cite only what `git show HEAD:…`
-   confirmed.
+1. `## Summary`: You state the need and resulting behavior in one or two sentences.
+2. `## Changes`: You describe each meaningful change with a representative file link.
 
-## Optional sections — include only when non-obvious
+The body states validation evidence or its absence.
 
-Add these only when omitting them would leave a reviewer guessing. Do not
-include empty placeholders.
+## Optional sections
 
-- `## Breaking changes` — when callers must update code, configs, or data.
-  State the migration path in one or two bullets.
-- `## Configuration` — when new env vars, flags, or config keys are required
-  to use the change. Include defaults and where each is read.
-- `## Tests` — when test coverage is the headline (e.g., adds a missing test
-  matrix). Otherwise the diff speaks for itself.
-- `## Rollout` — when staged behind a flag or requires a coordinated deploy.
-  One bullet per gate.
+Each optional section requires its condition:
 
-## Output shape
+| Section | Condition |
+| --- | --- |
+| `## Breaking changes` | Callers must change code, configuration, or data. |
+| `## Configuration` | The change requires new configuration or changes defaults. |
+| `## Tests` | Coverage or execution details require separate explanation. |
+| `## Rollout` | The change requires ordered steps or a coordinated deployment. |
+
+You state the migration path under Breaking changes.
+You state configuration defaults and their source under Configuration.
+
+## Example
 
 ```markdown
 ## Summary
 
-Adds idempotent webhook delivery so retries from upstream do not duplicate
-side effects.
+- Callers can now multiply values through the shared math module.
 
 ## Changes
 
-- New `idempotency_key` column and unique index on `webhook_events`
-  ([migration](db/migrations/20260501_idempotency.sql)).
-- Delivery worker dedupes by key before invoking handlers
-  ([worker.ts:78](src/webhooks/worker.ts#L78)).
-- `POST /webhooks` accepts an `Idempotency-Key` header and rejects mismatched
-  payloads with `409` ([routes.ts:42](src/webhooks/routes.ts#L42)).
+- The [math module](src/math.py) adds `multiply(a, b)`.
+- `test_multiply` checks integer multiplication ([test_math.py](tests/test_math.py)).
 
-## Configuration
+## Tests
 
-- `WEBHOOK_DEDUP_WINDOW` (default `24h`) — retention before keys are GC'd
-  ([config.ts:12](src/config.ts#L12)).
+- The agent did not run the tests.
 ```
 
-## Anti-patterns to avoid
+## Final check
 
-- Sections like `## Cost Impact`, `## Performance Impact`, `## Security
-  Considerations`, `## Architecture`, `## Dependencies` filled with
-  generic platitudes. If you have nothing specific to say, omit the section.
-- Repeating the title in `## Summary`.
-- Linking every touched file. One link per bullet, the most representative.
-- Pasting before/after code blocks — the diff already shows the code.
-- Empty checklists or placeholder TODOs in the rendered body.
+- [ ] The body retains Summary and Changes in order.
+- [ ] The body states relevant validation evidence or its absence.
+- [ ] The output follows the length limit and Simplified Technical English rules.
