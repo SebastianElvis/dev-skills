@@ -9,6 +9,7 @@ Comment bodies omit draft labels, stage counters, report sections, category mark
 
 The agent adds the footnote below to every PR comment, including replies.
 The footnote follows all comment content, including suggestion blocks.
+The agent inserts a horizontal rule (`---`) above the footnote, with a blank line on each side.
 The agent replaces `@<submitter>` with the comment submitter's GitHub username.
 The agent uses the username that the human supplies, or `gh api user --jq .login` for the authenticated submitter.
 The agent asks for the username if the submitter's identity remains unclear.
@@ -27,6 +28,8 @@ The top comment states the recommendation and reason in at most six lines, exclu
 <The agent gives the reason and any unresolved disagreement.>
 
 The review covers <areas>. The review excludes <areas and reasons>.
+
+---
 
 *The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ```
@@ -49,6 +52,8 @@ The agent uses bullets for multiple evidence points or required edits.
 ```suggestion
 <The agent inserts the complete replacement for the selected lines.>
 ```
+
+---
 
 *The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ````
@@ -90,6 +95,8 @@ The example uses placeholders; actual output uses verified links.
     return limit <= max
     ```
 
+    ---
+
     *The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 
 ## Template check
@@ -99,4 +106,5 @@ The example uses placeholders; actual output uses verified links.
 - [ ] Each suggestion preserves required context within its selected range.
 - [ ] Each omitted suggestion has a report reason and a proposed fix in the comment.
 - [ ] Comment bodies omit report sections and format commentary.
+- [ ] Each footnote follows a horizontal rule with a blank line on each side.
 - [ ] Each footnote includes the skill link, submitter's GitHub username, and accurate discussion status.
