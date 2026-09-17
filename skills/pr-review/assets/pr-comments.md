@@ -10,6 +10,10 @@ Comment bodies omit draft labels, stage counters, report sections, category mark
 The agent adds the footnote below to every PR comment, including replies.
 The footnote follows all comment content, including suggestion blocks.
 The agent inserts a horizontal rule (`---`) above the footnote, with a blank line on each side.
+The agent replaces `<harness>` with the agent application name, such as `Codex` or `Claude Code`.
+The agent replaces `<model>` and `<effort>` with the model name and reasoning effort from the session.
+The agent uses `unknown` for unavailable names and omits `(<effort>)` when the reasoning effort is unavailable.
+The agent uses session metadata or explicit user information for these values, without guesses.
 The agent replaces `@<submitter>` with the comment submitter's GitHub username.
 The agent uses the username that the human supplies, or `gh api user --jq .login` for the authenticated submitter.
 The agent asks for the username if the submitter's identity remains unclear.
@@ -31,7 +35,7 @@ The review covers <areas>. The review excludes <areas and reasons>.
 
 ---
 
-*The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
+*<harness> + <model> (<effort>) + [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ```
 
 ## Inline finding
@@ -55,7 +59,7 @@ The agent uses bullets for multiple evidence points or required edits.
 
 ---
 
-*The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
+*<harness> + <model> (<effort>) + [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 ````
 
 ## Suggestions
@@ -82,6 +86,7 @@ Comment bodies omit commentary about the output format.
 The selected line contains `return limit < max`.
 The requirement permits requests at the limit.
 The example uses placeholders; actual output uses verified links.
+The example assumes that the session identifies Codex, GPT-6 Astra, and High reasoning effort.
 
     **The comparison rejects requests at the permitted limit.**
 
@@ -97,7 +102,7 @@ The example uses placeholders; actual output uses verified links.
 
     ---
 
-    *The [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
+    *Codex + GPT-6 Astra (High) + [pr-review skill](https://github.com/SebastianElvis/dev-skills/blob/main/skills/pr-review/SKILL.md) created this comment. The agent discussed this comment with @<submitter>.*
 
 ## Template check
 
@@ -107,4 +112,5 @@ The example uses placeholders; actual output uses verified links.
 - [ ] Each omitted suggestion has a report reason and a proposed fix in the comment.
 - [ ] Comment bodies omit report sections and format commentary.
 - [ ] Each footnote follows a horizontal rule with a blank line on each side.
+- [ ] Each footnote identifies the harness and model, marks unknown names, and includes the reasoning effort when available.
 - [ ] Each footnote includes the skill link, submitter's GitHub username, and accurate discussion status.
