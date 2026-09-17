@@ -5,44 +5,36 @@ You write all output in Simplified Technical English (ASD-STE100).
 
 ## Required structure
 
-1. `## Summary`: You state the need and resulting behavior in one or two sentences.
-2. `## Changes`: You describe each meaningful change with a representative file link.
+Each bullet contains one sentence that states one point.
+The body contains three short sections in this order:
 
-The body states validation evidence or its absence.
+1. `## Problem`: You state the concrete need or limitation.
+2. `## Solution`: You describe the change and resulting behavior. You include necessary migration or configuration details here.
+3. `## Validation`: You state verified checks and observed results. You state absent execution evidence explicitly.
 
-## Optional sections
-
-Each optional section requires its condition:
-
-| Section | Condition |
-| --- | --- |
-| `## Breaking changes` | Callers must change code, configuration, or data. |
-| `## Configuration` | The change requires new configuration or changes defaults. |
-| `## Tests` | Coverage or execution details require separate explanation. |
-| `## Rollout` | The change requires ordered steps or a coordinated deployment. |
-
-You state the migration path under Breaking changes.
-You state configuration defaults and their source under Configuration.
+You omit risk sections and risk ratings.
+You place relevant issue links after the three sections.
 
 ## Example
 
 ```markdown
-## Summary
+## Problem
 
-- Callers can now multiply values through the shared math module.
+- The shared math module lacks a multiplication helper.
 
-## Changes
+## Solution
 
-- The [math module](src/math.py) adds `multiply(a, b)`.
-- `test_multiply` checks integer multiplication ([test_math.py](tests/test_math.py)).
+- The module adds `multiply(a, b)` for callers that need multiplication.
 
-## Tests
+## Validation
 
+- The unit test checks integer multiplication.
 - The agent did not run the tests.
 ```
 
 ## Final check
 
-- [ ] The body retains Summary and Changes in order.
+- [ ] The body states the problem, solution, and validation in order. Each bullet contains one sentence that states one point.
 - [ ] The body states relevant validation evidence or its absence.
+- [ ] The body omits risk sections and risk ratings.
 - [ ] The output follows the length limit and Simplified Technical English rules.

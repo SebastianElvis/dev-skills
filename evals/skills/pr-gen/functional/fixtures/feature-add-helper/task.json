@@ -3,7 +3,7 @@
   "prompt": "Generate the PR title and description for this branch. Do NOT run `gh pr edit` or `gh pr create` \u2014 print the proposed title and body in your final message instead. The base branch is `main`.",
   "max_turns": 15,
   "timeout_s": 600,
-  "must_contain": ["multiply", "## Summary"],
+  "must_contain": ["multiply", "## Problem", "## Solution", "## Validation"],
   "must_not_contain": ["scratch", "WIP", "Co-Authored-By: Claude", "Generated with Claude Code"],
   "max_lines": 29,
   "judges": ["faithfulness", "template-fit", "writing-style"]

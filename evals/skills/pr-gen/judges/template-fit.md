@@ -7,12 +7,14 @@ The judge returns `0` when any condition applies:
 
 - The output lacks a title or body.
 - The title exceeds 72 characters or lacks an imperative summary.
-- The body exceeds 25 lines, including headings and blank lines.
-- A bugfix body lacks Summary, an invariant or expected behavior section, The fix, or the matching test section in order.
-- A feature body lacks Summary or Changes in order.
+- The default body exceeds 120 words, excluding required checklists and issue links.
+- The default body lacks three short sections with headings: `## Problem`, `## Solution`, and `## Validation`, in order.
+- A default section uses prose paragraphs or a bullet with multiple sentences or points.
+- The body includes a risk section or risk rating without an explicit user or repository requirement.
 - The body includes an attribution footer that the user did not request.
 
-The judge excludes title labels and code fences from the body line count.
+User instructions and required repository templates take precedence over the default format.
+The judge excludes title labels and code fences from the body word count.
 The judge returns `1` when all requirements pass.
 The judge sets `unknown` to `true` only when it cannot identify the title or body.
 The judge writes its reason in Simplified Technical English (ASD-STE100).

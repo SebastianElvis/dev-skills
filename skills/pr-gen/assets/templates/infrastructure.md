@@ -7,47 +7,36 @@ You write all output in Simplified Technical English (ASD-STE100).
 
 ## Required structure
 
-1. `## Summary`: You state the operational need and resulting change in one or two sentences.
-2. `## Resources`: You link each meaningful resource change to its configuration.
+Each bullet contains one sentence that states one point.
+The body contains three short sections in this order:
 
-The body states validation evidence or its absence.
-You distinguish configuration changes from observed deployment results.
+1. `## Problem`: You state the operational need or failure.
+2. `## Solution`: You explain the configuration change. You include necessary deployment or recovery steps here.
+3. `## Validation`: You distinguish configuration checks from observed deployment results. You state absent execution evidence explicitly.
 
-## Optional sections
-
-Each optional section requires its condition:
-
-| Section | Condition |
-| --- | --- |
-| `## Topology` | Connections, regions, or trust boundaries change. |
-| `## Rollout` | The change requires ordered steps or coordinated deployment. |
-| `## Cost` | Evidence supports a material cost change. |
-| `## DR / Backup` | Disaster recovery (DR) targets, backup retention, or failover procedures change. |
-| `## Rollback` | Reversal requires manual steps or risks data loss. |
-
-You define DR when you use that heading.
-You cite the source and assumptions for a cost estimate.
-You mark unknown costs explicitly.
+You omit risk sections and risk ratings.
+You place relevant issue links after the three sections.
 
 ## Example
 
 ```markdown
-## Summary
+## Problem
 
-- The database configuration adds a replica for recovery after a regional failure.
+- The database lacks a replica for recovery after a regional failure.
 
-## Resources
+## Solution
 
-- `db-replica` receives asynchronous updates in a second region ([database.tf](cloud/database.tf)).
+- The configuration adds an asynchronous replica in a second region.
+- An operator must create the replica before the application uses it.
 
-## Rollout
+## Validation
 
-- The [procedure](docs/rollout.md) requires an operator to create the replica before the application uses it.
 - The agent did not validate the configuration or deploy the replica.
 ```
 
 ## Final check
 
-- [ ] The body retains Summary and Resources in order.
+- [ ] The body states the problem, solution, and validation in order. Each bullet contains one sentence that states one point.
 - [ ] The body distinguishes configuration, validation, and deployment results.
+- [ ] The body omits risk sections and risk ratings.
 - [ ] The output follows the length limit and Simplified Technical English rules.

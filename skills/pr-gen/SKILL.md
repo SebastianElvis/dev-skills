@@ -57,15 +57,19 @@ The title uses an imperative summary as a label.
 You follow the repository title convention, or [title patterns](references/title-patterns.md) when none exists.
 The default title limit is 72 characters.
 
-The body starts with the concrete problem or need and resulting behavior.
-Bugfix descriptions connect the trigger, root cause, correction, and regression coverage.
-Compatibility, migration, and operational details appear only when the change requires them.
+The default body contains three short sections with headings: `## Problem`, `## Solution`, and `## Validation`.
+The problem states the concrete defect or need. The solution states the correction and resulting behavior.
+The validation states verified checks, results, or gaps.
+You omit risk sections and risk ratings unless the user or repository requires them.
+Bugfix descriptions connect the trigger, root cause, correction, and regression coverage within these sections.
+Necessary compatibility, migration, and operational details belong in the solution section.
 You rewrite stale descriptions around the final implementation.
 You exclude abandoned work and conversation history unless they explain a necessary design decision.
 
-Each required section remains. Each section uses one or two short bullets unless more facts are necessary.
-Each bullet contains one idea.
-You target 15 lines, including headings and blank lines. Bugfixes and complex changes can use up to 25 lines.
+Each section uses concise bullets. Each bullet contains one sentence that states one point.
+You use one bullet per section unless distinct necessary points require more.
+The default body uses at most 120 words, excluding required checklists and issue links.
+You include file links or test identifiers only when they clarify the solution or validation.
 Repository requirements and explicit user limits take precedence.
 You omit repeated title text, file inventories, code excerpts, and empty optional sections.
 Attribution footers require a user request.
@@ -94,6 +98,7 @@ You report publication failures without a success claim.
 - [ ] Claims match the recorded final diff or identified sources. Reverted work remains absent.
 - [ ] Bugfixes connect the trigger, root cause, correction, and verified coverage or gaps.
 - [ ] Test claims distinguish coverage, execution results, and proposed checks.
+- [ ] The default body uses one sentence per bullet within 120 words. Risk sections and ratings require an explicit requirement.
 - [ ] File links resolve at the appropriate revision.
 - [ ] The output follows project requirements, requested scope, template structure, length limits, and Simplified Technical English rules.
 - [ ] Publication matches the authorization and checked PR revision.
