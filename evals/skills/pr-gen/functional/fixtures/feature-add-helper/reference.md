@@ -6,21 +6,21 @@ The following example assumes that the agent did not run the tests.
 Title: `feat(math): add multiply helper`
 
 ```markdown
-## Summary
+## Problem
 
-- Callers can now multiply values through the shared math module.
+- The shared math module lacks a multiplication helper.
 
-## Changes
+## Solution
 
-- The [math module](src/math.py) adds `multiply(a, b)`.
-- `test_multiply` checks that `multiply(4, 5)` returns `20` ([tests](tests/test_math.py)).
+- The module adds `multiply(a, b)` for callers that need multiplication.
 
-## Tests
+## Validation
 
+- `test_multiply` checks that `multiply(4, 5)` returns `20`.
 - The agent did not run the tests.
 ```
 
-The body retains Summary and Changes and targets 15 lines.
+The body states the problem, solution, and validation within 120 words. The body omits risk sections and risk ratings.
 The agent can report actual execution results when its transcript provides evidence.
 The branch history adds and removes `src/scratch.py` without a final diff.
 The title and body must omit that file and its temporary change.

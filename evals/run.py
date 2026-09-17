@@ -464,9 +464,8 @@ def code_check_output(output: str, task: dict) -> dict:
     for s in task.get("must_not_contain", []):
         checks[f"absent:{s}"] = not _word_match(s, text)
 
-    # Length bound from SKILL.md guidance (15-30 lines for pr-gen). Counts non-empty
-    # lines of the agent's whole final message; wrapper prose can inflate this, but
-    # we keep `max_lines` permissive and use the LLM judge for body-shape critique.
+    # This check counts nonempty lines in the complete output.
+    # The structure judge checks the skill's default format and word limit.
     if "max_lines" in task:
         body_lines = len([l for l in text.splitlines() if l.strip()])
         checks["max_lines"] = body_lines <= task["max_lines"]
