@@ -1,0 +1,13 @@
+{
+  "id": "owner-scope",
+  "prompt": "Sweep my GitHub notifications for the acme organization only.",
+  "max_turns": 20,
+  "timeout_s": 600,
+  "env": {"SWEEP_GH": "{fixture}/bin/gh", "GH_TOKEN": "eval-invalid-token"},
+  "must_contain": ["acme/api#101", "acme/web#203", "Proposed done", "Needs your action", "Yours", "Others"],
+  "must_not_contain": ["globex"],
+  "required_artifacts": [
+    {"path": "calls.log", "must_not_contain": ["DELETE"]}
+  ],
+  "judges": ["classification"]
+}

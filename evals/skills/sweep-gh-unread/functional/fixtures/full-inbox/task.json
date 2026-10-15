@@ -1,0 +1,12 @@
+{
+  "id": "full-inbox",
+  "prompt": "Sweep my GitHub notifications.",
+  "max_turns": 20,
+  "timeout_s": 600,
+  "env": {"SWEEP_GH": "{fixture}/bin/gh", "GH_TOKEN": "eval-invalid-token"},
+  "must_contain": ["acme/api#101", "acme/api#102", "acme/api#105", "acme/web#201", "acme/web#203", "acme/web#205", "globex/tool#7", "Proposed done", "Needs your action", "Yours", "Others"],
+  "required_artifacts": [
+    {"path": "calls.log", "must_contain": ["GET notifications?page=1"], "must_not_contain": ["DELETE"]}
+  ],
+  "judges": ["classification", "writing-style"]
+}

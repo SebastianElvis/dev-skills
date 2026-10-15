@@ -52,6 +52,14 @@ KEEP_FIXTURE=1 python3 evals/run.py functional --case bugfix-with-test
 Each run writes per-trial stream-json transcripts and a `report.json` summary
 to `evals/results/<layer>/<skill>/<timestamp>/`.
 
+A skill can also ship deterministic tests beside its fixtures. Run them with
+`python3 -m unittest discover -s evals/skills/<skill>`. The
+`sweep-gh-unread` tests replay a synthetic inbox through a stub `gh`.
+
+A functional `task.json` can set `env` for the agent process. The value
+`{fixture}` expands to the fixture path, for example to point `SWEEP_GH` at a
+stub binary.
+
 ## How the harness stays hermetic
 
 - Triggering trials run in `mktemp -d` so no project `CLAUDE.md` is auto-loaded.

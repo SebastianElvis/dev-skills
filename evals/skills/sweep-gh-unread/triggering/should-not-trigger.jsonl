@@ -1,0 +1,10 @@
+{"id": "neg-review-pr", "prompt": "Review PR 123 in acme/api and tell me if it is safe to merge."}
+{"id": "neg-pr-description", "prompt": "Write the PR description for this branch."}
+{"id": "neg-slack", "prompt": "Summarize my unread Slack notifications from the last day."}
+{"id": "neg-macos", "prompt": "How do I turn off macOS notifications for the GitHub desktop app?"}
+{"id": "neg-settings", "prompt": "Change my GitHub notification settings so that I get email only for review requests."}
+{"id": "neg-list-prs", "prompt": "List my open pull requests in acme/web with their CI status."}
+{"id": "neg-webhook", "prompt": "Write a GitHub Action that posts a Slack message when a PR in this repo gets a review request."}
+{"id": "neg-issue-triage", "prompt": "Triage the open issues in acme/api: add labels and close the duplicates."}
+{"id": "neg-notification-code", "prompt": "Add a notification badge to the inbox component in src/ui/Inbox.tsx."}
+{"id": "neg-reply", "prompt": "Reply to the review comment from kim on PR 205 and say that I prefer a TTL cache."}
