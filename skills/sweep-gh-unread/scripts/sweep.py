@@ -69,7 +69,7 @@ def graphql(query: str, owner: str, name: str, number: int) -> dict:
 def pages(path: str):
     page = 1
     while True:
-        items = api(f"{path}?all=true&per_page={PAGE}&page={page}") or []
+        items = api(f"{path}?per_page={PAGE}&page={page}") or []
         yield from items
         if len(items) < PAGE:
             return
