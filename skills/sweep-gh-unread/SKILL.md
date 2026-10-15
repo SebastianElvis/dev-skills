@@ -77,7 +77,7 @@ Write the final report with [the report template](assets/report.md).
 
 ## Gotchas
 
-- The script reads read threads and unread threads, because the GitHub inbox shows both.
+- The script reads only unread threads. With `all=true`, the API also gives the threads in the Done view.
 - A new commit alone is not an author response. Rule O7 still marks the PR as done.
 - A done thread comes back when the PR or the issue gets new activity.
 - GitHub computes mergeability after the first query. The script asks again once, but `UNKNOWN` can still occur.
