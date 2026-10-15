@@ -9,7 +9,7 @@
     {
       "name": "dev-skills",
       "source": "./",
-      "description": "General skills for PR generation, architecture-first PR review, and evidence-based architecture diagrams.",
+      "description": "General skills for PR generation, architecture-first PR review, GitHub notification sweeps, and evidence-based architecture diagrams.",
       "version": "0.3.0",
       "author": {
         "name": "SebastianElvis"

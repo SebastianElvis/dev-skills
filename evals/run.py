@@ -49,6 +49,7 @@ def claude_cli(
     max_turns: int = 6,
     timeout: int = 300,
     permission_mode: str = "bypassPermissions",
+    env: dict[str, str] | None = None,
 ) -> tuple[list[dict], int]:
     """Invoke `claude -p` and return parsed stream-json events + exit code."""
     cmd: list[str] = [
@@ -82,7 +83,8 @@ def claude_cli(
         cmd += ["--system-prompt", system_prompt]
 
     proc = subprocess.run(
-        cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout
+        cmd, cwd=str(cwd), capture_output=True, text=True, timeout=timeout,
+        env={**os.environ, **env} if env else None,
     )
     events: list[dict] = []
     for line in proc.stdout.splitlines():
@@ -395,6 +397,8 @@ def run_functional_case(
             tools=allowed_tools,
             max_turns=task.get("max_turns", 12),
             timeout=task.get("timeout_s", 600),
+            # `{fixture}` in a task's env value expands to the fixture path, such as a stub binary.
+            env={k: v.replace("{fixture}", str(fixture_path)) for k, v in task.get("env", {}).items()},
         )
         if not events:
             cli_error = f"no events (rc={rc})"

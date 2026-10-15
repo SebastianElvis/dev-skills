@@ -40,6 +40,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, and every other agent the
 | --- | --- |
 | [`pr-gen`](skills/pr-gen) | Generate or update a GitHub PR title and description from the actual code changes on the current branch. |
 | [`pr-review`](skills/pr-review) | The agent reviews the problem, specification, architecture, necessity, root cause, correctness, security, and project rules. It checks security at each stage. It asks for human confirmation before each later stage. |
+| [`sweep-gh-unread`](skills/sweep-gh-unread) | Classify each GitHub notification thread, ask for confirmation, mark the threads without an open action as done, and list the action items. |
 | [`visualize-arch`](skills/visualize-arch) | Plan and create evidence-based system diagrams with verified structure and flows. |
 
 ## Layout

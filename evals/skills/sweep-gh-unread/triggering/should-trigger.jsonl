@@ -1,0 +1,10 @@
+{"id": "pos-sweep", "prompt": "Sweep my GitHub notifications."}
+{"id": "pos-clear-inbox", "prompt": "My GitHub inbox has like 120 notifications again. Clear out the ones I don't need to do anything about."}
+{"id": "pos-mark-done", "prompt": "Mark the finished GitHub notifications as done and tell me what is left for me."}
+{"id": "pos-what-needs-me", "prompt": "What needs my action on GitHub today? Go through my notifications."}
+{"id": "pos-org-scope", "prompt": "sweep notifications in the babylonlabs-io org only"}
+{"id": "pos-repo-scope", "prompt": "Triage my GitHub notifications for acme/api. Merged PRs and stuff I already approved can go."}
+{"id": "pos-merge-queue", "prompt": "Go through my github notifications, mark the merged ones and the ones in the merge queue as done."}
+{"id": "pos-waiting-on-me", "prompt": "Which PRs in my notifications are waiting on me, and which can I dismiss?"}
+{"id": "pos-cleanup", "prompt": "Clean up my GitHub notification inbox before standup and give me a list of action items."}
+{"id": "pos-review-queue", "prompt": "I have a pile of review requests and mentions in GitHub notifications. Sort out what I still owe people and mark the rest done."}
