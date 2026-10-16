@@ -68,7 +68,6 @@ The human posts the review unless the user directly requests comment publication
 
 - A `Fixes #N` link does not prove that the issue matches the PR.
 - `closingIssuesReferences` misses soft links.
-- Local `HEAD` can differ from the PR head.
 - `git log --follow` can miss a rename with content changes. The agent uses `--find-renames` when needed.
 - A test-only PR can weaken behavior through changed assertions.
 - Lockfiles can distort the additions count.

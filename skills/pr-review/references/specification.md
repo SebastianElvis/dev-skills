@@ -14,12 +14,13 @@ gh pr view "$pr" --comments
 gh pr view "$pr" --json url,headRefOid,baseRefOid,headRepository,headRepositoryOwner
 ```
 
-The agent records the base and head revisions from this metadata.
-The agent uses those revisions for comparisons and code references.
+The agent sets `base` and `head` to the PR revision hashes.
 The agent asks the user before it reviews a closed, merged, or draft PR.
+If the working directory is the PR repository, the agent runs `gh pr checkout "$pr"`.
+The agent asks before it checks out a dirty working tree.
+`HEAD` must then equal `head`.
 
 The agent searches the PR body and commits for issue links that `closingIssuesReferences` misses.
-The agent sets `base` and `head` to the recorded revision hashes before these commands.
 
 ```bash
 gh pr view "$pr" --json body -q .body | rg -o '#[0-9]+|https://github.com/[^ )]+/(issues|pull)/[0-9]+'
