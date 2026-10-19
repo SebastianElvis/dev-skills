@@ -313,10 +313,10 @@ def collect(args) -> None:
 
 def mark(args) -> None:
     run = Path(args.run)
-    records = {r["row"]: r for r in json.loads((run / "threads.json").read_text())["threads"]}
+    data = json.loads((run / "threads.json").read_text())
+    records = {r["row"]: r for r in data["threads"]}
     rows = sorted({int(x) for x in args.rows.split(",") if x.strip()})
-    unknown = [r for r in rows if r not in records]
-    if unknown:
+    if unknown := [r for r in rows if r not in records]:
         sys.exit(f"Unknown rows: {unknown}. Nothing is marked.")
     summary = {"marked": [], "changed": [], "failed": []}
     with (run / "actions.log").open("a") as log:
@@ -324,12 +324,12 @@ def mark(args) -> None:
             r = records[row]
             entry = {"row": row, "thread_id": r["thread_id"], "ref": r["ref"], "rule": r["rule"]}
             try:
-                current = api(f"notifications/threads/{r['thread_id']}")
-                if current["updated_at"] != r["updated_at"]:
-                    entry["status"] = "changed"
-                else:
+                thread = api(f"notifications/threads/{r['thread_id']}")
+                new = r if thread["updated_at"] == r["updated_at"] else classify(thread, data["me"], set(data["teams"]))
+                same = (new["rule"], new.get("replies")) == (r["rule"], r.get("replies"))
+                entry["status"] = "marked" if new["result"] == "done" or same else "changed"
+                if entry["status"] == "marked":
                     api(f"notifications/threads/{r['thread_id']}", method="DELETE")
-                    entry["status"] = "marked"
             except GhError as err:
                 entry.update(status="failed", error=str(err))
             entry["time"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")

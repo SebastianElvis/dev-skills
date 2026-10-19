@@ -70,8 +70,8 @@ Run this command with the confirmed done rows:
 
     python3 <skill-dir>/scripts/sweep.py mark --run <run> --rows 3,5,8
 
-The script reads each thread again before it marks the thread.
-It does not mark a thread that changed after the collect step. It lists that thread under `changed`.
+The script classifies a changed thread again, because your own review also changes it.
+It lists the thread under `changed` if a new action exists.
 It writes one line for each row to `<run>/actions.log`.
 Write the final report with [the report template](assets/report.md).
 

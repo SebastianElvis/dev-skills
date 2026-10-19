@@ -79,15 +79,31 @@ class SweepTest(unittest.TestCase):
         log = [json.loads(line) for line in (self.dir / "run" / "actions.log").read_text().splitlines()]
         self.assertEqual({e["status"] for e in log}, {"marked"})
 
-    def test_mark_skips_a_changed_thread(self):
-        threads = self.collect()
-        thread = threads["acme/api#107"]
+    def change(self, ref, edit):
+        thread = self.collect()[ref]
         responses = json.loads((self.dir / "responses.json").read_text())
         responses[f"GET notifications/threads/{thread['thread_id']}"]["updated_at"] = "2026-10-15T00:00:00Z"
+        repo, number = ref.split("#")
+        edit(responses[f"graphql pullRequest {repo}#{number}"]["data"]["repository"]["pullRequest"])
         (self.dir / "responses.json").write_text(json.dumps(responses))
         out = self.run_sweep("mark", "--run", str(self.dir / "run"), "--rows", str(thread["row"]))
-        self.assertEqual(json.loads(out.stdout)["changed"][0]["ref"], "acme/api#107")
+        return json.loads(out.stdout)
+
+    def test_mark_skips_a_thread_with_a_new_author_reply(self):
+        reply = {"author": {"__typename": "User", "login": "lee"}, "createdAt": "2026-10-14T10:00:00Z",
+                 "body": "Split in 4d1e2f0.", "url": "https://github.com/acme/api/pull/104#reply"}
+        summary = self.change("acme/api#104", lambda pr: pr["reviewThreads"]["nodes"][0]["comments"]["nodes"]
+                              .append(reply))
+        self.assertEqual(summary["changed"][0]["ref"], "acme/api#104")
         self.assertFalse(any(c.startswith("DELETE") for c in self.calls()))
+
+    def test_mark_accepts_a_thread_after_your_own_review(self):
+        def review(pr):
+            pr["reviewRequests"]["nodes"] = []
+            pr["reviews"]["nodes"].append({"author": {"__typename": "User", "login": "dana-dev"},
+                                           "state": "COMMENTED", "submittedAt": "2026-10-14T10:00:00Z",
+                                           "body": "", "url": "https://github.com/acme/api/pull/101#review"})
+        self.assertEqual(self.change("acme/api#101", review)["marked"][0]["ref"], "acme/api#101")
 
     def test_mark_refuses_an_unknown_row(self):
         self.collect()
