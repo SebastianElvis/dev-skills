@@ -157,7 +157,7 @@ The agent answers these questions before the detailed review:
 - Is the problem real?
 - Is the diagnosis correct?
 - Is the problem worth the review and maintenance cost?
-- Does the repository already solve or prevent it?
+- Does `main` already solve, prevent, or accept it?
 - What is the smallest correct solution?
 - Does that solution need a specification change?
 
@@ -174,10 +174,22 @@ The agent answers these questions to judge the architecture modifications:
 - Which architecture modification would the agent write instead?
 - Which cost does the change add: a new mechanism, a wider boundary, or a new owner?
 
+The agent also answers these questions with repository evidence:
+
+- Why does the PR add more code than the smallest correct solution? Does a refactor add net code?
+- Which code, configuration, documentation, or tests can the PR remove? Does the new mechanism replace the old path?
+- Can an existing mechanism, type, constant, dependency, or test do this?
+- Does the PR add a new term where the repository already has one?
+- Does the defect belong in the state machine, data model, infrastructure, configuration, or specification?
+- Can code enforce the rule instead of configuration, documentation, or a manual step? Does the change fail closed?
+- Can the PR extend an existing test? Does continuous integration run each new test?
+- Does a linked issue, audit finding, or team decision support the change?
+- Does each finding block the merge, or is it defense in depth, a documentation gap, or follow-up work?
+
 The judgment determines the agent's answer about the proposed architecture modifications.
 A broken layer, verified security regression, fix below the root cause, or positive split test requires `no` for the modifications.
 A missing test, migration step, or owner decision requires `no` when acceptance depends on it.
-The agent answers `yes` when it would write the same modification.
+The agent answers `no` when an answer finds a smaller design, a removal, or a reuse.
 
 ## Request confirmation
 
@@ -190,17 +202,6 @@ Each question must meet all these conditions:
 
 The agent states where it searched and gives its own answer.
 The agent does not ask the human to perform checks that the code or procedure can resolve.
-
-The agent omits these questions:
-
-- Is this PR ready to merge?
-- Are there tests?
-- What does this PR do?
-- Should I check security?
-- Should I use strict review standards?
-- Is the PR too large?
-- Does the code follow project rules?
-- Do you have any concerns?
 
 The agent stops when the human rejects the problem.
 The agent stops with `I recommend a split before review.` when the human accepts the split plan.
@@ -226,3 +227,4 @@ Each task follows the shared fact rules.
 - [ ] Each affected security requirement has enforcement evidence, an attack path, or an evidence gap.
 - [ ] The split test has a result.
 - [ ] The independent solution or split plan precedes the detailed review.
+- [ ] Each review question has an answer with evidence.

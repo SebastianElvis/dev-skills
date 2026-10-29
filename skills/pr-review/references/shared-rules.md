@@ -78,12 +78,14 @@ The agent can exceed that limit for the required rationale of a `no` answer.
 | The PR changes no protocol. | The agent omits this confirmation. | `Stage 1 of 2` | `Stage 2 of 2` |
 
 A question or objection leaves the applicable point unconfirmed.
+A request to continue, such as "move on to detailed review", confirms the open answers.
+The agent asks a pending question only once.
 The agent answers from repository evidence before it requests confirmation of one corrected stage.
 The agent changes its answer when the human gives new evidence.
 The agent retains its answer when the human gives no new evidence.
 The report records disagreements and the points that the human confirms or corrects.
 The report links each human-supplied point to the findings that depend on it.
-A `no` answer that the human accepts becomes a blocking finding.
+A `no` answer that the human accepts becomes a finding with the severity from the review questions.
 
 You must present verified specification and design findings before the detailed review.
 You must separate those findings from unresolved assumptions and evidence gaps.
@@ -169,6 +171,7 @@ The agent selects one result:
 - `I cannot confirm the problem.`
 
 An unresolved security requirement that prevents merge requires `I recommend a design discussion.`
+A failed check, merge conflict, or documentation gap is non-blocking unless it hides a defect.
 The agent never writes `Approved` or `LGTM`.
 
 ## Output check

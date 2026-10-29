@@ -30,12 +30,7 @@ The agent drops claims without an exact conflict.
 ### Necessity and minimality
 
 The agent lists each added file, type, function, option, dependency, and data field.
-The agent asks these questions for each addition:
-
-- What current behavior fails if this addition disappears?
-- Does this addition replace code that the PR leaves in place?
-- Can fewer parameters, types, or layers provide the same behavior?
-- Does the repository already provide this operation?
+The agent applies the review questions from the architecture procedure to each addition.
 
 ```bash
 rg -n '<new symbol>'
