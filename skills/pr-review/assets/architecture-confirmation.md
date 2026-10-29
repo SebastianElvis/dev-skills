@@ -19,6 +19,7 @@ The agent includes the independent solution in the description if the answers do
 <The agent states the current architecture, PR modifications, security results, and coverage.>
 
 - **Enforcement:** <The agent names the components that enforce affected security requirements.>
+- **Review questions:** <The agent states each answer that finds a smaller design, a removal, a reuse, a new term, or another fix depth.>
 - **Findings:** <The agent states verified design findings and their attack paths.>
 - **Evidence gaps:** <The agent states unresolved assumptions.>
 

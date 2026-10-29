@@ -11,12 +11,14 @@ The agent reads the target PR metadata and comments with the GitHub command-line
 pr="${1:?PR number or URL required}"
 gh pr view "$pr" --json number,title,body,author,baseRefName,headRefName,state,isDraft,additions,deletions,changedFiles,labels,closingIssuesReferences
 gh pr view "$pr" --comments
-gh pr view "$pr" --json url,headRefOid,baseRefOid,headRepository,headRepositoryOwner
+gh pr view "$pr" --json url,headRefOid,baseRefOid,headRepository,headRepositoryOwner,latestReviews,reviewRequests,autoMergeRequest
 ```
 
 The agent sets `base` and `head` to the PR revision hashes.
-The agent asks the user before it reviews a closed, merged, or draft PR.
-If the working directory is the PR repository, the agent runs `gh pr checkout "$pr"`.
+The agent asks the user before it reviews a closed, merged, or draft PR, or a PR of the user.
+The agent also asks about a PR with auto-merge, the user's approval, or no review request to the user.
+The agent asks before it reviews a PR outside the repository of the working directory.
+The agent runs `gh pr checkout "$pr"` and never uses a detached `HEAD`.
 The agent asks before it checks out a dirty working tree.
 `HEAD` must then equal `head`.
 
@@ -29,6 +31,7 @@ gh issue view <N> --comments
 ```
 
 The agent reads each relevant issue and its comments in the correct repository.
+The agent also reads linked audit findings and Slack threads when a tool can read them.
 The problem statement names the affected user, report source, and any maintainer confirmation.
 If no issue exists, the agent uses the PR body, commits, and code.
 The statement then records that no independent problem report exists.
