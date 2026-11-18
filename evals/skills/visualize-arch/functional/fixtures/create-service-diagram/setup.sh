@@ -29,9 +29,35 @@ cat >src/app.py <<'PY'
 class Database:
     name = "SQLite"
 
+    def insert(self, parcel):
+        return {"id": 1, "parcel": parcel, "status": "queued"}
+
+    def get(self, job_id):
+        return {"id": job_id, "status": "queued"}
+
+    def next_job(self):
+        return self.get(1)
+
+    def save_result(self, result):
+        return result
+
+
+class APIService:
+    def __init__(self, database):
+        self.database = database
+
+    def create_job(self, parcel):
+        return self.database.insert(parcel)
+
+    def get_job(self, job_id):
+        return self.database.get(job_id)
+
 
 class CarrierClient:
     name = "Carrier API"
+
+    def send(self, job):
+        return {"id": job["id"], "status": "sent"}
 
 
 def submit_from_cli(api, parcel):

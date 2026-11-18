@@ -1,0 +1,19 @@
+\documentclass[tikz,border=4pt]{standalone}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usetikzlibrary{arrows.meta,positioning}
+\begin{document}
+\begin{tikzpicture}[
+  box/.style={draw=black!65,minimum width=27mm,minimum height=9mm,align=center,
+    font=\sffamily\fontsize{9}{11}\selectfont,inner sep=3pt},
+  edge/.style={-{Latex[length=2mm]},line width=.7pt},
+  edge label/.style={font=\sffamily\fontsize{8.5}{10}\selectfont,fill=white,inner sep=2pt}]
+  \node[box] (scheduler) {Scheduler};
+  \node[box,below=13mm of scheduler,fill=blue!6] (worker) {Worker};
+  \node[box,below=13mm of worker,dashed] (carrier) {Carrier};
+  \draw[edge] (scheduler) -- node[edge label,right] {1 Start} (worker);
+  \draw[edge] (worker.west) -- ++(-.9,0) |- node[edge label,pos=.7,left] {2 Send} (carrier.west);
+  \draw[edge,dashed] (carrier.east) -- ++(.9,0) |- node[edge label,pos=.7,right] {3 Return} (worker.east);
+  \node[font=\sffamily\fontsize{8.5}{10}\selectfont,below=5mm of carrier] {Solid: request; dashed: response};
+\end{tikzpicture}
+\end{document}

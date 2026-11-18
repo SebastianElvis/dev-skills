@@ -1,0 +1,92 @@
+{
+  "id": "reference-publish",
+  "prompt": "Use the visualize-arch skill to create one complete Release Desk workflow from src/releases.py and README.md. Show creation, approval, worker eligibility, runner outcomes, bounded retries, manual retry, cancellation, and independent publication. Show each required event write. Preserve the scope of role checks, reset attempts, retained identity, and event history. Use the attached Kriterion lifecycle as the minimum visual quality. Write editable docs/assets/publish.tex, docs/assets/publish.svg, and docs/assets/publish.pdf. Add docs/assets/Makefile and docs/assets/figure-notes.md. Use 180 mm final width and at least 8 pt text. Use the local references without network access. The scope is approved. Complete generation and review without another approval question. Keep application files unchanged. Do not commit.",
+  "max_turns": 70,
+  "timeout_s": 1500,
+  "allow_writes": true,
+  "must_contain": [
+    "publish.tex",
+    "publish.svg",
+    "publish.pdf"
+  ],
+  "max_lines": 40,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/publish.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/publish.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/publish.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "reference-quality",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/publish.pdf",
+      "--width-mm",
+      "180"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/publish.tex",
+      "docs/assets/publish-color.png",
+      "README.md",
+      "src/releases.py"
+    ],
+    "readability": [
+      "docs/assets/publish-color.png",
+      "docs/assets/publish-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/publish-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/publish-color.png"
+    ],
+    "reference-quality": [
+      "docs/assets/publish-color.png"
+    ]
+  },
+  "visual_references": [
+    {
+      "path": "kriterion/submission-lifecycle.png",
+      "label": "Kriterion submission lifecycle: minimum"
+    },
+    {
+      "path": "public/crops/ray-page-9.png",
+      "label": "Ray Figure 7: request and result workflows"
+    }
+  ],
+  "reference_width_mm": 180
+}

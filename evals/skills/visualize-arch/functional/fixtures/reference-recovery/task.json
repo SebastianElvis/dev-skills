@@ -1,0 +1,92 @@
+{
+  "id": "reference-recovery",
+  "prompt": "Use the visualize-arch skill to create one complete Import Desk lifecycle figure from src/imports.py and README.md. Show intake errors, the safety scan, worker eligibility, warehouse outcomes, bounded backoff, credential-dependent manual resume, cancellation, and independent indexing. Distinguish the reset attempt counter from the retained job identity and event history. Use the attached Kriterion lifecycle as the minimum visual quality. Keep the source editable in TikZ. Write docs/assets/recovery.tex, SVG, and PDF files. Add docs/assets/Makefile and docs/assets/figure-notes.md. Use 260 mm final width and at least 8 pt text. Use the local references without network access. The scope is approved. Complete generation and review without another approval question. Keep application files unchanged. Do not commit.",
+  "max_turns": 70,
+  "timeout_s": 1500,
+  "allow_writes": true,
+  "must_contain": [
+    "recovery.tex",
+    "recovery.svg",
+    "recovery.pdf"
+  ],
+  "max_lines": 40,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/recovery.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/recovery.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/recovery.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "reference-quality",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/recovery.pdf",
+      "--width-mm",
+      "260"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/recovery.tex",
+      "docs/assets/recovery-color.png",
+      "README.md",
+      "src/imports.py"
+    ],
+    "readability": [
+      "docs/assets/recovery-color.png",
+      "docs/assets/recovery-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/recovery-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/recovery-color.png"
+    ],
+    "reference-quality": [
+      "docs/assets/recovery-color.png"
+    ]
+  },
+  "visual_references": [
+    {
+      "path": "kriterion/submission-lifecycle.png",
+      "label": "Kriterion submission lifecycle: minimum"
+    },
+    {
+      "path": "public/crops/ray-page-9.png",
+      "label": "Ray Figure 7: request and result workflows"
+    }
+  ],
+  "reference_width_mm": 260
+}

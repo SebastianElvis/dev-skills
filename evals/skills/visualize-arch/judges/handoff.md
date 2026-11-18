@@ -1,11 +1,15 @@
 # Judge dimension: handoff
 
-Score 1 when the final response gives a clear and concise handoff for the architecture diagram.
+Score the final response against the requested figure set.
+Write the reason in Simplified Technical English.
 
-The response must list the TeX source and each generated file. The generated files use Scalable Vector Graphics (SVG) and Portable Document Format (PDF).
+Score 1 when the response gives each source path and vector output path.
+Links can identify those paths. The vector files use Scalable Vector Graphics (SVG) and Portable Document Format (PDF).
+The response must state the build command or completed checks.
+A build command can identify the Makefile. The response does not need a separate Makefile link.
+The response does not need to list temporary previews, logs, or support files unless the task requests those paths.
 
-The response must state the build or validation checks.
-
-Score 0 when the response omits an output, claims an unverified result, or includes product names outside the reference.
-
-Set `unknown` to true only when the response is empty or malformed.
+Score 0 when the response omits a figure source or vector output.
+Score 0 when the response claims an unverified result.
+A directory path alone does not identify each required output.
+Set `unknown` to true when the available response does not permit a decision.

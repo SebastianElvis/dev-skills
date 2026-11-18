@@ -1,0 +1,90 @@
+{
+  "id": "refresh-worker-flow",
+  "prompt": "Use the visualize-arch skill to refresh docs/assets/worker.tex from the current code. The approved scope is one worker workflow. Preserve TikZ and the current Makefile. Show the current provider, success result, and failure result. Remove the obsolete provider. Use 85 mm final width and at least 8 pt text. Use bundled offline examples. Do not use the network. Generate SVG and PDF. Complete the figure without another approval question. Do not change application code. Do not commit.",
+  "max_turns": 50,
+  "timeout_s": 1200,
+  "allow_writes": true,
+  "must_contain": [
+    "worker"
+  ],
+  "max_lines": 35,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/worker.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/worker.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/worker.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/worker.tex",
+      "must_not_contain": [
+        "LegacyCarrier"
+      ]
+    },
+    {
+      "path": "docs/assets/Makefile",
+      "must_contain": [
+        "worker.tex"
+      ]
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/worker.pdf",
+      "--width-mm",
+      "85"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql",
+      "src/worker.py"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "docs/assets/Makefile"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/worker.tex",
+      "docs/assets/worker-color.png",
+      "src/worker.py"
+    ],
+    "readability": [
+      "docs/assets/worker-color.png",
+      "docs/assets/worker-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/worker-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/worker-color.png"
+    ]
+  }
+}

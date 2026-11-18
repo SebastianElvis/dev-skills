@@ -1,0 +1,71 @@
+{
+  "id": "schema-optional-owner",
+  "prompt": "Use the visualize-arch skill to create one database schema figure from schema.sql. The approved question is: How do projects, jobs, and optional owners relate? Use 85 mm final width and at least 8 pt text. Show keys, nullability, and cardinalities. Keep static relationships unnumbered. Write docs/assets/job-schema.tex, SVG, and PDF. Add docs/assets/Makefile. Use bundled offline references. Do not use the network. Complete the figure without another approval question. Do not commit.",
+  "max_turns": 50,
+  "timeout_s": 1200,
+  "allow_writes": true,
+  "must_contain": [
+    "job-schema"
+  ],
+  "max_lines": 35,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/job-schema.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/job-schema.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/job-schema.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/job-schema.pdf",
+      "--width-mm",
+      "85"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/job-schema.tex",
+      "docs/assets/job-schema-color.png",
+      "schema.sql"
+    ],
+    "readability": [
+      "docs/assets/job-schema-color.png",
+      "docs/assets/job-schema-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/job-schema-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/job-schema-color.png"
+    ]
+  }
+}

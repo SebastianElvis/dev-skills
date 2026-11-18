@@ -246,7 +246,7 @@ evals trustworthy rather than vanity metrics:
   LLM-as-judge for anything fuzzy. Pure LLM judging is the last resort.
 - **One judge call per dimension.** Don't ask one judge to score multiple
   dimensions at once — it conflates them. Faithfulness, structure, and
-  signal-to-noise each get their own `claude -p` invocation.
+  signal-to-noise each get a separate scorer invocation.
 - **Give every judge an "Unknown" escape hatch** — `{"score": 0|1, "unknown":
   bool}`. Suppresses hallucinated verdicts on ambiguous cases.
 - **Read transcripts by hand for the first ~20 runs.** "You won't know if your
@@ -268,14 +268,14 @@ evals trustworthy rather than vanity metrics:
 ### Running the eval harness
 
 The repo ships a working harness for the triggering and functional layers under
-`evals/`. Both the runner and the LLM judge shell out to `claude -p`, so no
-API key is required.
+`evals/`. Functional trials and scoring use `codex exec`.
+Triggering trials use Claude Code. Each command uses its existing login.
 
 ```bash
 # Triggering: ~20 prompts × 2 trials, ~$3, ~3 min
 python3 evals/run.py triggering --skill pr-gen --trials 2 --parallel 6
 
-# Functional: real git fixtures, end-to-end, ~$0.30 / fixture
+# Functional: isolated git fixtures
 python3 evals/run.py functional --skill pr-gen
 python3 evals/run.py functional --skill pr-gen --case feature-add-helper
 KEEP_FIXTURE=1 python3 evals/run.py functional --case bugfix-with-test  # debug a failure

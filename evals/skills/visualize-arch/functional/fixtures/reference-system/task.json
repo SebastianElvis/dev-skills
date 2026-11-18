@@ -1,0 +1,96 @@
+{
+  "id": "reference-system",
+  "prompt": "Use the visualize-arch skill. Use the attached images as the minimum visual standard. Use repository evidence for content. Keep the source editable in TikZ. Generate SVG and PDF files. Use at least 8 pt text at the requested width. Add docs/assets/Makefile. Write docs/assets/figure-notes.md with the caption, reference choices, and completed visual checks. Use the local reference images without network access. The figure scope is approved. Complete the figure without another approval question. Keep application files unchanged. Do not commit. Create one logical architecture figure for Dispatch Hub. Show Dispatcher and Auditor, both clients, authorization, intake, shared storage, both queues, scheduler, worker, notifier, external services, and status return paths. Distinguish owned components and external services. Show important interactions without forcing all stages into one numbered sequence. Use 300 mm final width. Name the source docs/assets/system.tex.",
+  "max_turns": 70,
+  "timeout_s": 1500,
+  "allow_writes": true,
+  "must_contain": [
+    "system.tex",
+    "system.svg",
+    "system.pdf"
+  ],
+  "max_lines": 40,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/system.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/system.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/system.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "reference-quality",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/system.pdf",
+      "--width-mm",
+      "300"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/system.tex",
+      "docs/assets/system-color.png",
+      "src/platform.py",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ],
+    "readability": [
+      "docs/assets/system-color.png",
+      "docs/assets/system-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/system-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/system-color.png"
+    ],
+    "reference-quality": [
+      "docs/assets/system-color.png"
+    ]
+  },
+  "visual_references": [
+    {
+      "path": "kriterion/system-architecture.png",
+      "label": "Kriterion system architecture: minimum"
+    },
+    {
+      "path": "public/crops/mooncake-page-3.png",
+      "label": "Mooncake Figure 2: grouped architecture"
+    }
+  ],
+  "reference_width_mm": 300
+}

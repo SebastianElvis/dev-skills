@@ -1,16 +1,24 @@
 {
   "id": "create-service-diagram",
-  "prompt": "Create an evidence-based system architecture diagram for this repository. Use LaTeX TikZ. Write docs/assets/parcel-desk-architecture.tex and generate its SVG and PDF files. Add a Makefile beside them. Show actors, owned components, the external system, and the main ordered flows. Do not commit.",
-  "max_turns": 24,
-  "timeout_s": 900,
+  "prompt": "Use the visualize-arch skill to create the approved Parcel Desk figure set. The scope has two figures: a static system overview and a scheduled worker workflow. Use 178 mm final width for the overview. Use 85 mm for the workflow. Use at least 8 pt final text. Write editable TikZ, SVG, and PDF files under docs/assets. Name the overview parcel-desk-architecture. Name the workflow parcel-worker-flow. Add a Makefile. Include captions and a brief design record in docs/assets/figure-notes.md. Use the bundled offline reference examples. Do not use the network. Complete generation and visual review without another approval question. Do not commit.",
+  "max_turns": 60,
+  "timeout_s": 1200,
   "allow_writes": true,
-  "must_contain": ["parcel-desk-architecture.tex", "SVG", "PDF"],
-  "max_lines": 30,
+  "must_contain": [
+    "parcel-desk-architecture",
+    "parcel-worker-flow"
+  ],
+  "max_lines": 40,
   "required_artifacts": [
     {
       "path": "docs/assets/parcel-desk-architecture.tex",
       "format": "tex",
-      "must_contain": ["Operator", "Viewer", "Command-line interface", "Dashboard", "API service", "SQLite", "Worker", "Scheduler", "Carrier API"]
+      "must_contain": [
+        "Operator",
+        "Viewer",
+        "Worker",
+        "SQLite"
+      ]
     },
     {
       "path": "docs/assets/parcel-desk-architecture.svg",
@@ -22,8 +30,86 @@
     },
     {
       "path": "docs/assets/Makefile",
-      "must_contain": ["latexmk", "pdftocairo"]
+      "must_contain": [
+        "latexmk",
+        "pdftocairo"
+      ]
+    },
+    {
+      "path": "docs/assets/parcel-worker-flow.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/parcel-worker-flow.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/parcel-worker-flow.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
     }
   ],
-  "judges": ["handoff"]
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/parcel-desk-architecture.pdf",
+      "--width-mm",
+      "178"
+    ],
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/parcel-worker-flow.pdf",
+      "--width-mm",
+      "85"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql",
+      "src/app.py",
+      "config.toml",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/parcel-desk-architecture.tex",
+      "docs/assets/parcel-worker-flow.tex",
+      "docs/assets/parcel-desk-architecture-color.png",
+      "docs/assets/parcel-worker-flow-color.png",
+      "src/app.py",
+      "config.toml",
+      "README.md"
+    ],
+    "readability": [
+      "docs/assets/parcel-desk-architecture-color.png",
+      "docs/assets/parcel-worker-flow-color.png",
+      "docs/assets/parcel-desk-architecture-gray.png",
+      "docs/assets/parcel-worker-flow-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/parcel-desk-architecture-color.png",
+      "docs/assets/parcel-worker-flow-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/parcel-desk-architecture-color.png",
+      "docs/assets/parcel-worker-flow-color.png"
+    ]
+  }
 }

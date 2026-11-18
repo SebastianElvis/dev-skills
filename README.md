@@ -41,7 +41,7 @@ Works with Claude Code, Codex, Cursor, OpenCode, and every other agent the
 | [`pr-gen`](skills/pr-gen) | Generate or update a GitHub PR title and description from the actual code changes on the current branch. |
 | [`pr-review`](skills/pr-review) | The agent reviews the problem, specification, architecture, necessity, root cause, correctness, security, and project rules. It checks security at each stage. It asks for human confirmation before each later stage. |
 | [`sweep-gh-unread`](skills/sweep-gh-unread) | Classify each GitHub notification thread, ask for confirmation, mark the threads without an open action as done, and list the action items. |
-| [`visualize-arch`](skills/visualize-arch) | Plan and create evidence-based system diagrams with verified structure and flows. |
+| [`visualize-arch`](skills/visualize-arch) | Create verified architecture figures with reference examples, editable sources, and visual checks. [Worked examples](skills/visualize-arch/references/worked-examples.md). |
 
 ## Layout
 
@@ -69,7 +69,8 @@ Then edit `skills/<skill-name>/SKILL.md` and add it to the table above.
 
 The repo ships an eval harness under `evals/`, modeled on Anthropic's
 [Demystifying Evals for AI Agents](https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents).
-Both the runner and the LLM judge shell out to `claude -p` (no API key required).
+Functional trials and scoring use `codex exec`.
+Triggering trials use Claude Code. Both commands use their existing login.
 
 ```bash
 # Does the skill trigger on the right prompts and skip the wrong ones?
@@ -81,6 +82,13 @@ python3 evals/run.py functional --skill pr-gen
 
 See [evals/README.md](evals/README.md) for layout, judge design, and how to
 add cases for a new skill.
+
+## Acknowledgments
+
+The `visualize-arch` skill adapts methods from these projects:
+
+- [PaperBanana](https://github.com/dwzhu-pku/PaperBanana) informs the planning, style, generation, and review stages. Its evaluation dimensions inform our figure evaluation.
+- [Top-Conf Figure Gallery / FigureForge](https://github.com/qwdwqfwq/topconf-paper-figure-gallery) informs reference selection and visual analysis before generation.
 
 ## License
 
