@@ -1,86 +1,86 @@
-# Architecture diagram design principles
+# Figure design principles
 
-Use these rules to define the diagram content and layout.
+Apply these rules after content planning and reference selection.
 
-## Correctness
+## Content and hierarchy
 
-- Inspect the code, configuration, and documentation before you draw.
-- Draw only verified actors, components, responsibilities, and flows.
-- Connect each actor to the component that the actor actually uses.
-- Use a named role instead of a generic `User` actor.
-- Separate a diagram defect from a system architecture defect.
-- Mark an unresolved assumption. Do not invent a path.
-
-## Scope and structure
-
-- Show actors, system boundaries, internal components, external systems, and networks.
-- Put owned configuration inside the system boundary.
-- Place configuration by ownership, not by its file type.
-- Put external systems and networks outside the system boundary.
-- Split components when they have different responsibilities or owners.
-- Merge details when they do not improve system clarity.
-- Put only actor or component names inside boxes.
-- Put actions on arrows.
-
-## User stories
-
-- Start each user story with the real actor or trigger.
-- Separate source authors from runtime actors.
+- Give each figure one question and one main message.
+- Emphasize the components that explain the main message.
+- Remove detail only when that detail does not change the meaning.
+- Group components by verified responsibility, ownership, or deployment.
+- Label the grouping rule. Do not imply that ownership always equals deployment.
+- Keep external systems outside the owned boundary.
+- Put configuration inside its actual ownership boundary.
 - Separate design-time actions from runtime actions.
-- Show each request, response, and final outcome.
-- Show manual and scheduled entry paths accurately.
-- Merge shared execution paths at an explicit junction.
-- Share a line segment only when both paths represent the same action.
-- Keep a request action separate from a later start action.
-- Do not duplicate one user story under different names.
-- Show periodic behavior without an invented timer actor.
-- Use a self-loop when a component starts its own periodic action.
+- Attach operation-specific checks to the operations that actually use them.
+- Label an unchecked path explicitly when nearby operations use a check.
+- Keep a shared component from implying a shared policy for every operation.
 
-## Flow notation
+## Choose the composition
 
-- Use unidirectional arrows for ordered actions.
-- Use one color for each user story.
-- Use numbered circles for ordered steps.
-- Restart the numbers for each user story.
-- Give alternative triggers the same number when they join one stage.
-- Give each arrow a short action label.
-- Use neutral lines for configuration or static relationships.
-- Use one color for all arrows and labels in the same story.
+| Figure type | Default composition | Required notation |
+| --- | --- | --- |
+| System overview | Place groups around the main dependency path. | Name boundaries and relationships. |
+| Ordered workflow | Arrange stages in one reading direction. | Show triggers, actions, responses, and outcomes. |
+| Database schema | Place related entities near their relationships. | Show keys, relationship labels, and cardinalities. |
+| Subsystem detail | Show an overview panel beside a detail panel. | Match identifiers across the panels. |
+| Comparison | Align corresponding components in separate panels. | Use the same scale and notation in both panels. |
 
-## Layout
+Use an actor-left arrangement when it clarifies an interaction.
+Use a vertical arrangement when the final width limits horizontal space.
+Use multiple panels when an overview and detail answer different parts of one question.
+Use separate figures when panels still require incompatible scales.
 
-- Put actors on the left.
-- Put the owned system in the center.
-- Put external systems on the right.
-- Put external networks beyond their systems.
-- Increase the canvas before routes become dense.
-- Give each user story a separate route.
-- Give different actions separate line segments.
-- Prevent arrow, label, and box overlap.
-- Keep clear space between connected boxes.
-- Use transparent label backgrounds.
-- Use thick arrows and colors with clear contrast.
-- Enlarge central components when they have many connections.
-- Prefer explicit junctions over crossed or interleaved arrows.
-- Split the view when clear routes are not possible.
-- Do not change a verified flow to make the layout easier.
+## Notation
 
-## Language
+- Use nouns for component labels.
+- Use verbs for ordered actions.
+- Use explicit keys and cardinalities for schema relationships.
+- Draw a connection for each in-scope foreign key in a complete schema.
+- Keep relationship routes visible. Change the layout when routes cross.
+- Use notes for constraints. Never replace a required relationship route with a note.
+- Number steps only when order matters.
+- Restart numbers for each independent workflow.
+- Give alternative triggers the same number only when they enter the same stage.
+- Use one accent per workflow when multiple workflows need distinction.
+- Keep static relationships black or gray and unnumbered.
+- Name each line style in a legend when its meaning is not obvious.
+- Distinguish requests and responses when both matter.
+- Show periodic behavior from its verified trigger. Never invent a timer actor.
+- Merge shared actions at explicit junctions.
+- Give different actions separate segments.
 
-- Use simple component names.
-- Avoid vague names such as `control plane`.
-- Avoid diagram jargon such as `lane`.
-- Use nouns for boxes.
-- Use verbs for arrows.
-- Describe the actual outcome of each actor workflow.
+## Final dimensions
 
-## Validation
+Use the venue's requirements first. Use these defaults when requirements are absent:
 
-- Keep an editable and deterministic diagram source.
-- Generate Scalable Vector Graphics (SVG) and Portable Document Format (PDF) outputs when the toolchain supports them.
-- Render and inspect the diagram after each source change.
-- Do not treat a successful compilation as visual validation.
-- Keep the source and generated files in sync.
-- Provide one build command for a maintained repository diagram.
-- Check the image for unwanted word breaks.
-- Check each user story for a complete directed path.
+| Property | Default |
+| --- | --- |
+| Paper column width | 85 mm |
+| Paper-wide width | 178 mm |
+| Repository figure width | 180 mm |
+| Minimum final text size | 8 pt |
+| Main label size | 9–10 pt |
+| Panel heading size | 10–11 pt |
+| Main line width | 0.6–0.9 pt |
+| Secondary line width | 0.5–0.6 pt |
+| Clear space around labels | At least 2 mm |
+| Gap between unrelated groups | At least 4 mm |
+
+Measure text after any scaling. Keep one font family across the figure set.
+Avoid a large title inside a paper figure when its caption supplies the title.
+Use panel labels for cross-references. Define technical abbreviations in the caption or figure.
+
+## Color and routes
+
+- Use dark text on white or pale fills.
+- Reserve saturated colors for the main distinctions.
+- Use at most three semantic accents unless more distinctions are necessary.
+- Repeat a color only when its meaning stays the same.
+- Add labels, markers, or line patterns when color carries meaning.
+- Check grayscale readability at the final width.
+- Use orthogonal routes for dense dependency diagrams.
+- Use direct routes for sparse diagrams when those routes reduce crossings.
+- Keep arrows clear of boxes and labels.
+- Increase space before you reduce text size.
+- Split dense views before you change a verified path.

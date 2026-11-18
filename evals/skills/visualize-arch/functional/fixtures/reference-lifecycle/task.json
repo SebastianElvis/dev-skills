@@ -1,0 +1,96 @@
+{
+  "id": "reference-lifecycle",
+  "prompt": "Use the visualize-arch skill. Use the attached images as the minimum visual standard. Use repository evidence for content. Keep the source editable in TikZ. Generate SVG and PDF files. Use at least 8 pt text at the requested width. Add docs/assets/Makefile. Write docs/assets/figure-notes.md with the caption, reference choices, and completed visual checks. Use the local reference images without network access. The figure scope is approved. Complete the figure without another approval question. Keep application files unchanged. Do not commit. Create one complete dispatch lifecycle figure. Show intake checks, queue entry, scheduled dispatch, provider acceptance, provider rejection, bounded automatic retries, terminal outcomes, permitted manual retry, stored evidence, and asynchronous notice delivery. Distinguish intake errors from failed stored runs. Show actual branching and retry conditions. Use 260 mm final width. Name the source docs/assets/lifecycle.tex.",
+  "max_turns": 70,
+  "timeout_s": 1500,
+  "allow_writes": true,
+  "must_contain": [
+    "lifecycle.tex",
+    "lifecycle.svg",
+    "lifecycle.pdf"
+  ],
+  "max_lines": 40,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/lifecycle.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/lifecycle.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/lifecycle.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "reference-quality",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/lifecycle.pdf",
+      "--width-mm",
+      "260"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/lifecycle.tex",
+      "docs/assets/lifecycle-color.png",
+      "src/platform.py",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ],
+    "readability": [
+      "docs/assets/lifecycle-color.png",
+      "docs/assets/lifecycle-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/lifecycle-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/lifecycle-color.png"
+    ],
+    "reference-quality": [
+      "docs/assets/lifecycle-color.png"
+    ]
+  },
+  "visual_references": [
+    {
+      "path": "kriterion/submission-lifecycle.png",
+      "label": "Kriterion submission lifecycle: minimum"
+    },
+    {
+      "path": "public/crops/ray-page-9.png",
+      "label": "Ray Figure 7: request and result workflows"
+    }
+  ],
+  "reference_width_mm": 260
+}

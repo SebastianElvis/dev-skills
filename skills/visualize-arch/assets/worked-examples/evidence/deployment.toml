@@ -1,0 +1,13 @@
+[owned]
+components = ["Web", "CLI", "API", "Authorization", "SQLite", "Job queue", "Scheduler", "Worker", "Notice queue", "Notifier"]
+[scheduler]
+interval_seconds = 60
+[provider]
+name = "ParcelCarrier"
+endpoint = "https://carrier.example/api"
+[mailer]
+name = "MailRelay"
+endpoint = "https://mail.example/api"
+[policy]
+max_attempts = 2
+manual_retry_reason = "timeout"

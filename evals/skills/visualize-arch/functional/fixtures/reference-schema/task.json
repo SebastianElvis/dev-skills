@@ -1,0 +1,92 @@
+{
+  "id": "reference-schema",
+  "prompt": "Use the visualize-arch skill. Use the attached images as the minimum visual standard. Use repository evidence for content. Keep the source editable in TikZ. Generate SVG and PDF files. Use at least 8 pt text at the requested width. Add docs/assets/Makefile. Write docs/assets/figure-notes.md with the caption, reference choices, and completed visual checks. Use the local reference images without network access. The figure scope is approved. Complete the figure without another approval question. Keep application files unchanged. Do not commit. Create one complete data model figure for schema.sql. Show all nine tables. Group identity, dispatch, and evidence records. Show keys, foreign keys, cardinalities, optional relationships, and important uniqueness constraints. Use 300 mm final width. Name the source docs/assets/schema.tex.",
+  "max_turns": 70,
+  "timeout_s": 1500,
+  "allow_writes": true,
+  "must_contain": [
+    "schema.tex",
+    "schema.svg",
+    "schema.pdf"
+  ],
+  "max_lines": 40,
+  "required_artifacts": [
+    {
+      "path": "docs/assets/schema.tex",
+      "format": "tex"
+    },
+    {
+      "path": "docs/assets/schema.svg",
+      "format": "svg"
+    },
+    {
+      "path": "docs/assets/schema.pdf",
+      "format": "pdf"
+    },
+    {
+      "path": "docs/assets/Makefile"
+    },
+    {
+      "path": "docs/assets/figure-notes.md"
+    }
+  ],
+  "judges": [
+    "faithfulness",
+    "readability",
+    "conciseness",
+    "aesthetics",
+    "reference-quality",
+    "handoff"
+  ],
+  "artifact_checks": [
+    [
+      "python3",
+      "{repo}/skills/visualize-arch/scripts/check_figure.py",
+      "{fixture}/docs/assets/schema.pdf",
+      "--width-mm",
+      "300"
+    ],
+    [
+      "git",
+      "-C",
+      "{fixture}",
+      "diff",
+      "--exit-code",
+      "--",
+      "src",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ]
+  ],
+  "judge_artifacts": {
+    "faithfulness": [
+      "docs/assets/schema.tex",
+      "docs/assets/schema-color.png",
+      "src/platform.py",
+      "schema.sql",
+      "deployment.toml",
+      "README.md"
+    ],
+    "readability": [
+      "docs/assets/schema-color.png",
+      "docs/assets/schema-gray.png"
+    ],
+    "conciseness": [
+      "docs/assets/schema-color.png"
+    ],
+    "aesthetics": [
+      "docs/assets/schema-color.png"
+    ],
+    "reference-quality": [
+      "docs/assets/schema-color.png"
+    ]
+  },
+  "visual_references": [
+    {
+      "path": "kriterion/data-model.png",
+      "label": "Kriterion data model: minimum"
+    }
+  ],
+  "reference_width_mm": 300
+}

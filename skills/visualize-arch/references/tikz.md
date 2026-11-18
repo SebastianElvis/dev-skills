@@ -1,74 +1,58 @@
-# TikZ architecture diagrams
+# TikZ generation
 
-Read this file when you create a new TikZ diagram or repair a current TikZ diagram.
+Read this file after you define the evidence model and design specification.
 
-## Start the diagram
+## Source and dimensions
 
-Copy `assets/architecture-template.tex` to the repository diagram path. Replace every sample label, node, and flow with verified content.
+Copy `assets/architecture-template.tex` to the target path.
+Replace every sample label, node, and relationship with verified content.
+Use the template's styles, not its sample topology.
 
-Copy `assets/Makefile` beside the TeX file when the repository needs a durable build command. Set `SOURCE` in the Makefile when the file name differs.
+Set text sizes explicitly in points. Use at least 8 pt at the final width.
+Avoid whole-figure scaling as a substitute for layout changes.
+Estimate the complete width before you place nodes.
+Use vertical stages or panels when a horizontal layout exceeds the final width.
 
-Do not keep a sample node that has no repository evidence.
+Use [the worked examples](worked-examples.md) for complete compositions with verified source facts.
+The files under `assets/examples/` serve only as basic renderer fixtures.
 
-## Use the styles
+## Notation and routes
 
-Use these style roles consistently:
+Use solid boxes for owned components and dashed boxes for external systems when this distinction fits the specification.
+Use labeled boundaries for ownership or deployment.
+Use numbered arrows for ordered actions only.
+Use explicit cardinalities for schemas. Keep static relationships unnumbered.
 
-- `actor` for people and external initiators.
-- `component` for owned runtime components.
-- `store` for owned persistent storage.
-- `external` for systems outside the owned boundary.
-- `network` for an external network.
-- `relation` for configuration and static relationships.
-- One flow style for each user story.
-
-Use a color-blind-safe palette. The template supplies five flow colors with strong contrast.
-
-## Route flows
-
-Use orthogonal paths by default. Add a junction when two entry paths use the same execution path.
-
-Share one segment only when two paths use the same action. Use separate segments for different actions.
-
-Keep two paths apart when they carry different user stories. Do not solve a path overlap with label movement alone.
-
-Attach arrows to different box anchors when many paths use one component. Increase the component size when the anchors remain too close.
-
-Put the step marker and action label near the middle of the related segment. Keep the label background transparent.
+Use one main direction per ordered flow. Route responses separately when they matter.
+Use explicit junctions for shared actions.
+Keep distinct actions on separate segments.
+Place labels on clear route sections. Use a white label background only when it hides no meaningful line.
 
 ## Build and inspect
 
-Run the bundled renderer from the skill directory:
+Run the bundled renderer:
 
 ```bash
-python3 scripts/render_tikz.py path/to/system-architecture.tex
+python3 path/to/visualize-arch/scripts/render_tikz.py docs/assets/system-architecture.tex
+python3 path/to/visualize-arch/scripts/check_figure.py docs/assets/system-architecture.pdf --width-mm 180
 ```
 
-The renderer requires `latexmk` and `pdftocairo`. It creates Portable Document Format (PDF) and Scalable Vector Graphics (SVG) files.
+The renderer requires `latexmk` and `pdftocairo`.
+The checker requires `pdftohtml` and `pdftoppm`.
+Poppler supplies these three conversion tools.
 
-Use `pdftoppm` when it exists to make a PNG preview:
+Inspect the color and grayscale previews.
+The checker estimates font size from Poppler's rounded font records.
+The checker permits 0.15 pt tolerance for rounded font sizes.
+Treat possible text collisions as review prompts. Mathematical labels can cause false alarms.
+The checker does not detect arrow crossings, missing relationships, or weak hierarchy.
 
-```bash
-pdftoppm -png -singlefile -r 120 system-architecture.pdf /tmp/system-architecture
-```
+Copy `assets/Makefile` beside the source when the repository needs a maintained build command.
+Set `SOURCE` to the actual source name.
+Keep the editable source, Portable Document Format (PDF), and Scalable Vector Graphics (SVG) files together.
+Ignore temporary TeX files. Keep previews temporary unless the user requests them.
 
-Inspect the preview after each source change. Check the final SVG as XML when `xmllint` exists.
+## Gotcha
 
-```bash
-xmllint --noout system-architecture.svg
-```
-
-## Keep repository files current
-
-Store the TeX, SVG, and PDF files together when the repository tracks generated files. Do not edit the generated files directly.
-
-Ignore these common temporary files:
-
-```text
-*.aux
-*.fdb_latexmk
-*.fls
-*.log
-*.out
-*.synctex.gz
-```
+Use `edge label` for a custom style.
+A custom style named `label` overrides TikZ's label command and can remove boundary headings.
