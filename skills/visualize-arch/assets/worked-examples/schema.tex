@@ -1,29 +1,34 @@
 \documentclass[tikz,border=0pt]{standalone}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
 \usetikzlibrary{arrows.meta,backgrounds,fit,positioning}
-\definecolor{ink}{HTML}{27313A}
-\definecolor{pale}{HTML}{F3F5F6}
+\usepackage[sfdefault,lining]{FiraSans}
+\definecolor{ink}{HTML}{23373B}
+\definecolor{accent}{HTML}{EB811B}
+\definecolor{primary}{HTML}{9FCFCC}
+\definecolor{store}{HTML}{D3DADD}
+\definecolor{zone}{HTML}{F2F5F6}
 \tikzset{relation/.style={draw=ink,line width=.6pt},
-edge label/.style={font=\sffamily\fontsize{8.5}{10}\selectfont,fill=white,inner sep=1pt},
+edge label/.style={font=\sffamily\fontsize{8.5}{10}\selectfont,fill=zone,inner sep=1pt},
 heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \begin{document}
 \begin{tikzpicture}[x=1mm,y=-1mm,font=\sffamily\fontsize{8.5}{10}\selectfont,text=ink]
 \path[use as bounding box] (0,0) rectangle (180,219);
-\draw[draw=black!25,dashed,rounded corners=1mm,fill=pale] (1,3) rectangle (54,199);
+\fill[zone,rounded corners=3pt] (1,3) rectangle (54,199);
 \node[heading,anchor=west] at (4,8) {Identity};
-\draw[draw=black!25,dashed,rounded corners=1mm,fill=pale] (64,3) rectangle (117,199);
+\fill[zone,rounded corners=3pt] (64,3) rectangle (117,199);
 \node[heading,anchor=west] at (67,8) {Dispatch};
-\draw[draw=black!25,dashed,rounded corners=1mm,fill=pale] (129,3) rectangle (179,199);
+\fill[zone,rounded corners=3pt] (129,3) rectangle (179,199);
 \node[heading,anchor=west] at (132,8) {Evidence};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (4,14) rectangle (51,33);
+\fill[white,rounded corners=.6mm] (4,14) rectangle (51,33);\fill[primary,rounded corners=.6mm] (4,14) rectangle (51,21);\fill[primary] (4,17) rectangle (51,21);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (4,14) rectangle (51,33);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (5.5,17.5) {\detokenize{tenants}};
 \draw[draw=black!25] (4,21) -- (51,21);
 \node[anchor=west,inner sep=0] at (6,24) {\detokenize{id}};
 \node[anchor=east,inner sep=0] at (49,24) {I\quad P};
 \node[anchor=west,inner sep=0] at (6,29) {\detokenize{name}};
 \node[anchor=east,inner sep=0] at (49,29) {T\quad };
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (4,50) rectangle (51,89);
+\fill[white,rounded corners=.6mm] (4,50) rectangle (51,89);\fill[primary,rounded corners=.6mm] (4,50) rectangle (51,57);\fill[primary] (4,53) rectangle (51,57);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (4,50) rectangle (51,89);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (5.5,53.5) {\detokenize{memberships}};
 \draw[draw=black!25] (4,57) -- (51,57);
 \node[anchor=west,inner sep=0] at (6,60) {\detokenize{id}};
@@ -36,14 +41,16 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=east,inner sep=0] at (49,75) {T\quad };
 \node[anchor=west,inner sep=0] at (6,80) {\detokenize{U (tenant_id, account_id,}};
 \node[anchor=west,inner sep=0] at (6,84) {\detokenize{role)}};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (4,103) rectangle (51,122);
+\fill[white,rounded corners=.6mm] (4,103) rectangle (51,122);\fill[primary,rounded corners=.6mm] (4,103) rectangle (51,110);\fill[primary] (4,106) rectangle (51,110);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (4,103) rectangle (51,122);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (5.5,106.5) {\detokenize{accounts}};
 \draw[draw=black!25] (4,110) -- (51,110);
 \node[anchor=west,inner sep=0] at (6,113) {\detokenize{id}};
 \node[anchor=east,inner sep=0] at (49,113) {I\quad P};
 \node[anchor=west,inner sep=0] at (6,118) {\detokenize{handle}};
 \node[anchor=east,inner sep=0] at (49,118) {T\quad U};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (4,147) rectangle (51,176);
+\fill[white,rounded corners=.6mm] (4,147) rectangle (51,176);\fill[primary,rounded corners=.6mm] (4,147) rectangle (51,154);\fill[primary] (4,150) rectangle (51,154);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (4,147) rectangle (51,176);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (5.5,150.5) {\detokenize{api_tokens}};
 \draw[draw=black!25] (4,154) -- (51,154);
 \node[anchor=west,inner sep=0] at (6,157) {\detokenize{id}};
@@ -54,7 +61,8 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=east,inner sep=0] at (49,167) {T\quad U};
 \node[anchor=west,inner sep=0] at (6,172) {\detokenize{revoked_at}};
 \node[anchor=east,inner sep=0] at (49,172) {T\quad ?};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (67,14) rectangle (114,43);
+\fill[white,rounded corners=.6mm] (67,14) rectangle (114,43);\fill[primary,rounded corners=.6mm] (67,14) rectangle (114,21);\fill[primary] (67,17) rectangle (114,21);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (67,14) rectangle (114,43);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (68.5,17.5) {\detokenize{shipments}};
 \draw[draw=black!25] (67,21) -- (114,21);
 \node[anchor=west,inner sep=0] at (69,24) {\detokenize{id}};
@@ -65,7 +73,8 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=east,inner sep=0] at (112,34) {I\quad F};
 \node[anchor=west,inner sep=0] at (69,39) {\detokenize{destination}};
 \node[anchor=east,inner sep=0] at (112,39) {T\quad };
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (67,97) rectangle (114,136);
+\fill[white,rounded corners=.6mm] (67,97) rectangle (114,136);\fill[primary,rounded corners=.6mm] (67,97) rectangle (114,104);\fill[primary] (67,100) rectangle (114,104);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (67,97) rectangle (114,136);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (68.5,100.5) {\detokenize{dispatch_runs}};
 \draw[draw=black!25] (67,104) -- (114,104);
 \node[anchor=west,inner sep=0] at (69,107) {\detokenize{id}};
@@ -80,7 +89,8 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=east,inner sep=0] at (112,127) {I\quad };
 \node[anchor=west,inner sep=0] at (69,132) {\detokenize{failure_reason}};
 \node[anchor=east,inner sep=0] at (112,132) {T\quad ?};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (132,52) rectangle (176,91);
+\fill[white,rounded corners=.6mm] (132,52) rectangle (176,91);\fill[primary,rounded corners=.6mm] (132,52) rectangle (176,59);\fill[primary] (132,55) rectangle (176,59);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (132,52) rectangle (176,91);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (133.5,55.5) {\detokenize{provider_attempts}};
 \draw[draw=black!25] (132,59) -- (176,59);
 \node[anchor=west,inner sep=0] at (134,62) {\detokenize{id}};
@@ -94,7 +104,8 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=west,inner sep=0] at (134,82) {\detokenize{error}};
 \node[anchor=east,inner sep=0] at (174,82) {T\quad ?};
 \node[anchor=west,inner sep=0] at (134,87) {\detokenize{U (run_id, sequence)}};
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (132,113) rectangle (176,142);
+\fill[white,rounded corners=.6mm] (132,113) rectangle (176,142);\fill[primary,rounded corners=.6mm] (132,113) rectangle (176,120);\fill[primary] (132,116) rectangle (176,120);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (132,113) rectangle (176,142);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (133.5,116.5) {\detokenize{delivery_receipts}};
 \draw[draw=black!25] (132,120) -- (176,120);
 \node[anchor=west,inner sep=0] at (134,123) {\detokenize{id}};
@@ -105,7 +116,8 @@ heading/.style={font=\sffamily\bfseries\fontsize{10}{12}\selectfont,text=ink}}
 \node[anchor=east,inner sep=0] at (174,133) {T\quad };
 \node[anchor=west,inner sep=0] at (134,138) {\detokenize{delivered_at}};
 \node[anchor=east,inner sep=0] at (174,138) {T\quad };
-\draw[fill=white,draw=ink,line width=.6pt,rounded corners=.6mm] (132,164) rectangle (176,198);
+\fill[white,rounded corners=.6mm] (132,164) rectangle (176,198);\fill[primary,rounded corners=.6mm] (132,164) rectangle (176,171);\fill[primary] (132,167) rectangle (176,171);
+\draw[draw=ink,line width=.5pt,rounded corners=.6mm] (132,164) rectangle (176,198);
 \node[anchor=west,font=\sffamily\bfseries\fontsize{9}{11}\selectfont] at (133.5,167.5) {\detokenize{audit_events}};
 \draw[draw=black!25] (132,171) -- (176,171);
 \node[anchor=west,inner sep=0] at (134,174) {\detokenize{id}};

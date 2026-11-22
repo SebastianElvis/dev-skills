@@ -62,18 +62,17 @@ Keep generation under one agent's control.
 Read [references/examples.md](references/examples.md).
 Select two to four examples that match the figure's question and structure.
 Prefer the user's examples and current repository figures when they fit.
-Use the linked conference gallery when local examples do not fit.
+Use janosh/diagrams and PetarV-/TikZ as the references for the modern visual style.
 
-Inspect the actual images. Do not select references from captions or conference rank alone.
+Inspect the actual images. Do not select references from captions alone.
 Compare their panel arrangement, hierarchy, density, text size, grouping, and routes.
 Record which design choices apply and which choices do not apply.
 Choose one primary example for composition. Use other examples for specific supporting choices.
 
-Use the Kriterion figures as the minimum quality reference when access is available.
-Use the matching public references from the catalog when private access is unavailable.
+Identify the diagram type. Use the Kriterion figure of that type to choose the notation and required elements.
+Use the bundled worked example of the same type when Kriterion access is unavailable.
 Read [references/worked-examples.md](references/worked-examples.md) for complete architecture, schema, and workflow examples.
 The bundled worked examples include evidence, design choices, review corrections, and editable outputs.
-The smaller figures under `assets/examples/` remain renderer fixtures.
 Report an incomplete visual comparison when no suitable reference is available.
 Do not claim that an inaccessible image influenced the design.
 
@@ -95,6 +94,7 @@ Otherwise use 85 mm for a paper column, 178 mm for a paper-wide figure, or 180 m
 Use at least 8 pt text at the final width unless the venue specifies another minimum.
 Choose a larger figure or split panels when labels cannot fit at that size.
 
+Use the modern theme from the design principles for every figure.
 Choose notation by figure type. Number ordered behavior only.
 Use labels, line styles, or shapes in addition to color.
 Compare two rough layouts for dense figures before you refine either layout.
@@ -136,7 +136,7 @@ Use a separate Codex reviewer for the correctness review against the evidence mo
 Use read-only subagents when the host supports them.
 Give the reviewer the rendered figure, editable source, relevant repository evidence, and design specification.
 Use another Codex reviewer for the visual review against the design specification and selected reference images.
-Compare the figures at equivalent display widths. Record any material deficit against the minimum quality reference.
+Compare the figures at equivalent display widths. Record any material deficit against the selected references.
 Record each defect with its location, effect, and proposed correction.
 
 Correct the highest-impact defect first. Rebuild after each correction.
@@ -171,10 +171,11 @@ Keep temporary evidence and review files uncommitted unless the user requests th
 - [ ] Repository evidence supports every element and relationship.
 - [ ] The figure answers its stated question within the requested scope.
 - [ ] Actual reference images informed the recorded design choices.
-- [ ] A direct visual comparison confirms the stated minimum quality, or the report names the unmet requirement.
+- [ ] The figure shows every element that its diagram type requires, or the report names the missing element.
 - [ ] The notation matches the diagram type.
 - [ ] The final width preserves the required minimum text size.
 - [ ] Labels and line styles preserve meaning in grayscale.
+- [ ] The figure uses the modern theme styles and no emoji.
 - [ ] The correctness review confirms each boundary, direction, and outcome.
 - [ ] The visual review confirms hierarchy, spacing, routes, and readable labels.
 - [ ] The editable source and generated outputs match.

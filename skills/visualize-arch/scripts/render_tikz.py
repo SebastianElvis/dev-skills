@@ -25,7 +25,6 @@ def render(source: Path) -> tuple[Path, Path]:
         raise SystemExit(f"Give a TeX source file that exists: {source}")
 
     latexmk = require_command("latexmk")
-    pdftocairo = require_command("pdftocairo")
     pdf = source.with_suffix(".pdf")
     svg = source.with_suffix(".svg")
 
@@ -34,11 +33,14 @@ def render(source: Path) -> tuple[Path, Path]:
         cwd=source.parent,
         check=True,
     )
-    subprocess.run(
-        [pdftocairo, "-svg", pdf.name, svg.name],
-        cwd=source.parent,
-        check=True,
-    )
+    # Use the janosh/diagrams tools when they exist. Poppler is the fallback.
+    if pdf2svg := shutil.which("pdf2svg"):
+        convert = [pdf2svg, pdf.name, svg.name]
+    else:
+        convert = [require_command("pdftocairo"), "-svg", pdf.name, svg.name]
+    subprocess.run(convert, cwd=source.parent, check=True)
+    if svgo := shutil.which("svgo"):
+        subprocess.run([svgo, "--multipass", svg.name], cwd=source.parent, check=True)
     ET.parse(svg)
     subprocess.run([latexmk, "-c", source.name], cwd=source.parent, check=True)
     return pdf, svg

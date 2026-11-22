@@ -1,26 +1,27 @@
 \documentclass[tikz,border=0pt]{standalone}
 \usepackage[T1]{fontenc}
-\usepackage{lmodern}
 \usetikzlibrary{arrows.meta,shapes.geometric}
-\definecolor{ink}{HTML}{263445}
-\definecolor{blue}{HTML}{2463A0}
-\definecolor{green}{HTML}{28724E}
-\definecolor{red}{HTML}{A73739}
-\newcommand{\ev}[1]{{\color{blue}\textbf{E}\;\texttt{#1}}}
+\usepackage[sfdefault,lining]{FiraSans}
+\definecolor{ink}{HTML}{23373B}
+\definecolor{accent}{HTML}{EB811B}
+\definecolor{primary}{HTML}{9FCFCC}
+\definecolor{store}{HTML}{D3DADD}
+\definecolor{zone}{HTML}{F2F5F6}
+\newcommand{\ev}[1]{{\textbf{E}\;\texttt{#1}}}
 \tikzset{
  every node/.style={font=\sffamily\fontsize{9}{11}\selectfont,text=ink},
- box/.style={draw=blue,fill=blue!3,line width=.65pt,align=center,inner sep=2mm,text width=42mm},
+ box/.style={draw=none,fill=primary,align=center,inner sep=2mm,text width=42mm},
  state/.style={box,rounded corners=2mm},
- bad/.style={state,draw=red,fill=red!3},
- guard/.style={diamond,aspect=3,draw=blue,fill=blue!3,line width=.65pt,align=center,inner sep=.8mm,text width=38mm},
- external/.style={box,dashed,fill=white,draw=ink},
- flow/.style={-{Latex[length=1.7mm]},draw=ink,line width=.65pt},
- reject/.style={flow,draw=red},
- port/.style={circle,draw=blue,line width=.65pt,fill=white,inner sep=0pt,minimum size=5mm,font=\sffamily\bfseries\fontsize{9}{11}\selectfont},
+ bad/.style={state,fill=white,draw=accent,line width=.8pt},
+ guard/.style={diamond,aspect=3,draw=ink,fill=white,line width=.65pt,align=center,inner sep=.8mm,text width=38mm},
+ external/.style={box,dashed,fill=white,draw=ink,line width=.6pt},
+ flow/.style={-{Stealth[length=2mm]},draw=ink,line width=.7pt},
+ reject/.style={flow,draw=accent,densely dashed},
+ port/.style={circle,draw=none,fill=ink,text=white,inner sep=0pt,minimum size=5mm,font=\sffamily\bfseries\fontsize{9}{11}\selectfont},
  note/.style={align=left,anchor=west,inner sep=0pt},
  heading/.style={anchor=west,font=\sffamily\bfseries\fontsize{10}{12}\selectfont},
- tag/.style={fill=white,inner sep=1pt},
- panel/.style={draw=ink!30,rounded corners=1mm,line width=.5pt}
+ tag/.style={fill=zone,inner sep=1pt},
+ panel/.style={draw=none,fill=zone,rounded corners=3pt}
 }
 \begin{document}
 \begin{tikzpicture}[x=1mm,y=-1mm]
@@ -60,7 +61,7 @@
 \draw[flow] (ready) -- (pb);
 \node[bad,text width=40mm] (invalid) at (151,184) {\textbf{rejected}\\\ev{input\_rejected}};
 \draw[flow] (outcome.east) -- (174,158) -- (174,171) -- (151,171) -- node[tag,right] {invalid} (invalid);
-\node[bad,text width=40mm] (unknown) at (151,208) {ValueError; building remains\\No outcome event.};
+\node[bad,text width=40mm] (unknown) at (151,208) {ValueError;\\building remains.\\No outcome event.};
 \draw[reject] (outcome.south) -- (139,169) -- (119,169) -- (119,208) -- node[tag,above] {other} (unknown);
 \node[guard,text width=28mm] (limit) at (45,184) {attempts $<$ 2?};
 \draw[flow] (outcome.south west) -- (94,176) -- (94,184) -- node[tag,above] {transient} (limit);
@@ -99,10 +100,10 @@
 \draw[flow] (publish) -- node[tag,above] {yes} (registry);
 \node[bad,text width=62mm] (pubbad) at (49,353) {ValueError; no change or event};
 \draw[reject] (publish) -- node[tag,right] {no} (pubbad);
-\node[guard,text width=23mm,draw=green,fill=green!3] (result) at (135,353) {Registry result?};
+\node[guard,text width=23mm] (result) at (135,353) {Registry result?};
 \draw[flow] (registry) -- (result);
-\node[state,text width=64mm,draw=green,fill=green!3] (published) at (46,373) {publish\_state = published\\\ev{published}};
-\node[state,text width=64mm,draw=green,fill=green!3] (pubfail) at (135,373) {publish\_state = publish\_failed\\\ev{publish\_failed}};
+\node[state,text width=64mm] (published) at (46,373) {publish\_state = published\\\ev{published}};
+\node[state,text width=64mm] (pubfail) at (135,373) {publish\_state = publish\_failed\\\ev{publish\_failed}};
 \draw[flow] (result.west) -- (95,353) -- (95,362) -- (46,362) -- node[tag,left] {true} (published);
 \draw[flow] (result.south) -- node[tag,right] {false} (pubfail.north);
 \node[note] at (5,383) {Both outcomes retain built. The model has no automatic publication retry.};
