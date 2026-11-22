@@ -85,11 +85,7 @@
   "visual_references": [
     {
       "path": "kriterion/system-architecture.png",
-      "label": "Kriterion system architecture: minimum"
-    },
-    {
-      "path": "public/crops/mooncake-page-3.png",
-      "label": "Mooncake Figure 2: grouped architecture"
+      "label": "Kriterion system architecture: diagram type"
     }
   ],
   "reference_width_mm": 300

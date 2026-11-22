@@ -85,11 +85,7 @@
   "visual_references": [
     {
       "path": "kriterion/submission-lifecycle.png",
-      "label": "Kriterion submission lifecycle: minimum"
-    },
-    {
-      "path": "public/crops/ray-page-9.png",
-      "label": "Ray Figure 7: request and result workflows"
+      "label": "Kriterion submission lifecycle: diagram type"
     }
   ],
   "reference_width_mm": 260

@@ -33,7 +33,8 @@ Inspect the color preview and grayscale preview at the final width.
 Use verified PDF measurements for numeric font sizes. Judge visual legibility separately.
 Use an enlarged preview only for detailed route checks.
 Place the result beside its primary reference at an equivalent display width.
-Use Kriterion or the matching public reference from the catalog as the minimum.
+Use the Kriterion figure of the same diagram type to check notation and required elements.
+Use janosh/diagrams and PetarV-/TikZ to check the visual style.
 Compare semantic coverage, visual notation, hierarchy, grouping, and route clarity.
 Keep simple systems concise. Never add unsupported detail to imitate reference complexity.
 

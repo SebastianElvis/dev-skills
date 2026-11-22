@@ -141,6 +141,13 @@ Those scores do not establish compliance with this new visual minimum.
 A future quality evaluation must give the scorer the selected reference images for direct comparison.
 The evaluator must use comparable figure types and display widths.
 
+## Reference role update: 2026-11-22
+
+Kriterion's figures now show diagram types. They no longer set the minimum visual quality.
+janosh/diagrams and PetarV-/TikZ set the modern visual style.
+The suite no longer uses the Mooncake and Ray figures or the `assets/examples/` fixtures.
+Results before this date measure the earlier role.
+
 ## Direct comparison suite
 
 The stronger suite uses a separate dispatch platform with executable source and nine related database tables.
@@ -178,9 +185,7 @@ python3 evals/run.py functional --skill visualize-arch --case reference-recovery
 python3 evals/run.py functional --skill visualize-arch --case reference-paper-schema --trials 3 --reference-dir .context/visual-quality-eval/references
 ```
 
-The first image reference sets the Kriterion minimum.
-The architecture case also receives Mooncake's architecture figure.
-The lifecycle case also receives Ray's request and result figure.
+The first image reference is the Kriterion figure of the same diagram type.
 The schema case uses Kriterion's data model directly.
 
 The harness freezes reference images before generation and records their hashes.

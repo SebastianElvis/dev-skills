@@ -84,3 +84,27 @@ Use panel labels for cross-references. Define technical abbreviations in the cap
 - Keep arrows clear of boxes and labels.
 - Increase space before you reduce text size.
 - Split dense views before you change a verified path.
+
+## Modern theme
+
+Use one modern theme for every figure.
+The theme takes its palette from the Metropolis Beamer theme.
+It takes its flat fills and sparse lines from janosh/diagrams and PetarV-/TikZ.
+`assets/architecture-template.tex` defines each style below.
+
+| Element | Style | Meaning |
+| --- | --- | --- |
+| Text and static lines | `ink` (`#23373B`), Fira Sans | All text and every unnumbered relationship. |
+| Main flow | `accent` (`#EB811B`), 0.9 pt, `step badge` | The ordered path that supports the main message. |
+| Owned component | `component`: flat `primary` (`#9FCFCC`) fill, no outline | A component inside the system boundary. |
+| Data store | `datastore`: `store` (`#D3DADD`) cylinder | A database, queue store, or file store. |
+| Actor | `actor`: white pill with an `ink` outline | A person or a client that starts an action. |
+| External system | `external`: white box with a dashed outline | A system outside the owned boundary. |
+| Boundary | `group`: `zone` (`#F2F5F6`) fill, no outline | An ownership or deployment boundary. |
+
+- Use flat fills. Do not use shadows, gradients, or 3D effects.
+- Use `accent` for the main flow. Draw static relationships in `ink`.
+- Add at most two more accents when independent workflows need distinction.
+- Use a different line pattern, not a new hue, for a second relationship kind.
+- Keep the shape for each node kind. Grayscale readers depend on the shape.
+- Do not use emoji. The PDF build cannot render color emoji, and emoji lose their meaning in grayscale.
